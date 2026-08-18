@@ -4,6 +4,7 @@ import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
 import { Eyebrow } from '@/components/ui/Badge'
 import { Chip } from '@/components/ui/Chip'
+import { Button } from '@/components/ui/Button'
 import { Reveal } from '@/components/motion/Reveal'
 import { ProductGrid } from '@/components/blocks/ProductGrid'
 import { Seo } from '@/components/layout/Seo'
@@ -53,7 +54,13 @@ export default function Catalog() {
           {filtered.length > 0 ? (
             <ProductGrid products={filtered} />
           ) : (
-            <p className="py-16 text-center text-body text-muted">{t('catalog.empty')}</p>
+            // Empty state kasih satu jalan keluar — UX-WRITING.md §6 "Empty state"
+            <div className="flex flex-col items-center gap-4 py-16 text-center">
+              <p className="text-body text-muted">{t('catalog.empty')}</p>
+              <Button variant="ghost" onClick={() => setFilter('all')}>
+                {t('catalog.emptyCta')}
+              </Button>
+            </div>
           )}
         </Container>
       </Section>

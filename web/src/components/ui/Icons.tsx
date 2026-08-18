@@ -162,6 +162,23 @@ export function IconStorefront(props: IconProps) {
   )
 }
 
+export function IconCalendar(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3.5" y="5" width="17" height="15" rx="2.5" />
+      <path d="M3.5 9.5h17M8 3v4M16 3v4" />
+    </svg>
+  )
+}
+
+export function IconSparkle(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" {...props}>
+      <path d="M12 2.5l2.1 6.4 6.4 2.1-6.4 2.1L12 19.5l-2.1-6.4L3.5 11l6.4-2.1L12 2.5z" />
+    </svg>
+  )
+}
+
 export function IconGauge(props: IconProps) {
   return (
     <svg {...base} {...props}>

@@ -26,7 +26,7 @@
   /* Radius — hanya empat nilai ini */
   --r-pill: 100px;
   --r-lg: 40px;
-  --r-md: 20px;
+  --r-md: 16px;
   --r-sm: 10px;
   --r-none: 0px;
 
@@ -59,7 +59,7 @@
 
   --radius-pill: 100px;
   --radius-lg: 40px;
-  --radius-md: 20px;
+  --radius-md: 16px;
   --radius-sm: 10px;
 
   --font-display: 'Geist', 'Instrument Sans', system-ui, sans-serif;

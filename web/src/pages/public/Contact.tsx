@@ -58,7 +58,9 @@ export default function Contact() {
 
   function validate(values: FormState): Partial<Record<keyof FormState, string>> {
     const next: Partial<Record<keyof FormState, string>> = {}
-    const required: (keyof FormState)[] = ['name', 'company', 'country', 'email', 'message']
+    // Perusahaan sengaja TIDAK wajib — UX-WRITING.md §6 "Form": tandai yang opsional, bukan
+    // yang wajib, karena mayoritas kolom di form ini memang wajib diisi.
+    const required: (keyof FormState)[] = ['name', 'country', 'email', 'message']
     for (const field of required) {
       if (!values[field].trim()) next[field] = t('contact.errorRequired')
     }
@@ -158,7 +160,7 @@ export default function Contact() {
                         autoComplete="name"
                       />
                     </FieldWrapper>
-                    <FieldWrapper label={t('contact.fieldCompany')} htmlFor="company" required error={errors.company}>
+                    <FieldWrapper label={t('contact.fieldCompany')} htmlFor="company" error={errors.company}>
                       <Input
                         id="company"
                         value={form.company}
@@ -241,7 +243,7 @@ export default function Contact() {
 
                   {rateLimited && (
                     <p role="alert" className="text-meta text-[#B23A3A]">
-                      {t('contact.errorRequired')}
+                      {t('contact.errorSendFailed')}
                     </p>
                   )}
 

@@ -2,9 +2,11 @@ import type { StatItem } from '@/types'
 import { useLocale } from '@/lib/useLocale'
 import { CountUp } from '@/components/motion/CountUp'
 import { Stagger, StaggerItem } from '@/components/motion/Stagger'
-import { IconGauge, IconHeartPulse, IconLeaf, IconSeedling } from '@/components/ui/Icons'
+import { IconCalendar, IconFlask, IconGauge, IconSeedling } from '@/components/ui/Icons'
 
-const icons = [IconHeartPulse, IconSeedling, IconLeaf, IconGauge]
+// Urutan tetap mengikuti data/program.ts programStats: KK menanam TOGA, SOP tersusun,
+// produk olahan, bulan pelaksanaan.
+const icons = [IconSeedling, IconGauge, IconFlask, IconCalendar]
 
 /** Band statistik — PRD H-07 / PR-03. 4 kolom dipisah garis vertikal, 2×2 di mobile. */
 export function StatBand({ stats }: { stats: StatItem[] }) {
@@ -20,7 +22,8 @@ export function StatBand({ stats }: { stats: StatItem[] }) {
         return (
           <StaggerItem key={stat.id} className="flex flex-col items-center gap-3 p-7.5 text-center">
             <Icon className="h-6 w-6 text-muted-2" aria-hidden />
-            <p className="text-display-m text-ink">
+            <p className="text-display-m tabular-nums text-ink">
+              {stat.prefix}
               <CountUp value={stat.value} suffix={stat.suffix} />
             </p>
             <p className="text-meta text-muted">{locale === 'id' ? stat.labelId : stat.labelEn}</p>

@@ -33,6 +33,8 @@ export interface Product {
   originPort: string
   certifications: CertificationStatus[]
   images: string[]
+  /** Link toko Shopee produk ini — lihat catatan "Data contoh" di data/products.ts. */
+  shopeeUrl: string
   plotId: string
   isFeatured: boolean
   isActive: boolean
@@ -119,10 +121,29 @@ export interface ProgramMilestone {
   done: boolean
 }
 
+export interface Article {
+  id: string
+  slug: string
+  titleId: string
+  titleEn: string
+  excerptId: string
+  excerptEn: string
+  /** Paragraf isi lengkap untuk halaman detail artikel. */
+  contentId: string[]
+  contentEn: string[]
+  image: string
+  categoryId: string
+  categoryEn: string
+  publishedAt: string
+}
+
 export interface StatItem {
   id: string
+  /** Angka yang dianimasikan (CountUp). Untuk rentang seperti "40–70", ini angka atasnya (70). */
   value: number
   suffix: string
+  /** Teks statis sebelum angka animasi, mis. "40–" untuk menampilkan rentang "40–70". */
+  prefix?: string
   labelId: string
   labelEn: string
 }

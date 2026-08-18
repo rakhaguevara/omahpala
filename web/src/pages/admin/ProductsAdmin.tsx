@@ -32,6 +32,7 @@ function emptyDraft(): Draft {
     originPort: '',
     certifications: [],
     images: [],
+    shopeeUrl: '',
     plotId: '',
     isFeatured: false,
     isActive: false,
@@ -149,6 +150,15 @@ export default function ProductsAdmin() {
 
           <FieldWrapper label={t('product.packaging')} htmlFor="packaging">
             <Input id="packaging" value={draft.packaging} onChange={(e) => setDraft({ ...draft, packaging: e.target.value })} />
+          </FieldWrapper>
+
+          <FieldWrapper label={t('product.shopeeUrl')} htmlFor="shopeeUrl">
+            <Input
+              id="shopeeUrl"
+              type="url"
+              value={draft.shopeeUrl}
+              onChange={(e) => setDraft({ ...draft, shopeeUrl: e.target.value })}
+            />
           </FieldWrapper>
 
           <FieldWrapper label={`${t('product.composition')} (pisahkan koma)`} htmlFor="composition">

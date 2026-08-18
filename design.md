@@ -124,7 +124,7 @@ Diambil dari ukuran yang benar-benar dipakai di file Framer, dirapikan jadi skal
 ```css
 --r-pill:  100px;  /* tombol, chip, navbar, badge — bentuk tanda tangan */
 --r-lg:    40px;   /* kartu besar, blok section, panel gambar */
---r-md:    20px;   /* kartu produk, kartu layanan */
+--r-md:    16px;   /* kartu produk, kartu layanan */
 --r-sm:    10px;   /* thumbnail, input, tag kecil */
 --r-none:  0px;    /* gambar full-bleed */
 ```
@@ -279,7 +279,7 @@ Checklist saat review desain:
 
   --radius-pill: 100px;
   --radius-lg: 40px;
-  --radius-md: 20px;
+  --radius-md: 16px;
   --radius-sm: 10px;
 
   --font-display: var(--font-display);

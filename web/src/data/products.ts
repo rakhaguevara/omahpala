@@ -2,20 +2,32 @@ import type { Product } from '@/types'
 
 // Data contoh — harga, MOQ, dan sertifikasi WAJIB diverifikasi tim sebelum situs live.
 // Jangan tampilkan sertifikasi yang belum terbit (PRD §12 risiko).
+//
+// PENTING (UX-WRITING.md §1, §4.1, §7): hanya 3 produk di sini, persis jumlah target proposal
+// PPK Ormawa HIMFA 2026 ("3 produk olahan daging buah pala" — lihat programStats di data/program.ts).
+// Versi sebelumnya berisi 6 produk; 3 di antaranya (manisan, minyak atsiri, bubuk pala) dikarang
+// untuk membuat katalog terlihat penuh — itu melanggar aturan "jangan mengarang isi" di dokumen
+// UX writing. Kalau produk itu memang nyata, tambahkan lagi setelah dikonfirmasi tim, dan
+// sesuaikan angka target di programStats.
+//
+// Deskripsi & fakta kemasan mengikuti copy deck UX-WRITING.md §8 "Produk" persis. Tidak ada klaim
+// kesehatan (nama penyakit / fungsi organ) di sini — itu dilarang tegas untuk halaman produk.
+//
+// shopeeUrl: BELUM ADA TOKO SHOPEE ASLI. Sementara mengarah ke halaman pencarian nama produk di
+// Shopee (bukan listing tertentu) supaya tombolnya tidak 404 — WAJIB diganti dengan link toko/listing
+// asli sebelum situs live.
 export const productsSeed: Product[] = [
   {
     id: 'prd-01',
-    slug: 'gummy-pala',
-    nameId: 'Gummy Pala',
+    slug: 'gummy-daging-buah-pala',
+    nameId: 'Gummy Daging Buah Pala',
     nameEn: 'Nutmeg Fruit Gummy',
     category: 'pangan',
-    descriptionId:
-      'Permen gummy dari sari daging buah pala asli Desa Wonokerto. Rasa asam-manis khas pala, tanpa pewarna buatan, cocok sebagai oleh-oleh maupun produk retail modern.',
-    descriptionEn:
-      'Fruit gummy made from real nutmeg fruit pulp grown in Desa Wonokerto. Naturally tangy-sweet, no artificial coloring — positioned for retail and gifting.',
+    descriptionId: 'Permen kenyal dari daging buah pala, manis dengan sisa rasa hangat khas rempah.',
+    descriptionEn: 'Chewy candy made from nutmeg fruit, sweet with a lingering warm spice finish.',
     composition: ['Sari daging buah pala', 'Gula aren', 'Gelatin', 'Asam sitrat alami'],
-    netWeight: '100 g / pouch',
-    packaging: 'Pouch resealable, karton isi 24 pouch',
+    netWeight: '60 g / pouch (isi 12 butir)',
+    packaging: 'Pouch resealable, karton isi 24 pouch. Diproduksi di TOGA Corner, Desa Wonokerto.',
     shelfLife: '12 bulan pada suhu ruang',
     priceIdr: 18000,
     priceUsd: 1.3,
@@ -32,6 +44,7 @@ export const productsSeed: Product[] = [
       'https://picsum.photos/seed/omahpala-gummy-1/1000/1000',
       'https://picsum.photos/seed/omahpala-gummy-2/1000/1000',
     ],
+    shopeeUrl: 'https://shopee.co.id/search?keyword=gummy%20daging%20buah%20pala',
     plotId: 'p-01',
     isFeatured: true,
     isActive: true,
@@ -43,13 +56,11 @@ export const productsSeed: Product[] = [
     nameId: 'Teh Daging Buah Pala',
     nameEn: 'Nutmeg Fruit Tea',
     category: 'minuman',
-    descriptionId:
-      'Teh herbal kering dari irisan daging buah pala, diseduh seperti teh pada umumnya. Kaya aroma khas pala, dipercaya membantu relaksasi dan pencernaan.',
-    descriptionEn:
-      'Dried herbal tea made from sliced nutmeg fruit flesh. Distinctive aromatic profile, traditionally valued for digestion and relaxation.',
+    descriptionId: 'Seduhan hangat dari daging buah pala yang dikeringkan. Rasanya asam segar dengan sisa hangat rempah.',
+    descriptionEn: 'A warm brew made from dried nutmeg fruit flesh. Bright, tangy taste with a lingering spice warmth.',
     composition: ['Irisan daging buah pala kering 100%'],
-    netWeight: '50 g / box (25 sachet)',
-    packaging: 'Sachet kertas + box karton',
+    netWeight: '20 g / box (isi 10 kantong)',
+    packaging: 'Kantong kertas, box karton. Diproduksi di TOGA Corner, Desa Wonokerto.',
     shelfLife: '18 bulan pada suhu ruang, kering',
     priceIdr: 25000,
     priceUsd: 1.8,
@@ -66,6 +77,7 @@ export const productsSeed: Product[] = [
       'https://picsum.photos/seed/omahpala-tea-1/1000/1000',
       'https://picsum.photos/seed/omahpala-tea-2/1000/1000',
     ],
+    shopeeUrl: 'https://shopee.co.id/search?keyword=teh%20daging%20buah%20pala',
     plotId: 'p-04',
     isFeatured: true,
     isActive: true,
@@ -73,17 +85,15 @@ export const productsSeed: Product[] = [
   },
   {
     id: 'prd-03',
-    slug: 'sirup-pala',
-    nameId: 'Sirup Pala',
+    slug: 'sirup-daging-buah-pala',
+    nameId: 'Sirup Daging Buah Pala',
     nameEn: 'Nutmeg Fruit Syrup',
     category: 'minuman',
-    descriptionId:
-      'Sirup pekat dari sari buah pala, siap dicampur air dingin atau soda. Warna alami cokelat keemasan tanpa pewarna tambahan.',
-    descriptionEn:
-      'Concentrated syrup from nutmeg fruit juice, ready to mix with cold water or soda. Natural golden-brown color, no added coloring.',
-    composition: ['Sari buah pala', 'Gula tebu', 'Air'],
-    netWeight: '350 ml / botol',
-    packaging: 'Botol kaca 350 ml, karton isi 12 botol',
+    descriptionId: 'Sirup pekat dari daging buah pala segar. Encerkan dengan air dingin atau soda.',
+    descriptionEn: 'Concentrated syrup from fresh nutmeg fruit. Dilute with cold water or soda.',
+    composition: ['Sari daging buah pala', 'Gula tebu', 'Air'],
+    netWeight: '330 ml / botol',
+    packaging: 'Botol kaca, karton isi 12 botol. Diproduksi di TOGA Corner, Desa Wonokerto.',
     shelfLife: '9 bulan sebelum dibuka',
     priceIdr: 32000,
     priceUsd: 2.3,
@@ -97,102 +107,10 @@ export const productsSeed: Product[] = [
       'https://picsum.photos/seed/omahpala-syrup-1/1000/1000',
       'https://picsum.photos/seed/omahpala-syrup-2/1000/1000',
     ],
+    shopeeUrl: 'https://shopee.co.id/search?keyword=sirup%20daging%20buah%20pala',
     plotId: 'p-02',
     isFeatured: true,
     isActive: true,
     createdAt: '2024-03-12',
-  },
-  {
-    id: 'prd-04',
-    slug: 'manisan-pala',
-    nameId: 'Manisan Pala',
-    nameEn: 'Candied Nutmeg Fruit',
-    category: 'pangan',
-    descriptionId:
-      'Manisan basah dari daging buah pala pilihan, diolah dengan resep turun-temurun warga Wonokerto. Tekstur kenyal, rasa manis-segar.',
-    descriptionEn:
-      'Wet candied nutmeg fruit made with a recipe passed down by Wonokerto residents. Chewy texture, refreshing sweetness.',
-    composition: ['Daging buah pala', 'Gula pasir', 'Garam'],
-    netWeight: '200 g / pouch',
-    packaging: 'Pouch vacuum-seal',
-    shelfLife: '6 bulan pada suhu ruang',
-    priceIdr: 22000,
-    priceUsd: 1.6,
-    moq: '400 pouch',
-    monthlyCapacity: '4.000 pouch/bulan',
-    hsCode: '2008.99',
-    incoterms: ['FOB'],
-    originPort: 'Pelabuhan Tanjung Emas, Semarang',
-    certifications: [{ name: 'PIRT', status: 'terbit' }],
-    images: [
-      'https://picsum.photos/seed/omahpala-candied-1/1000/1000',
-      'https://picsum.photos/seed/omahpala-candied-2/1000/1000',
-    ],
-    plotId: 'p-01',
-    isFeatured: false,
-    isActive: true,
-    createdAt: '2024-04-01',
-  },
-  {
-    id: 'prd-05',
-    slug: 'minyak-atsiri-pala',
-    nameId: 'Minyak Atsiri Pala',
-    nameEn: 'Nutmeg Essential Oil',
-    category: 'non-pangan',
-    descriptionId:
-      'Minyak atsiri hasil penyulingan biji dan fuli pala, untuk keperluan aromaterapi, kosmetik, dan bahan baku farmasi.',
-    descriptionEn:
-      'Essential oil distilled from nutmeg seed and mace, suited for aromatherapy, cosmetic, and pharmaceutical raw material use.',
-    composition: ['Minyak atsiri biji pala 100%'],
-    netWeight: '10 ml / botol roll-on',
-    packaging: 'Botol kaca gelap 10 ml',
-    shelfLife: '24 bulan, tertutup rapat',
-    priceIdr: 45000,
-    priceUsd: 3.2,
-    moq: '100 botol',
-    monthlyCapacity: '1.200 botol/bulan',
-    hsCode: '3301.29',
-    incoterms: ['FOB', 'CIF', 'DDP'],
-    originPort: 'Pelabuhan Tanjung Emas, Semarang',
-    certifications: [{ name: 'SNI', status: 'dalam-proses' }],
-    images: [
-      'https://picsum.photos/seed/omahpala-oil-1/1000/1000',
-      'https://picsum.photos/seed/omahpala-oil-2/1000/1000',
-    ],
-    plotId: 'p-04',
-    isFeatured: false,
-    isActive: true,
-    createdAt: '2024-05-20',
-  },
-  {
-    id: 'prd-06',
-    slug: 'bubuk-pala',
-    nameId: 'Bubuk Pala',
-    nameEn: 'Ground Nutmeg Powder',
-    category: 'pangan',
-    descriptionId:
-      'Bubuk pala halus dari biji pilihan, digiling kering tanpa bahan tambahan. Untuk bumbu masakan maupun bahan baku industri makanan.',
-    descriptionEn:
-      'Fine ground nutmeg powder from selected seeds, dry-milled with no additives. Suited for culinary seasoning and food industry ingredients.',
-    composition: ['Biji pala giling 100%'],
-    netWeight: '50 g / jar',
-    packaging: 'Jar kaca dengan sendok takar',
-    shelfLife: '18 bulan, tertutup rapat',
-    priceIdr: 28000,
-    priceUsd: 2.0,
-    moq: '300 jar',
-    monthlyCapacity: '3.500 jar/bulan',
-    hsCode: '0908.12',
-    incoterms: ['FOB', 'CIF'],
-    originPort: 'Pelabuhan Tanjung Emas, Semarang',
-    certifications: [{ name: 'PIRT', status: 'terbit' }],
-    images: [
-      'https://picsum.photos/seed/omahpala-powder-1/1000/1000',
-      'https://picsum.photos/seed/omahpala-powder-2/1000/1000',
-    ],
-    plotId: 'p-05',
-    isFeatured: false,
-    isActive: true,
-    createdAt: '2024-06-08',
   },
 ]

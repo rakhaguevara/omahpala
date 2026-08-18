@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Eyebrow } from '@/components/ui/Badge'
 import { LinkButton } from '@/components/ui/Button'
 import { Reveal } from '@/components/motion/Reveal'
+import { IconSparkle } from '@/components/ui/Icons'
 import { usePageContent } from '@/lib/usePageContent'
 
 /**
@@ -14,9 +15,9 @@ export function WhyPala() {
   const body = usePageContent('why.body')
 
   const rows = [
-    { title: t('home.introPoint1'), body: t('home.whyRow1Body') },
-    { title: t('home.introPoint2'), body: t('home.whyRow2Body') },
-    { title: t('home.introPoint3'), body: t('home.whyRow3Body') },
+    { title: t('home.whyRow1Title'), body: t('home.whyRow1Body') },
+    { title: t('home.whyRow2Title'), body: t('home.whyRow2Body') },
+    { title: t('home.whyRow3Title'), body: t('home.whyRow3Body') },
   ]
 
   return (
@@ -39,15 +40,22 @@ export function WhyPala() {
         </ul>
       </Reveal>
 
-      <Reveal delay={0.1} className="relative pb-8">
-        <img
-          src="https://picsum.photos/seed/omahpala-why-farmer/900/1000"
-          alt=""
-          loading="lazy"
-          className="aspect-[9/10] w-full rounded-lg object-cover"
-        />
-        <div className="absolute inset-x-8 -bottom-2 flex justify-center sm:inset-x-16">
-          <LinkButton to="/kebun" variant="primary" className="w-full justify-center shadow-[0_12px_30px_rgba(0,0,0,.18)]">
+      <Reveal delay={0.1} className="relative">
+        <div className="relative z-0 overflow-hidden rounded-lg bg-white p-3 shadow-[0_16px_40px_rgba(0,0,0,.1)]">
+          <img
+            src="https://picsum.photos/seed/omahpala-why-farmer/900/1000"
+            alt=""
+            loading="lazy"
+            className="aspect-[9/10] w-full rounded-md object-cover"
+          />
+          <IconSparkle className="absolute bottom-8 right-5 h-4 w-4 text-white/80" aria-hidden />
+        </div>
+        <div className="absolute inset-x-10 -bottom-6 z-10 flex justify-center sm:inset-x-14">
+          <LinkButton
+            to="/kebun"
+            variant="primary"
+            className="w-full justify-center border-2 border-white shadow-[0_12px_30px_rgba(0,0,0,.18)]"
+          >
             {t('home.whyCta')}
           </LinkButton>
         </div>

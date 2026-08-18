@@ -4,18 +4,25 @@ import { useRef } from 'react'
 import { Eyebrow } from '@/components/ui/Badge'
 import { LinkButton } from '@/components/ui/Button'
 import { CountUp } from '@/components/motion/CountUp'
+import { TextEffect } from '@/components/motion/TextEffect'
 import { usePageContent } from '@/lib/usePageContent'
+import { useLocale } from '@/lib/useLocale'
 import { heroEnter } from '@/lib/motion'
-import { programStats } from '@/data/program'
+import { healthScreeningHighlight } from '@/data/program'
 
 /**
  * Hero — PRD H-01 + H-02. Layout mengikuti referensi Framer: konten rata bawah, judul di
  * kolom kiri, kartu capaian di kolom kanan yang MENEMPEL/overlap ke section berikutnya
- * (bukan berhenti di dalam hero) — di desktop maupun mobile. Latar (gambar+overlay) tetap
- * di-clip lewat wrapper terpisah supaya kartu tidak ikut terpotong overflow-hidden.
+ * (bukan berhenti di dalam hero) — di desktop maupun mobile.
+ *
+ * Angka di kartu (2.117 / 1.662) adalah data skrining kesehatan bersumber Puskesmas Turi,
+ * BUKAN target program TOGA BERDAYA sendiri — makanya sumbernya dari healthScreeningHighlight,
+ * terpisah dari programStats. Boleh tampil di sini (Beranda/Program), tapi jangan pernah
+ * dipakai di halaman Produk — UX-WRITING.md §4.1.
  */
 export function Hero() {
   const { t } = useTranslation()
+  const { locale } = useLocale()
   const eyebrow = usePageContent('hero.eyebrow')
   const title = usePageContent('hero.title')
   const subtitle = usePageContent('hero.subtitle')
@@ -27,8 +34,8 @@ export function Hero() {
   // Parallax maksimal 12% — design.md §6
   const y = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '12%'])
 
-  const screened = programStats.find((s) => s.id === 's-1')
-  const plots = programStats.find((s) => s.id === 's-2')
+  const { stat1, stat2, sourceId, sourceEn } = healthScreeningHighlight
+  const source = locale === 'id' ? sourceId : sourceEn
 
   return (
     <section ref={sectionRef} className="relative flex min-h-[100vh] items-end bg-ink">
@@ -54,11 +61,18 @@ export function Hero() {
           className="flex max-w-xl flex-col gap-6 pb-16 lg:pb-24"
         >
           <Eyebrow tone="white">{eyebrow}</Eyebrow>
-          <h1 className="text-display-xl text-balance text-white">{title}</h1>
-          <p className="text-body-l max-content-w text-white/85">{subtitle}</p>
-          <div className="mt-2">
-            <LinkButton to="/produk" variant="primary">
+          <TextEffect per="word" as="h1" preset="blur" className="text-display-xl text-balance text-white">
+            {title}
+          </TextEffect>
+          <TextEffect per="char" as="p" preset="fade" className="text-body-l max-content-w text-white/85">
+            {subtitle}
+          </TextEffect>
+          <div className="mt-2 flex flex-wrap gap-3">
+            <LinkButton to="/program" variant="primary">
               {t('home.heroCtaPrimary')}
+            </LinkButton>
+            <LinkButton to="/produk" variant="light">
+              {t('home.heroCtaSecondary')}
             </LinkButton>
           </div>
         </motion.div>
@@ -81,20 +95,21 @@ export function Hero() {
             loading="lazy"
             className="aspect-video w-full object-cover"
           />
-          <div className="flex divide-x divide-dashed divide-line px-5 py-5">
+          <div className="flex divide-x divide-dashed divide-line px-5 pt-5">
             <div className="flex-1 pr-4">
               <p className="text-display-m tabular-nums text-ink">
-                <CountUp value={screened?.value ?? 0} />
+                <CountUp value={stat1.value} />
               </p>
-              <p className="text-meta text-muted">{t('home.heroCardStat1Label')}</p>
+              <p className="text-meta text-muted">{locale === 'id' ? stat1.labelId : stat1.labelEn}</p>
             </div>
             <div className="flex-1 pl-4">
               <p className="text-display-m tabular-nums text-ink">
-                <CountUp value={plots?.value ?? 0} suffix={plots?.suffix} />
+                <CountUp value={stat2.value} />
               </p>
-              <p className="text-meta text-muted">{t('home.heroCardStat2Label')}</p>
+              <p className="text-meta text-muted">{locale === 'id' ? stat2.labelId : stat2.labelEn}</p>
             </div>
           </div>
+          <p className="px-5 pb-5 pt-3 text-meta text-muted-2">{source}</p>
         </motion.div>
       </div>
     </section>

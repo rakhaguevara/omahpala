@@ -13,8 +13,10 @@ import { StatBand } from '@/components/blocks/StatBand'
 import { WhyPala } from '@/components/blocks/WhyPala'
 import { EcosystemDiagram } from '@/components/blocks/EcosystemDiagram'
 import { CtaBand } from '@/components/blocks/CtaBand'
+import { ArticleGrid } from '@/components/blocks/ArticleGrid'
 import { useProducts } from '@/lib/useEntities'
 import { programStats } from '@/data/program'
+import { articles } from '@/data/articles'
 import { usePageContent } from '@/lib/usePageContent'
 
 export default function Home() {
@@ -57,8 +59,8 @@ export default function Home() {
       {/* H-05 */}
       <Section tone="surface">
         <Container>
-          <Reveal className="mx-auto mb-10 flex max-w-2xl flex-col items-center gap-4 text-center">
-            <Eyebrow className="justify-center">{t('home.pillarsEyebrow')}</Eyebrow>
+          <Reveal className="mb-10 flex max-w-2xl flex-col gap-4">
+            <Eyebrow>{t('home.pillarsEyebrow')}</Eyebrow>
             <h2 className="text-display-l text-balance">{t('home.pillarsTitle')}</h2>
           </Reveal>
           <PillarTabs />
@@ -75,6 +77,7 @@ export default function Home() {
                 {t('home.productsTitle1')}
                 <span className="text-accent-ink">{t('home.productsTitleHighlight')}</span>
               </h2>
+              <p className="text-body-l max-content-w text-muted">{t('home.productsBody')}</p>
             </div>
             <LinkButton to="/produk" variant="ghost">
               {t('home.productsCta')}
@@ -110,8 +113,19 @@ export default function Home() {
       </Section>
 
       {/* H-10 — full-bleed, tanpa Container agar edge-to-edge seperti referensi */}
-      <Section tone="paper">
+      <Section tone="paper" className="pt-0 pb-0">
         <CtaBand />
+      </Section>
+
+      {/* Artikel & kabar — mengikuti banner CTA, ritme sama dengan blok produk H-06 */}
+      <Section tone="paper">
+        <Container>
+          <Reveal className="mb-10 flex flex-col items-start gap-4">
+            <Eyebrow>{t('home.articlesEyebrow')}</Eyebrow>
+            <h2 className="text-display-l text-balance">{t('home.articlesTitle')}</h2>
+          </Reveal>
+          <ArticleGrid articles={articles} />
+        </Container>
       </Section>
     </>
   )

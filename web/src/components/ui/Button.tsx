@@ -89,10 +89,11 @@ export function IconButton({
   return (
     <button
       className={cn(
-        'inline-flex h-11 w-11 items-center justify-center rounded-full transition-transform duration-200 hover:-translate-y-px',
+        'inline-flex h-11 w-11 items-center justify-center rounded-full transition-[transform,background-color,border-color,color] duration-200 [transition-timing-function:var(--ease-brand)] hover:-translate-y-px active:translate-y-0',
         variant === 'dark' && 'bg-ink text-white',
         variant === 'light' && 'bg-white text-ink shadow-[0_1px_2px_rgba(0,0,0,.06)]',
-        variant === 'ghost' && 'border border-line bg-transparent text-ink hover:bg-black/[.03]',
+        variant === 'ghost' &&
+          'border border-line bg-transparent text-ink hover:border-accent hover:bg-accent-soft hover:text-accent-ink active:bg-accent active:text-accent-ink active:border-accent',
         className,
       )}
       {...props}

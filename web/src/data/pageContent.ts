@@ -5,43 +5,45 @@ import type { PageContentEntry } from '@/types'
 // yang tinggal di src/i18n/locales — itu bagian dari "kode", ini bagian dari "konten".
 export const pageContentSeed: PageContentEntry[] = [
   {
+    // Persis UX-WRITING.md §8 "Beranda › Hero"
     key: 'hero.eyebrow',
-    valueId: 'DESA SEHAT BERBASIS TOGA — WONOKERTO, SLEMAN',
-    valueEn: 'TOGA-BASED HEALTHY VILLAGE — WONOKERTO, SLEMAN',
+    valueId: 'PPK ORMAWA HIMFA UII · 2026',
+    valueEn: 'PPK ORMAWA HIMFA UII · 2026',
   },
   {
     key: 'hero.title',
-    valueId: 'Pala Wonokerto, diolah warga, dipercaya dunia.',
-    valueEn: 'Wonokerto nutmeg, processed by residents, trusted worldwide.',
+    valueId: 'Sehat dari pekarangan, kuat dari pala.',
+    valueEn: 'Healthy from the yard, strong from nutmeg.',
   },
   {
     key: 'hero.subtitle',
     valueId:
-      'Omah Pala menjual produk turunan pala asli Desa Wonokerto — hasil program PPKO HIMFA UII "Desa Sehat Berbasis TOGA" yang menyatukan kesehatan warga dan pemberdayaan ekonomi.',
+      'TOGA BERDAYA adalah program lima bulan di Desa Wonokerto, Turi, Sleman. Warga menanam tanaman obat keluarga di pekarangan, dan mengolah daging buah pala yang selama ini dibuang menjadi produk bernilai jual — dijual lewat Omah Pala.',
     valueEn:
-      'Omah Pala sells genuine nutmeg-derived products from Desa Wonokerto — the result of PPKO HIMFA UII’s "TOGA-Based Healthy Village" program uniting community health and economic empowerment.',
+      'In Wonokerto village, Yogyakarta, farmers harvest nutmeg for its seed and discard the fruit. TOGA BERDAYA turns that fruit into tea, syrup, and confectionery — produced by the villagers who grow it, and sold under Omah Pala.',
   },
   {
+    // §8 "CTA penutup" — labelnya jadi teks tombol di CtaBand
     key: 'cta.title',
-    valueId: 'Siap jadi mitra distribusi pala Wonokerto?',
-    valueEn: 'Ready to become a Wonokerto nutmeg distribution partner?',
+    valueId: 'Dukung produksi warga Wonokerto',
+    valueEn: 'Support Wonokerto producers',
   },
   {
     key: 'cta.subtitle',
     valueId:
-      'Kirim inquiry ekspor Anda, tim kami balas dengan spesifikasi lengkap dan sampel dalam 2×24 jam.',
-    valueEn: 'Send your export inquiry — our team replies with full specs and samples within 48 hours.',
+      'Terbuka untuk kerja sama distribusi, pembelian dalam jumlah besar, dan kemitraan program.',
+    valueEn: 'Open to distribution partnerships, bulk orders, and program collaboration.',
   },
   {
     key: 'why.title',
-    valueId: 'Mengapa pala Wonokerto?',
-    valueEn: 'Why Wonokerto nutmeg?',
+    valueId: 'Bisa dilacak sampai ke lahannya',
+    valueEn: 'Traceable back to the plot',
   },
   {
     key: 'why.body',
     valueId:
-      'Setiap produk yang kami jual bisa dilacak sampai ke petak lahan dan nama penanamnya. Bukan klaim pemasaran — ini konsekuensi dari program pendampingan yang mencatat setiap tahap, dari bibit sampai kemasan.',
+      'Setiap produk Omah Pala tertaut ke kode petak lahan dan nama penanamnya. Bukan klaim pemasaran — ini konsekuensi dari program TOGA BERDAYA yang mencatat setiap tahap, dari bibit sampai kemasan.',
     valueEn:
-      'Every product we sell can be traced back to the exact plot and grower. Not a marketing claim — it’s a direct result of a mentorship program that records every stage, from seedling to packaging.',
+      'Every Omah Pala product is linked to a plot code and its grower. Not a marketing claim — it’s a direct result of the TOGA BERDAYA program recording every stage, from seedling to packaging.',
   },
 ]

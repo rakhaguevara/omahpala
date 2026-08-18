@@ -34,13 +34,13 @@ export const programPillars: ProgramPillar[] = [
       'Cultivation support for nutmeg and family medicinal plants with consistent quality standards, from seedling to harvest.',
     pointsId: [
       'Pemetaan lahan & pencatatan komoditas per petak',
-      'Standar operasional penanaman dan panen',
-      'Pelatihan penanganan pascapanen',
+      'SOP budidaya disusun bersama SPI dan KWT',
+      'Pengeringan dengan alat pendeteksi kematangan (TTG) agar mutu konsisten antar panen',
     ],
     pointsEn: [
       'Plot mapping & per-plot commodity records',
-      'Standard operating procedures for planting and harvest',
-      'Post-harvest handling training',
+      'Cultivation SOPs drafted with SPI and KWT (farmer groups)',
+      'Drying with a ripeness-detection tool (TTG) for consistent quality across harvests',
     ],
     image: 'https://picsum.photos/seed/toga-cultivation/1000/1250',
   },
@@ -92,9 +92,9 @@ export const programPillars: ProgramPillar[] = [
     titleId: 'Monitoring & Keberlanjutan',
     titleEn: 'Monitoring & Sustainability',
     descriptionId:
-      'Pemantauan capaian program secara berkala dan penyusunan rencana keberlanjutan setelah masa pendampingan PPKO berakhir.',
+      'Pemantauan capaian program secara berkala dan penyusunan rencana keberlanjutan setelah masa pendampingan PPK Ormawa berakhir.',
     descriptionEn:
-      'Regular monitoring of program outcomes and a sustainability plan for after the PPKO mentorship period ends.',
+      'Regular monitoring of program outcomes and a sustainability plan for after the PPK Ormawa mentorship period ends.',
     pointsId: [
       'Evaluasi capaian tiap triwulan',
       'Serah terima pengelolaan ke kelompok tani',
@@ -109,59 +109,74 @@ export const programPillars: ProgramPillar[] = [
   },
 ]
 
-// Linimasa — PRD §7.3 PR-04
+// Linimasa — PRD §7.3 PR-04.
+// TOGA BERDAYA berjalan 5 bulan, Juni–Oktober 2026 (UX-WRITING.md §2 prinsip 5: tulis target
+// sebagai target selama belum terverifikasi). "done" ditentukan relatif terhadap durasi itu,
+// bukan tanggal karangan multi-tahun seperti versi sebelumnya.
 export const programMilestones: ProgramMilestone[] = [
   {
     id: 'm-1',
-    date: '2024-01',
-    titleId: 'Pemetaan awal & skrining kesehatan',
-    titleEn: 'Initial mapping & health screening',
-    descriptionId: 'Survei lahan pala dan skrining kesehatan tahap pertama di 4 dusun.',
-    descriptionEn: 'Nutmeg plot survey and first-phase health screening across 4 hamlets.',
+    date: '2026-06',
+    titleId: 'Pemetaan lahan & skrining kesehatan',
+    titleEn: 'Plot mapping & health screening',
+    descriptionId: 'Survei petak lahan pala dan skrining kesehatan tahap pertama bersama Puskesmas Turi.',
+    descriptionEn: 'Nutmeg plot survey and first-phase health screening with Puskesmas Turi.',
     done: true,
   },
   {
     id: 'm-2',
-    date: '2024-04',
-    titleId: 'Dapur produksi & PIRT',
-    titleEn: 'Production kitchen & PIRT',
-    descriptionId: 'Dapur produksi herbal beroperasi, sertifikat PIRT untuk 4 produk pertama.',
-    descriptionEn: 'Herbal production kitchen operational, PIRT certification for first 4 products.',
+    date: '2026-07',
+    titleId: 'SOP tersusun, dapur produksi siap',
+    titleEn: 'SOPs finalized, production kitchen ready',
+    descriptionId: 'SOP budidaya dan pengolahan disusun bersama SPI dan KWT; dapur produksi mulai beroperasi.',
+    descriptionEn: 'Cultivation and processing SOPs drafted with SPI and KWT; production kitchen becomes operational.',
     done: true,
   },
   {
     id: 'm-3',
-    date: '2024-09',
-    titleId: 'TOGA Corner dibuka',
-    titleEn: 'TOGA Corner opens',
-    descriptionId: 'Etalase penjualan di balai desa resmi dibuka untuk warga dan pengunjung.',
-    descriptionEn: 'Village hall retail storefront officially opened to residents and visitors.',
-    done: true,
+    date: '2026-08',
+    titleId: 'Produk pertama diproduksi',
+    titleEn: 'First products produced',
+    descriptionId: 'Teh, sirup, dan gummy daging buah pala diproduksi untuk pertama kali di TOGA Corner.',
+    descriptionEn: 'Nutmeg fruit tea, syrup, and gummy produced for the first time at TOGA Corner.',
+    done: false,
   },
   {
     id: 'm-4',
-    date: '2025-06',
-    titleId: 'Persiapan ekspor',
-    titleEn: 'Export readiness',
-    descriptionId: 'Penyusunan dokumen ekspor, uji kapasitas produksi, dan pencarian buyer awal.',
-    descriptionEn: 'Export documentation, production capacity testing, and initial buyer outreach.',
+    date: '2026-09',
+    titleId: 'TOGA Corner mulai berjualan',
+    titleEn: 'TOGA Corner opens for sales',
+    descriptionId: 'Etalase penjualan di balai desa dibuka untuk warga dan pembeli luar desa.',
+    descriptionEn: 'The village-hall storefront opens to residents and outside buyers.',
     done: false,
   },
   {
     id: 'm-5',
-    date: '2025-12',
-    titleId: 'Serah terima keberlanjutan',
-    titleEn: 'Sustainability handover',
-    descriptionId: 'Pengelolaan penuh diserahkan ke kelompok tani & TOGA Corner Desa Wonokerto.',
-    descriptionEn: 'Full management handed over to the Wonokerto farmer group & TOGA Corner.',
+    date: '2026-10',
+    titleId: 'Evaluasi & serah terima keberlanjutan',
+    titleEn: 'Evaluation & sustainability handover',
+    descriptionId: 'Post-test capaian kesehatan dievaluasi; pengelolaan diserahkan ke kelompok tani dan TOGA Corner.',
+    descriptionEn: 'Health outcome post-test evaluated; management handed over to the farmer group and TOGA Corner.',
     done: false,
   },
 ]
 
-// Statistik capaian — PRD §7.1 H-07 & §7.3 PR-03
+// Target program 2026 — PRD §7.1 H-07 & §7.3 PR-03.
+// Angka ini TARGET dari proposal PPK Ormawa HIMFA 2026, bukan capaian terukur — jangan
+// tampilkan tanpa label "Target Program 2026" (UX-WRITING.md §4.4).
 export const programStats: StatItem[] = [
-  { id: 's-1', value: 128, suffix: '', labelId: 'Warga terskrining', labelEn: 'Residents screened' },
-  { id: 's-2', value: 5, suffix: '', labelId: 'Petak lahan terdaftar', labelEn: 'Registered plots' },
-  { id: 's-3', value: 6, suffix: '', labelId: 'Produk olahan aktif', labelEn: 'Active processed products' },
-  { id: 's-4', value: 24, suffix: '%', labelId: 'Kenaikan pendapatan penanam', labelEn: 'Grower income increase' },
+  { id: 's-1', value: 70, prefix: '40–', suffix: '', labelId: 'KK menanam TOGA di pekarangan', labelEn: 'households growing TOGA at home' },
+  { id: 's-2', value: 2, suffix: '', labelId: 'SOP budidaya tersusun', labelEn: 'cultivation SOPs drafted' },
+  { id: 's-3', value: 3, suffix: '', labelId: 'produk olahan daging buah pala', labelEn: 'nutmeg-fruit processed products' },
+  { id: 's-4', value: 5, suffix: '', labelId: 'bulan pelaksanaan program', labelEn: 'months of program implementation' },
 ]
+
+// Sorotan skrining kesehatan untuk kartu hero — angka INI PUNYA SUMBER (bukan target program
+// sendiri), jadi dipisah dari programStats. Boleh dipakai di halaman Program/Beranda; JANGAN
+// dipakai di halaman Produk (UX-WRITING.md §4.1 — produk tidak boleh bicara kesehatan).
+export const healthScreeningHighlight = {
+  stat1: { value: 2117, labelId: 'kasus PTM usia 41–60 tahun', labelEn: 'NCD cases, ages 41–60' },
+  stat2: { value: 1662, labelId: 'kasus hipertensi terdata', labelEn: 'recorded hypertension cases' },
+  sourceId: 'Data Puskesmas Turi, warga Desa Wonokerto',
+  sourceEn: 'Puskesmas Turi data, Desa Wonokerto residents',
+}

@@ -1,6 +1,6 @@
 import type { Farmer } from '@/types'
 
-// Data contoh — ganti dengan data penanam sesungguhnya dari tim PPKO/TOGA Berdaya.
+// Data contoh — ganti dengan data penanam sesungguhnya dari tim PPK Ormawa/TOGA BERDAYA.
 export const farmersSeed: Farmer[] = [
   {
     id: 'f-01',

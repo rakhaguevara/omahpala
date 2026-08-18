@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
@@ -7,6 +7,7 @@ import { useScrolled } from '@/lib/useScrolled'
 import { ease } from '@/lib/motion'
 import { LinkButton } from '@/components/ui/Button'
 import { IconClose, IconMenu } from '@/components/ui/Icons'
+import { AnimatedBackground } from '@/components/motion/AnimatedBackground'
 import { LanguageSwitch } from './LanguageSwitch'
 
 const navItems = [
@@ -26,6 +27,14 @@ export function Navbar() {
   const { t } = useTranslation()
   const scrolled = useScrolled(80)
   const [open, setOpen] = useState(false)
+  const { pathname } = useLocation()
+  const activeItem = navItems.find((item) => (item.to === '/' ? pathname === '/' : pathname.startsWith(item.to)))
+  // Item yang sedang "disorot" pill hijau — mengikuti hover, kembali ke halaman aktif saat
+  // mouse keluar (lihat AnimatedBackground). Disinkronkan ulang tiap kali rute berubah.
+  const [highlightedId, setHighlightedId] = useState<string | undefined>(activeItem?.to)
+  useEffect(() => {
+    setHighlightedId(activeItem?.to)
+  }, [activeItem?.to])
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4">
@@ -50,21 +59,31 @@ export function Navbar() {
           </NavLink>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Navigasi utama">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.to === '/'}
-                className={({ isActive }) =>
-                  cn(
-                    'rounded-pill px-4 py-2 text-label transition-colors duration-200',
-                    isActive ? 'bg-surface text-ink' : 'text-muted hover:text-ink',
-                  )
-                }
-              >
-                {t(`nav.${item.key}`)}
-              </NavLink>
-            ))}
+            <AnimatedBackground
+              defaultValue={activeItem?.to}
+              onValueChange={(id) => setHighlightedId(id ?? undefined)}
+              className="rounded-pill bg-accent"
+              transition={{ type: 'spring', bounce: 0.2, duration: 0.3 }}
+              enableHover
+            >
+              {navItems.map((item) => {
+                const isHighlighted = item.to === highlightedId
+                return (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    end={item.to === '/'}
+                    data-id={item.to}
+                    className={cn(
+                      'rounded-pill px-4 py-2 text-label transition-colors duration-200',
+                      isHighlighted ? 'text-accent-ink' : 'text-muted hover:text-ink',
+                    )}
+                  >
+                    {t(`nav.${item.key}`)}
+                  </NavLink>
+                )
+              })}
+            </AnimatedBackground>
           </nav>
 
           <div className="hidden items-center pr-2 lg:flex">

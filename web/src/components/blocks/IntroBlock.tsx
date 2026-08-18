@@ -23,8 +23,8 @@ export function IntroBlock() {
         <h2 className="text-display-l max-w-3xl text-balance">
           {t('home.introTitle1')}
           <span className="text-accent-ink">{t('home.introTitleHighlight')}</span>
-          {t('home.introTitle2')}
         </h2>
+        <p className="text-body-l max-content-w text-muted">{t('home.introBody')}</p>
       </Reveal>
 
       <Stagger className="grid w-full grid-cols-1 gap-5 sm:grid-cols-3" stagger={0.1}>

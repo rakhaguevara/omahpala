@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next'
 import type { ProgramPillar } from '@/types'
 import { useLocale } from '@/lib/useLocale'
 import { programPillars } from '@/data/program'
-import { Chip } from '@/components/ui/Chip'
-import { IconCheck } from '@/components/ui/Icons'
+import { cn } from '@/lib/utils'
+import { IconButton } from '@/components/ui/Button'
+import { IconCheck, IconChevronLeft, IconChevronRight } from '@/components/ui/Icons'
 import { PillarIcon } from './PillarIcon'
 import { TabPanel } from '@/components/motion/TabPanel'
 
@@ -13,28 +14,34 @@ export function PillarTabs({ pillars = programPillars }: { pillars?: ProgramPill
   const { t } = useTranslation()
   const { locale } = useLocale()
   const [active, setActive] = useState(pillars[0]?.id)
-  const current = pillars.find((p) => p.id === active) ?? pillars[0]
+  const currentIndex = Math.max(0, pillars.findIndex((p) => p.id === active))
+  const current = pillars[currentIndex] ?? pillars[0]
+
+  const goTo = (offset: number) => {
+    const next = (currentIndex + offset + pillars.length) % pillars.length
+    setActive(pillars[next]?.id)
+  }
 
   return (
     <div className="flex flex-col gap-10">
-      <div
-        className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-        role="tablist"
-        aria-label={t('home.pillarsTitle')}
-      >
+      <div className="flex flex-wrap gap-2" role="tablist" aria-label={t('home.pillarsTitle')}>
         {pillars.map((p) => (
-          <Chip
+          <button
             key={p.id}
+            type="button"
             role="tab"
-            active={p.id === active}
             aria-selected={p.id === active}
             onClick={() => setActive(p.id)}
+            className={cn(
+              'inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-none border px-5 py-3 text-label transition-colors duration-200 [transition-timing-function:var(--ease-brand)]',
+              p.id === active
+                ? 'border-ink bg-ink text-white'
+                : 'border-line bg-transparent text-ink hover:border-ink/40',
+            )}
           >
-            <span className="flex items-center gap-2">
-              <PillarIcon icon={p.icon} className={p.id === active ? 'text-accent' : 'text-muted-2'} />
-              {locale === 'id' ? p.titleId : p.titleEn}
-            </span>
-          </Chip>
+            <PillarIcon icon={p.icon} className={p.id === active ? 'text-accent' : 'text-muted-2'} />
+            {locale === 'id' ? p.titleId : p.titleEn}
+          </button>
         ))}
       </div>
 
@@ -63,6 +70,28 @@ export function PillarTabs({ pillars = programPillars }: { pillars?: ProgramPill
             </div>
           </div>
         </TabPanel>
+      )}
+
+      {pillars.length > 1 && (
+        <div className="flex items-center justify-between sm:hidden">
+          <IconButton
+            type="button"
+            aria-label={t('home.pillarsPrev')}
+            onClick={() => goTo(-1)}
+          >
+            <IconChevronLeft className="h-5 w-5" />
+          </IconButton>
+          <span className="text-meta text-muted-2">
+            {currentIndex + 1} / {pillars.length}
+          </span>
+          <IconButton
+            type="button"
+            aria-label={t('home.pillarsNext')}
+            onClick={() => goTo(1)}
+          >
+            <IconChevronRight className="h-5 w-5" />
+          </IconButton>
+        </div>
       )}
     </div>
   )
