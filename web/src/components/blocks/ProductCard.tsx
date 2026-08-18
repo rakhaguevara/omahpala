@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import type { Product } from '@/types'
 import { useLocale } from '@/lib/useLocale'
-import { formatIdr, waLink } from '@/lib/utils'
+import { formatIdr, waLink, commodityLabel } from '@/lib/utils'
 import { Badge } from '@/components/ui/Badge'
 import { ExternalLinkButton, LinkButton } from '@/components/ui/Button'
 import { IconArrowUpRight, IconCheck, IconStorefront, IconWhatsapp } from '@/components/ui/Icons'
@@ -17,7 +17,7 @@ export function ProductCard({ product }: { product: Product }) {
   const { t } = useTranslation()
   const { locale } = useLocale()
   const name = locale === 'id' ? product.nameId : product.nameEn
-  const category = t(`catalog.category${categoryKey(product.category)}`)
+  const commodity = commodityLabel(product.commodityId, locale)
 
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-md bg-surface-2 shadow-[0_1px_2px_rgba(0,0,0,.04)] transition-shadow duration-200 hover:shadow-[0_8px_32px_rgba(0,0,0,.08)]">
@@ -35,8 +35,8 @@ export function ProductCard({ product }: { product: Product }) {
         )}
       </Link>
 
-      <div className="flex flex-1 flex-col gap-3 p-7.5">
-        <span className="text-eyebrow text-muted-2">{category}</span>
+      <div className="flex flex-1 flex-col gap-3 p-4 sm:p-7.5">
+        <span className="text-eyebrow text-muted-2">{commodity}</span>
         <Link to={`/produk/${product.slug}`}>
           <h3 className="text-title text-ink hover:underline">{name}</h3>
         </Link>
@@ -98,10 +98,4 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
     </div>
   )
-}
-
-function categoryKey(cat: Product['category']) {
-  if (cat === 'pangan') return 'Pangan'
-  if (cat === 'minuman') return 'Minuman'
-  return 'NonPangan'
 }

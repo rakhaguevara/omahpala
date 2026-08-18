@@ -25,7 +25,7 @@ function subscribe(key: string, fn: Listener): () => void {
   return () => listeners.get(key)?.delete(fn)
 }
 
-function loadFromLocalStorage<T>(key: string, seed: T[]): T[] {
+function loadFromLocalStorage<T extends { id: string }>(key: string, seed: T[]): T[] {
   if (typeof window === 'undefined') return seed
   const raw = window.localStorage.getItem(key)
   if (!raw) {
@@ -33,7 +33,16 @@ function loadFromLocalStorage<T>(key: string, seed: T[]): T[] {
     return seed
   }
   try {
-    return JSON.parse(raw) as T[]
+    const stored = JSON.parse(raw) as T[]
+    // Item seed baru (id yang belum ada di localStorage) di-upsert otomatis, supaya nambah data
+    // contoh di data/*.ts langsung muncul di browser lama tanpa perlu clear localStorage manual.
+    // Item yang sudah tersimpan (termasuk yang sudah diedit lewat admin) tidak disentuh/ditimpa.
+    const storedIds = new Set(stored.map((item) => item.id))
+    const missingSeedItems = seed.filter((item) => !storedIds.has(item.id))
+    if (missingSeedItems.length === 0) return stored
+    const merged = [...stored, ...missingSeedItems]
+    window.localStorage.setItem(key, JSON.stringify(merged))
+    return merged
   } catch {
     return seed
   }
@@ -45,7 +54,7 @@ function write<T>(key: string, items: T[]) {
   notify(key)
 }
 
-export function getCollection<T>(key: string, seed: T[]): T[] {
+export function getCollection<T extends { id: string }>(key: string, seed: T[]): T[] {
   if (!cache.has(key)) {
     cache.set(key, loadFromLocalStorage(key, seed))
   }

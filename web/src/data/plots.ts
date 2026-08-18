@@ -1,13 +1,15 @@
 import type { Plot } from '@/types'
 
 // Data contoh — ganti dengan data lahan sesungguhnya (koordinat GPS presisi dari tim lapangan).
+// commodities pakai CommodityId dari data/commodities.ts (bukan teks bebas lagi) supaya bisa
+// dikelompokkan per section di halaman Kebun.
 export const plotsSeed: Plot[] = [
   {
     id: 'p-01',
     code: 'WNK-A1',
     name: 'Kebun Pala Ngasem',
     areaM2: 4200,
-    commodities: ['Pala', 'TOGA campuran'],
+    commodities: ['pala', 'lainnya'],
     status: 'aktif',
     farmerId: 'f-01',
     lat: -7.6631,
@@ -18,7 +20,7 @@ export const plotsSeed: Plot[] = [
     code: 'WNK-A2',
     name: 'Kebun Pala Sendang',
     areaM2: 3100,
-    commodities: ['Pala'],
+    commodities: ['pala'],
     status: 'panen',
     farmerId: 'f-01',
     lat: -7.6608,
@@ -29,7 +31,7 @@ export const plotsSeed: Plot[] = [
     code: 'WNK-B1',
     name: 'TOGA Corner Balai Desa',
     areaM2: 850,
-    commodities: ['Jahe', 'Kunyit', 'Sereh', 'Kencur'],
+    commodities: ['jahe', 'kunyit', 'sereh', 'kencur'],
     status: 'aktif',
     farmerId: 'f-02',
     lat: -7.6645,
@@ -40,7 +42,7 @@ export const plotsSeed: Plot[] = [
     code: 'WNK-A3',
     name: 'Kebun Pala Krajan',
     areaM2: 5600,
-    commodities: ['Pala'],
+    commodities: ['pala'],
     status: 'aktif',
     farmerId: 'f-03',
     lat: -7.6592,
@@ -51,7 +53,7 @@ export const plotsSeed: Plot[] = [
     code: 'WNK-A4',
     name: 'Kebun Pala Gunung',
     areaM2: 2800,
-    commodities: ['Pala', 'TOGA campuran'],
+    commodities: ['pala', 'lainnya'],
     status: 'istirahat',
     farmerId: 'f-04',
     lat: -7.6669,

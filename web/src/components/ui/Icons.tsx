@@ -188,3 +188,16 @@ export function IconGauge(props: IconProps) {
     </svg>
   )
 }
+
+export function IconFilter(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 7h16" />
+      <circle cx="15" cy="7" r="2" />
+      <path d="M4 12h16" />
+      <circle cx="9" cy="12" r="2" />
+      <path d="M4 17h16" />
+      <circle cx="13" cy="17" r="2" />
+    </svg>
+  )
+}

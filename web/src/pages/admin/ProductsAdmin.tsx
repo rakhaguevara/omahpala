@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { usePlots, useProducts } from '@/lib/useEntities'
-import type { CertificationStatus, Product, ProductCategory } from '@/types'
+import type { CertificationStatus, CommodityId, Product, ProductCategory } from '@/types'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { FieldWrapper, Input, Select, Textarea } from '@/components/ui/Field'
 import { ImageUploader } from '@/components/admin/ImageUploader'
-import { formatIdr, slugify } from '@/lib/utils'
+import { formatIdr, slugify, commodityLabel } from '@/lib/utils'
+import { commoditiesSeed } from '@/data/commodities'
 import { Seo } from '@/components/layout/Seo'
+import { useLocale } from '@/lib/useLocale'
 
 type Draft = Omit<Product, 'id' | 'createdAt'>
 
@@ -16,6 +18,7 @@ function emptyDraft(): Draft {
     slug: '',
     nameId: '',
     nameEn: '',
+    commodityId: 'pala',
     category: 'pangan',
     descriptionId: '',
     descriptionEn: '',
@@ -42,6 +45,7 @@ function emptyDraft(): Draft {
 /** CRUD produk — PRD §7.6 A-04. */
 export default function ProductsAdmin() {
   const { t } = useTranslation()
+  const { locale } = useLocale()
   const { items: products, add, update, remove } = useProducts()
   const { items: plots } = usePlots()
   const [editingId, setEditingId] = useState<string | 'new' | null>(null)
@@ -129,6 +133,19 @@ export default function ProductsAdmin() {
           </div>
 
           <div className="grid gap-5 sm:grid-cols-3">
+            <FieldWrapper label="Komoditas" htmlFor="commodityId">
+              <Select
+                id="commodityId"
+                value={draft.commodityId}
+                onChange={(e) => setDraft({ ...draft, commodityId: e.target.value as CommodityId })}
+              >
+                {commoditiesSeed.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {commodityLabel(c.id, locale)}
+                  </option>
+                ))}
+              </Select>
+            </FieldWrapper>
             <FieldWrapper label="Kategori" htmlFor="category">
               <Select
                 id="category"
@@ -280,6 +297,7 @@ export default function ProductsAdmin() {
           <thead>
             <tr className="border-b border-line text-meta text-muted-2">
               <th className="px-5 py-3 font-medium">Nama</th>
+              <th className="px-5 py-3 font-medium">Komoditas</th>
               <th className="px-5 py-3 font-medium">Kategori</th>
               <th className="px-5 py-3 font-medium">Harga</th>
               <th className="px-5 py-3 font-medium">Status</th>
@@ -290,6 +308,7 @@ export default function ProductsAdmin() {
             {products.map((p) => (
               <tr key={p.id} className="border-b border-line last:border-0">
                 <td className="px-5 py-3">{p.nameId}</td>
+                <td className="px-5 py-3">{commodityLabel(p.commodityId, locale)}</td>
                 <td className="px-5 py-3">{p.category}</td>
                 <td className="px-5 py-3 tabular-nums">{formatIdr(p.priceIdr)}</td>
                 <td className="px-5 py-3">
@@ -314,7 +333,7 @@ export default function ProductsAdmin() {
             ))}
             {products.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-5 py-8 text-center text-muted">
+                <td colSpan={6} className="px-5 py-8 text-center text-muted">
                   {t('admin.noRecords')}
                 </td>
               </tr>

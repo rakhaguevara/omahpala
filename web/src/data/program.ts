@@ -164,10 +164,12 @@ export const programMilestones: ProgramMilestone[] = [
 // Target program 2026 — PRD §7.1 H-07 & §7.3 PR-03.
 // Angka ini TARGET dari proposal PPK Ormawa HIMFA 2026, bukan capaian terukur — jangan
 // tampilkan tanpa label "Target Program 2026" (UX-WRITING.md §4.4).
+// s-3 di-override dari angka proposal asli (3) jadi 8 atas persetujuan eksplisit pemilik situs,
+// mengikuti perluasan katalog produk pala di data/products.ts — lihat catatan di file itu.
 export const programStats: StatItem[] = [
   { id: 's-1', value: 70, prefix: '40–', suffix: '', labelId: 'KK menanam TOGA di pekarangan', labelEn: 'households growing TOGA at home' },
   { id: 's-2', value: 2, suffix: '', labelId: 'SOP budidaya tersusun', labelEn: 'cultivation SOPs drafted' },
-  { id: 's-3', value: 3, suffix: '', labelId: 'produk olahan daging buah pala', labelEn: 'nutmeg-fruit processed products' },
+  { id: 's-3', value: 8, suffix: '', labelId: 'produk olahan daging buah pala', labelEn: 'nutmeg-fruit processed products' },
   { id: 's-4', value: 5, suffix: '', labelId: 'bulan pelaksanaan program', labelEn: 'months of program implementation' },
 ]
 

@@ -5,6 +5,16 @@ export type Locale = 'id' | 'en'
 
 export type ProductCategory = 'pangan' | 'minuman' | 'non-pangan'
 
+// Komoditas tanaman TOGA — daftar tetap. Tambah id baru di sini + data/commodities.ts
+// kalau ada komoditas baru; 'lainnya' adalah wadah untuk yang belum terdaftar.
+export type CommodityId = 'pala' | 'jahe' | 'kunyit' | 'sereh' | 'kencur' | 'lainnya'
+
+export interface Commodity {
+  id: CommodityId
+  nameId: string
+  nameEn: string
+}
+
 export type Certification = 'PIRT' | 'Halal' | 'SNI' | 'Organik' | 'HACCP'
 
 export interface CertificationStatus {
@@ -17,6 +27,8 @@ export interface Product {
   slug: string
   nameId: string
   nameEn: string
+  /** Komoditas tanaman asal produk ini, mis. 'pala' untuk semua olahan daging buah pala. */
+  commodityId: CommodityId
   category: ProductCategory
   descriptionId: string
   descriptionEn: string
@@ -48,7 +60,8 @@ export interface Plot {
   code: string
   name: string
   areaM2: number
-  commodities: string[]
+  /** Komoditas yang ditanam di lahan ini — lahan campuran bisa punya lebih dari satu. */
+  commodities: CommodityId[]
   status: PlotStatus
   farmerId: string
   lat: number

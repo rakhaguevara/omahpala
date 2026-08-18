@@ -1,33 +1,38 @@
 import { useTranslation } from 'react-i18next'
+import { useReducedMotion } from 'framer-motion'
 import { LinkButton } from '@/components/ui/Button'
-import { Reveal } from '@/components/motion/Reveal'
 import { usePageContent } from '@/lib/usePageContent'
+import { ScrollExpand } from '@/components/motion/ScrollExpand'
 
-/** CTA penutup — PRD H-10. Full-bleed edge-to-edge, latar gelap (foto+overlay), satu tombol aksen. */
+/**
+ * CTA penutup — PRD H-10. Full-bleed, frame foto yang membuka penuh seiring scroll
+ * (ScrollExpand, React Bits — lihat catatan penyimpangan token motion di komponennya).
+ * `enabled` diset dari prefers-reduced-motion supaya pengguna yang minta motion minimal
+ * langsung melihat frame dalam keadaan terbuka penuh, tanpa animasi scroll-jacking.
+ */
 export function CtaBand() {
   const { t } = useTranslation()
   const title = usePageContent('cta.title')
   const subtitle = usePageContent('cta.subtitle')
+  const reduceMotion = useReducedMotion()
 
   return (
-    <div
-      className="relative overflow-hidden"
-      style={{
-        backgroundImage:
-          "linear-gradient(180deg, rgba(33,33,33,.55) 0%, rgba(33,33,33,.75) 100%), url('https://picsum.photos/seed/omahpala-forest/1800/1000')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
+    <ScrollExpand
+      src="https://picsum.photos/seed/omahpala-forest/1800/1000"
+      alt={title}
+      title={title}
+      scrollHint={t('common.scrollHint')}
+      useWindowScroll
+      enabled={!reduceMotion}
+      scrollDistance={1}
+      holdDistance={0.2}
+      startRadius={40}
+      endRadius={0}
     >
-      <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-6 px-6 py-24 text-center sm:py-32">
-        <Reveal className="flex max-w-2xl flex-col items-center gap-6">
-          <h2 className="text-display-l text-balance text-white">{title}</h2>
-          <p className="text-body-l max-content-w text-white/85">{subtitle}</p>
-          <LinkButton to="/kontak" variant="primary">
-            {t('home.ctaCardTitle')}
-          </LinkButton>
-        </Reveal>
-      </div>
-    </div>
+      <p className="max-content-w text-body-l text-white/85">{subtitle}</p>
+      <LinkButton to="/kontak" variant="primary">
+        {t('home.ctaCardTitle')}
+      </LinkButton>
+    </ScrollExpand>
   )
 }

@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFarmers, usePlots } from '@/lib/useEntities'
-import type { Farmer, Plot, PlotStatus } from '@/types'
+import type { CommodityId, Farmer, Plot, PlotStatus } from '@/types'
 import { Chip } from '@/components/ui/Chip'
 import { Button } from '@/components/ui/Button'
 import { FieldWrapper, Input, Select } from '@/components/ui/Field'
 import { Badge } from '@/components/ui/Badge'
 import { Seo } from '@/components/layout/Seo'
+import { commoditiesSeed } from '@/data/commodities'
+import { commodityLabel } from '@/lib/utils'
+import { useLocale } from '@/lib/useLocale'
 
 type Tab = 'plots' | 'farmers'
 
@@ -96,12 +99,9 @@ function PlotsPanel() {
               </Select>
             </FieldWrapper>
             <FieldWrapper label={t('admin.fieldCommodities')} htmlFor="commodities" className="sm:col-span-2">
-              <Input
-                id="commodities"
-                value={draft.commodities.join(', ')}
-                onChange={(e) =>
-                  setDraft({ ...draft, commodities: e.target.value.split(',').map((s) => s.trim()).filter(Boolean) })
-                }
+              <CommoditiesEditor
+                value={draft.commodities}
+                onChange={(commodities) => setDraft({ ...draft, commodities })}
               />
             </FieldWrapper>
             <FieldWrapper label={t('admin.fieldFarmer')} htmlFor="farmerId" className="sm:col-span-2">
@@ -269,4 +269,27 @@ function FarmersPanel() {
 
 function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+function CommoditiesEditor({ value, onChange }: { value: CommodityId[]; onChange: (v: CommodityId[]) => void }) {
+  const { locale } = useLocale()
+
+  function toggle(id: CommodityId) {
+    if (value.includes(id)) onChange(value.filter((c) => c !== id))
+    else onChange([...value, id])
+  }
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {commoditiesSeed.map((c) => (
+        <label
+          key={c.id}
+          className="flex items-center gap-2 rounded-sm border border-line px-3 py-1.5 text-body text-ink"
+        >
+          <input type="checkbox" checked={value.includes(c.id)} onChange={() => toggle(c.id)} />
+          {commodityLabel(c.id, locale)}
+        </label>
+      ))}
+    </div>
+  )
 }

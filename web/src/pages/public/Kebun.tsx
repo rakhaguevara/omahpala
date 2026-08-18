@@ -9,8 +9,9 @@ import { Stagger, StaggerItem } from '@/components/motion/Stagger'
 import { Seo } from '@/components/layout/Seo'
 import { useFarmers, usePlots, useProducts } from '@/lib/useEntities'
 import { useLocale } from '@/lib/useLocale'
-import { formatDate, cn } from '@/lib/utils'
-import type { PlotStatus } from '@/types'
+import { formatDate, cn, commodityLabel } from '@/lib/utils'
+import { commoditiesSeed } from '@/data/commodities'
+import type { Plot, PlotStatus } from '@/types'
 
 const statusKey: Record<PlotStatus, string> = {
   aktif: 'statusAktif',
@@ -52,48 +53,35 @@ export default function Kebun() {
             <p className="text-body-l max-content-w text-muted">{t('kebun.subtitle')}</p>
           </Reveal>
 
-          {/* K-01 */}
+          {/* K-01 — dikelompokkan per komoditas; lahan campuran muncul di tiap section komoditasnya */}
           <h2 className="mb-5 text-title">{t('kebun.plotsTitle')}</h2>
-          <Stagger className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" stagger={0.06}>
-            {plots.map((plot) => {
-              const farmer = farmers.find((f) => f.id === plot.farmerId)
-              const isSelected = plot.id === selectedPlotId
+          <div className="mb-6 flex flex-col gap-10">
+            {commoditiesSeed.map((commodity) => {
+              const commodityPlots = plots.filter((plot) => plot.commodities.includes(commodity.id))
+              if (commodityPlots.length === 0) return null
               return (
-                <StaggerItem key={plot.id}>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedPlotId(isSelected ? null : plot.id)}
-                    aria-pressed={isSelected}
-                    className={cn(
-                      'flex w-full flex-col gap-3 rounded-md border p-6 text-left transition-colors duration-200',
-                      isSelected ? 'border-ink bg-surface-2' : 'border-line bg-white hover:border-ink/30',
-                    )}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-meta text-muted-2">{plot.code}</p>
-                        <p className="text-title">{plot.name}</p>
-                      </div>
-                      <Badge tone={statusTone[plot.status]}>{t(`kebun.${statusKey[plot.status]}`)}</Badge>
-                    </div>
-                    <dl className="grid grid-cols-2 gap-2 text-meta">
-                      <div>
-                        <dt className="text-muted-2">{t('kebun.plotArea')}</dt>
-                        <dd className="text-ink">{plot.areaM2.toLocaleString('id-ID')} m²</dd>
-                      </div>
-                      <div>
-                        <dt className="text-muted-2">{t('kebun.plotFarmer')}</dt>
-                        <dd className="text-ink">{farmer?.name ?? '—'}</dd>
-                      </div>
-                    </dl>
-                    <p className="text-meta text-muted">
-                      {t('kebun.plotCommodities')}: {plot.commodities.join(', ')}
-                    </p>
-                  </button>
-                </StaggerItem>
+                <div key={commodity.id}>
+                  <h3 className="mb-4 text-label text-muted-2">{commodityLabel(commodity.id, locale)}</h3>
+                  <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" stagger={0.06}>
+                    {commodityPlots.map((plot) => {
+                      const farmer = farmers.find((f) => f.id === plot.farmerId)
+                      const isSelected = plot.id === selectedPlotId
+                      return (
+                        <StaggerItem key={plot.id}>
+                          <PlotCard
+                            plot={plot}
+                            farmerName={farmer?.name}
+                            isSelected={isSelected}
+                            onToggle={() => setSelectedPlotId(isSelected ? null : plot.id)}
+                          />
+                        </StaggerItem>
+                      )
+                    })}
+                  </Stagger>
+                </div>
               )
             })}
-          </Stagger>
+          </div>
 
           {/* K-03 */}
           {selectedPlot && (
@@ -179,5 +167,53 @@ export default function Kebun() {
         </Container>
       </Section>
     </>
+  )
+}
+
+function PlotCard({
+  plot,
+  farmerName,
+  isSelected,
+  onToggle,
+}: {
+  plot: Plot
+  farmerName: string | undefined
+  isSelected: boolean
+  onToggle: () => void
+}) {
+  const { t } = useTranslation()
+  const { locale } = useLocale()
+
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={isSelected}
+      className={cn(
+        'flex w-full flex-col gap-3 rounded-md border p-6 text-left transition-colors duration-200',
+        isSelected ? 'border-ink bg-surface-2' : 'border-line bg-white hover:border-ink/30',
+      )}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-meta text-muted-2">{plot.code}</p>
+          <p className="text-title">{plot.name}</p>
+        </div>
+        <Badge tone={statusTone[plot.status]}>{t(`kebun.${statusKey[plot.status]}`)}</Badge>
+      </div>
+      <dl className="grid grid-cols-2 gap-2 text-meta">
+        <div>
+          <dt className="text-muted-2">{t('kebun.plotArea')}</dt>
+          <dd className="text-ink">{plot.areaM2.toLocaleString('id-ID')} m²</dd>
+        </div>
+        <div>
+          <dt className="text-muted-2">{t('kebun.plotFarmer')}</dt>
+          <dd className="text-ink">{farmerName ?? '—'}</dd>
+        </div>
+      </dl>
+      <p className="text-meta text-muted">
+        {t('kebun.plotCommodities')}: {plot.commodities.map((id) => commodityLabel(id, locale)).join(', ')}
+      </p>
+    </button>
   )
 }

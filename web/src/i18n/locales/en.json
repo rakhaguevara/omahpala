@@ -13,7 +13,8 @@
     "notFoundBody": "The page you’re looking for has moved or never existed.",
     "backHome": "Back to home",
     "close": "Close",
-    "menu": "Menu"
+    "menu": "Menu",
+    "scrollHint": "Scroll"
   },
   "nav": {
     "home": "Home",
@@ -83,9 +84,8 @@
   },
   "catalog": {
     "eyebrow": "PRODUCT CATALOG",
-    "title": "Nutmeg-fruit processed products",
+    "title": "Processed products from TOGA Corner plants",
     "subtitle": "Every product is traceable to its plot and grower. Click a product for full export specs.",
-    "filterAll": "All categories",
     "categoryPangan": "Food",
     "categoryMinuman": "Beverage",
     "categoryNonPangan": "Non-food",
@@ -93,8 +93,20 @@
     "viewDetail": "Product detail",
     "viewShopee": "Buy on Shopee",
     "requestQuotation": "Request a Quote",
-    "empty": "No products in this category yet.",
-    "emptyCta": "View all products"
+    "sectionPalaTitle": "Nutmeg Products",
+    "sectionPalaDesc": "Wonokerto farmers use the nutmeg seed, then discard the fruit and skin. The products below are made from that discarded part.",
+    "sectionOtherPlantsTitle": "Other Plant Products",
+    "sectionOtherPlantsDesc": "Beyond nutmeg, Wonokerto residents grow a range of family medicinal (TOGA) plants in their home gardens. Products below are grouped by plant type to make browsing easier.",
+    "sectionOtherWonokertoTitle": "Other Products from Desa Wonokerto",
+    "sectionOtherWonokertoDesc": "Wonokerto products that don't yet fall under a specific plant commodity above.",
+    "sectionComingSoon": "Products from this commodity are in development.",
+    "sectionFilterAll": "All plants",
+    "sortNewest": "Newest",
+    "sortPriceLow": "Lowest price",
+    "sortPriceHigh": "Highest price",
+    "filterButtonLabel": "Filter & sort",
+    "filterCommodityLabel": "Plant type",
+    "filterSortLabel": "Sort by"
   },
   "product": {
     "specTitle": "Product specification",
@@ -242,7 +254,7 @@
     "fieldName": "Name",
     "fieldCode": "Plot code",
     "fieldArea": "Area (m²)",
-    "fieldCommodities": "Commodities (comma-separated)",
+    "fieldCommodities": "Commodities",
     "fieldStatus": "Status",
     "fieldFarmer": "Grower",
     "fieldRole": "Role",

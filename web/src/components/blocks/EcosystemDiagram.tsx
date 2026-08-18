@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useLocale } from '@/lib/useLocale'
@@ -5,6 +6,13 @@ import { programPillars } from '@/data/program'
 import { productsSeed } from '@/data/products'
 import { PillarIcon } from './PillarIcon'
 import { Reveal } from '@/components/motion/Reveal'
+
+// three.js + @react-three/fiber nambah ~240 KB gzip ke bundle — code-split di sini supaya tidak
+// ikut blocking parse bundle utama Beranda (LCP target PRD §9), baru diunduh saat diagram ini
+// benar-benar dirender di client.
+const Antigravity = lazy(() =>
+  import('@/components/motion/Antigravity').then((m) => ({ default: m.Antigravity })),
+)
 
 // Sudut tetap untuk 5 pilar (derajat; 0 = kanan, 90 = bawah, searah jarum jam — x=cos, y=sin
 // pada koordinat CSS top/left).
@@ -23,11 +31,16 @@ interface OutputNode {
   pillarId: string
 }
 
-// Layer luaran — hanya output nyata: 3 produk dari data/products.ts, dan mitra kelembagaan yang
-// memang disebut pada deskripsi pilar terkait di data/program.ts (SPI & KWT di "cultivation",
-// TOGA Corner di "economy"). Tidak ada angka capaian yang belum bersumber di sini.
+// Layer luaran — hanya output nyata: produk UNGGULAN dari data/products.ts (bukan seluruh
+// katalog — sejak katalog produk diperluas jadi puluhan item placeholder per komoditas untuk
+// demo halaman Produk, memetakan semuanya ke sini bikin diagram penuh sesak dan bertentangan
+// dengan tujuan awal section ini), dan mitra kelembagaan yang memang disebut pada deskripsi
+// pilar terkait di data/program.ts (SPI & KWT di "cultivation", TOGA Corner di "economy").
+// Tidak ada angka capaian yang belum bersumber di sini.
 const OUTPUT_NODES_BASE: OutputNode[] = [
-  ...productsSeed.map((p) => ({ id: p.id, labelId: p.nameId, labelEn: p.nameEn, pillarId: 'production' })),
+  ...productsSeed
+    .filter((p) => p.isFeatured)
+    .map((p) => ({ id: p.id, labelId: p.nameId, labelEn: p.nameEn, pillarId: 'production' })),
   { id: 'out-kwt', labelId: 'KWT', labelEn: 'KWT', pillarId: 'cultivation' },
   { id: 'out-spi', labelId: 'SPI', labelEn: 'SPI', pillarId: 'cultivation' },
   { id: 'out-toga-corner', labelId: 'TOGA Corner', labelEn: 'TOGA Corner', pillarId: 'economy' },
@@ -63,26 +76,56 @@ export function EcosystemDiagram() {
 
   const pillarPoints = programPillars.map((p) => ({ ...p, ...pointAt(PILLAR_ANGLES[p.id], pillarRadius) }))
   const outputPoints = OUTPUT_NODES.map((o) => ({ ...o, ...pointAt(o.angle, outputRadius) }))
-  const outputRing = [...outputPoints].sort((a, b) => a.angle - b.angle)
 
   return (
     <Reveal className="mx-auto flex aspect-square w-full max-w-3xl items-center justify-center">
       <div className="relative h-full w-full">
-        <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" aria-hidden>
-          {/* Cincin pilar — menghubungkan kelima pilar satu sama lain, garis putus-putus hijau
-              aksen yang mengalir (animasi "connecting") — design.md §3 "garis indikator progres"
+        {/* Latar partikel — Antigravity (React Bits, three.js). Dimatikan total kalau
+            prefers-reduced-motion aktif, konsisten dengan primitive motion lain di proyek ini. */}
+        {!reduce && (
+          <div className="absolute inset-0 -m-[10%]">
+            <Suspense fallback={null}>
+              <Antigravity
+                count={500}
+                magnetRadius={8}
+                ringRadius={8}
+                waveSpeed={4.8}
+                waveAmplitude={1}
+                particleSize={1.3}
+                lerpSpeed={0.18}
+                color="#7eea57"
+                autoAnimate
+                particleVariance={1}
+                particleShape="sphere"
+              />
+            </Suspense>
+          </div>
+        )}
+
+        <svg
+          viewBox="0 0 100 100"
+          className="pointer-events-none absolute inset-0 h-full w-full"
+          aria-hidden
+        >
+          {/* Cincin pilar — lingkaran sempurna (bukan poligon garis lurus antar titik), karena
+              semua pilar berjarak sama (pillarRadius) dari pusat. Garis putus-putus hijau aksen
+              yang mengalir (animasi "connecting") — design.md §3 "garis indikator progres"
               termasuk pemakaian aksen yang diperbolehkan. */}
-          <motion.polygon
-            points={pillarPoints.map((p) => `${p.x},${p.y}`).join(' ')}
+          <motion.circle
+            cx={50}
+            cy={50}
+            r={pillarRadius}
             className="fill-none stroke-accent"
             strokeWidth={0.5}
             strokeDasharray="3 2.5"
             animate={reduce ? undefined : { strokeDashoffset: [0, -5.5] }}
             transition={reduce ? undefined : { duration: 1.4, ease: 'linear', repeat: Infinity }}
           />
-          {/* Cincin luaran — menghubungkan semua node luaran satu sama lain */}
-          <motion.polygon
-            points={outputRing.map((p) => `${p.x},${p.y}`).join(' ')}
+          {/* Cincin luaran — lingkaran sempurna juga, semua node luaran berjarak sama (outputRadius). */}
+          <motion.circle
+            cx={50}
+            cy={50}
+            r={outputRadius}
             className="fill-none stroke-accent"
             strokeWidth={0.5}
             strokeDasharray="3 2.5"
@@ -91,7 +134,7 @@ export function EcosystemDiagram() {
           />
         </svg>
 
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <div className="flex h-16 w-16 flex-col items-center justify-center gap-0.5 rounded-full bg-ink p-1.5 text-center text-white shadow-[0_8px_24px_rgba(0,0,0,.18)] sm:h-24 sm:w-24 sm:gap-1 sm:p-2 lg:h-32 lg:w-32">
             <span className="text-[9px] leading-tight font-semibold sm:text-label">{t('common.brand')}</span>
             <span className="text-[8px] leading-tight text-white/70 sm:text-meta">{t('common.programName')}</span>
@@ -101,7 +144,7 @@ export function EcosystemDiagram() {
         {pillarPoints.map((pillar) => (
           <div
             key={pillar.id}
-            className="absolute flex w-14 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 text-center sm:w-20 sm:gap-1.5 lg:w-24 lg:gap-2"
+            className="pointer-events-none absolute flex w-14 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 text-center sm:w-20 sm:gap-1.5 lg:w-24 lg:gap-2"
             style={{ left: `${pillar.x}%`, top: `${pillar.y}%` }}
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-full border border-line bg-white shadow-[0_2px_8px_rgba(0,0,0,.06)] sm:h-10 sm:w-10 lg:h-12 lg:w-12">
@@ -116,7 +159,7 @@ export function EcosystemDiagram() {
         {outputPoints.map((output) => (
           <div
             key={output.id}
-            className="absolute flex w-14 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 text-center sm:w-16 sm:gap-1.5 lg:w-20"
+            className="pointer-events-none absolute flex w-14 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 text-center sm:w-16 sm:gap-1.5 lg:w-20"
             style={{ left: `${output.x}%`, top: `${output.y}%` }}
           >
             <div className="flex h-6 w-6 items-center justify-center rounded-full border border-dashed border-line bg-surface-2 sm:h-8 sm:w-8 lg:h-9 lg:w-9">

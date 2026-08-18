@@ -13,7 +13,8 @@
     "notFoundBody": "Halaman yang Anda cari sudah pindah atau belum pernah ada.",
     "backHome": "Kembali ke beranda",
     "close": "Tutup",
-    "menu": "Menu"
+    "menu": "Menu",
+    "scrollHint": "Gulir"
   },
   "nav": {
     "home": "Beranda",
@@ -83,9 +84,8 @@
   },
   "catalog": {
     "eyebrow": "KATALOG PRODUK",
-    "title": "Produk olahan daging buah pala",
+    "title": "Produk olahan tanaman TOGA Corner",
     "subtitle": "Semua produk tertaut ke lahan dan penanam asalnya. Klik produk untuk spesifikasi ekspor lengkap.",
-    "filterAll": "Semua kategori",
     "categoryPangan": "Pangan",
     "categoryMinuman": "Minuman",
     "categoryNonPangan": "Non-pangan",
@@ -93,8 +93,20 @@
     "viewDetail": "Detail produk",
     "viewShopee": "Beli di Shopee",
     "requestQuotation": "Minta penawaran",
-    "empty": "Belum ada produk di kategori ini.",
-    "emptyCta": "Lihat semua produk"
+    "sectionPalaTitle": "Produk Olahan Pala",
+    "sectionPalaDesc": "Petani Wonokerto memanfaatkan biji pala, lalu membuang daging dan kulitnya. Produk-produk berikut dibuat dari bagian yang dulu terbuang itu.",
+    "sectionOtherPlantsTitle": "Produk Olahan Tanaman Lain",
+    "sectionOtherPlantsDesc": "Selain pala, warga Wonokerto menanam aneka tanaman obat keluarga (TOGA) di pekarangan masing-masing. Produk di bawah ini dikelompokkan per jenis tanaman supaya lebih mudah ditelusuri.",
+    "sectionOtherWonokertoTitle": "Produk Olahan Lainnya dari Desa Wonokerto",
+    "sectionOtherWonokertoDesc": "Produk warga Wonokerto yang belum masuk kategori komoditas tanaman di atas.",
+    "sectionComingSoon": "Produk dari komoditas ini sedang dalam pengembangan.",
+    "sectionFilterAll": "Semua tanaman",
+    "sortNewest": "Terbaru",
+    "sortPriceLow": "Harga terendah",
+    "sortPriceHigh": "Harga tertinggi",
+    "filterButtonLabel": "Filter & urutkan",
+    "filterCommodityLabel": "Jenis tanaman",
+    "filterSortLabel": "Urutkan"
   },
   "product": {
     "specTitle": "Spesifikasi produk",
@@ -242,7 +254,7 @@
     "fieldName": "Nama",
     "fieldCode": "Kode petak",
     "fieldArea": "Luas (m²)",
-    "fieldCommodities": "Komoditas (pisahkan koma)",
+    "fieldCommodities": "Komoditas",
     "fieldStatus": "Status",
     "fieldFarmer": "Penanam",
     "fieldRole": "Peran",
