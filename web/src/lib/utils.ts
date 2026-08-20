@@ -49,10 +49,41 @@ export function formatDate(iso: string, locale: 'id' | 'en'): string {
   })
 }
 
+/** Nama bulan singkat (Jan, Feb, …) sesuai locale — dipakai di kalender tanam/panen lahan. */
+export function monthShort(month: number, locale: 'id' | 'en'): string {
+  return new Date(2024, month - 1, 1).toLocaleDateString(locale === 'id' ? 'id-ID' : 'en-US', {
+    month: 'short',
+  })
+}
+
 /** Estimasi lama baca dari jumlah kata konten, dibulatkan ke menit terdekat (min. 1). */
 export function estimateReadMinutes(paragraphs: string[]): number {
   const words = paragraphs.reduce((total, p) => total + p.trim().split(/\s+/).filter(Boolean).length, 0)
   return Math.max(1, Math.round(words / 200))
+}
+
+/**
+ * Foto lahan dummy dibuat sebagai SVG lokal (data URI), bukan lewat network — dipakai sebagai
+ * fallback `onError` saat foto asli (picsum atau upload admin) gagal dimuat, supaya kartu lahan
+ * tidak pernah menampilkan ikon gambar rusak. Bentuknya deterministik dari `seed` (id lahan) jadi
+ * tiap lahan tetap dapat variasi warna yang konsisten antar render.
+ */
+export function plotPlaceholder(seed: string): string {
+  let hash = 0
+  for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0
+  const bg = ['#EAF7E4', '#F2F7EC', '#EAF2E2'][hash % 3]
+  const rows = Array.from({ length: 5 }, (_, i) => {
+    const y = 40 + i * 46
+    const bow = 14 + (hash >> i) % 12
+    return `<path d="M-20 ${y} Q 200 ${y - bow} 420 ${y}" stroke="#7EEA57" stroke-opacity="0.32" stroke-width="10" fill="none" stroke-linecap="round" />`
+  }).join('')
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+    <rect width="400" height="300" fill="${bg}" />
+    ${rows}
+    <path d="M160 190 C 160 140 210 120 240 120 C 240 160 210 190 160 190 Z" fill="#212121" fill-opacity="0.12" />
+    <path d="M160 190 C 180 170 210 150 240 120" stroke="#212121" stroke-opacity="0.18" stroke-width="4" fill="none" stroke-linecap="round" />
+  </svg>`
+  return `data:image/svg+xml;base64,${btoa(svg)}`
 }
 
 export const WHATSAPP_NUMBER = '6281234567890'

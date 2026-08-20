@@ -5,7 +5,7 @@ import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
 import { Badge } from '@/components/ui/Badge'
 import { ExternalLinkButton, LinkButton } from '@/components/ui/Button'
-import { IconArrowRight } from '@/components/ui/Icons'
+import { IconArrowRight, IconStorefront } from '@/components/ui/Icons'
 import { Reveal } from '@/components/motion/Reveal'
 import { ProductGrid } from '@/components/blocks/ProductGrid'
 import { Seo } from '@/components/layout/Seo'
@@ -32,7 +32,7 @@ export default function ProductDetail() {
   const name = locale === 'id' ? product.nameId : product.nameEn
   const description = locale === 'id' ? product.descriptionId : product.descriptionEn
   const plot = plots.find((pl) => pl.id === product.plotId)
-  const farmer = plot ? farmers.find((f) => f.id === plot.farmerId) : undefined
+  const farmer = plot ? farmers.find((f) => f.id === plot.farmerIds[0]) : undefined
   const related = products
     .filter((p) => p.id !== product.id && p.category === product.category && p.isActive)
     .slice(0, 3)
@@ -146,6 +146,16 @@ export default function ProductDetail() {
                 >
                   {t('catalog.requestQuotation')}
                 </LinkButton>
+                <ExternalLinkButton
+                  href={product.shopeeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="ghost"
+                  className="flex-1"
+                >
+                  <IconStorefront className="h-4 w-4" />
+                  {t('catalog.viewShopee')}
+                </ExternalLinkButton>
               </div>
 
               {plot && (
@@ -163,7 +173,7 @@ export default function ProductDetail() {
                     </p>
                   </div>
                   <Link
-                    to="/kebun"
+                    to={`/kebun/${plot.code.toLowerCase()}`}
                     className="flex shrink-0 items-center gap-1 text-label text-ink hover:underline"
                   >
                     {t('product.traceabilityCta')}

@@ -152,6 +152,11 @@ export default function Contact() {
           style={{ backgroundImage: 'linear-gradient(180deg, rgba(33,33,33,.55) 0%, rgba(33,33,33,.75) 100%)' }}
           aria-hidden
         />
+        {/* Transisi ke section putih berikutnya — glow putih lembut di tepi bawah, sama seperti Hero.tsx */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-white sm:h-24 lg:h-28"
+        />
 
         <Container className="absolute inset-x-0 top-6 z-10 sm:top-8">
           <IconSparkle className="h-5 w-5 text-white" aria-hidden />

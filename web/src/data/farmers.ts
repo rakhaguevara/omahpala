@@ -8,7 +8,7 @@ export const farmersSeed: Farmer[] = [
     role: 'Ketua Kelompok Tani Pala Makmur',
     photo: 'https://picsum.photos/seed/wonokerto-farmer-1/600/750',
     joinedAt: '2022-03-01',
-    plotIds: ['p-01', 'p-02'],
+    plotIds: ['p-01', 'p-02', 'p-04'],
   },
   {
     id: 'f-02',

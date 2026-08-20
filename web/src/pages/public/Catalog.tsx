@@ -63,7 +63,7 @@ export default function Catalog() {
           </Reveal>
 
           {showcaseImages.length > 0 && (
-            <div className="mx-auto mb-14 flex h-[280px] justify-center">
+            <div className="mx-auto mb-4 flex h-[280px] justify-center">
               <Suspense fallback={null}>
                 <BounceCards
                   images={showcaseImages}
@@ -75,8 +75,8 @@ export default function Catalog() {
                     'rotate(8deg) translate(-160px)',
                     'rotate(-4deg) translate(-80px)',
                     'rotate(3deg)',
-                    'rotate(-6deg) translate(80px)',
-                    'rotate(6deg) translate(160px)',
+                    'rotate(4deg) translate(80px)',
+                    'rotate(-8deg) translate(160px)',
                   ]}
                   enableHover
                 />

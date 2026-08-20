@@ -55,6 +55,15 @@ export interface Product {
 
 export type PlotStatus = 'aktif' | 'panen' | 'istirahat'
 
+/** Perkiraan musim tanam & panen per komoditas untuk satu lahan — bulan 1-12. Dipakai di halaman
+ * detail lahan supaya buyer bisa mengira-ngira kapan stok komoditas ini biasanya tersedia. Diisi
+ * & dikelola dari admin (bukan oleh petani), sama seperti data lahan lainnya. */
+export interface PlotCalendarEntry {
+  commodityId: CommodityId
+  plantingMonths: number[]
+  harvestMonths: number[]
+}
+
 export interface Plot {
   id: string
   code: string
@@ -63,9 +72,14 @@ export interface Plot {
   /** Komoditas yang ditanam di lahan ini — lahan campuran bisa punya lebih dari satu. */
   commodities: CommodityId[]
   status: PlotStatus
-  farmerId: string
+  /** Bisa lebih dari satu penanam/pemegang kepentingan yang merawat lahan ini bersama. */
+  farmerIds: string[]
   lat: number
   lng: number
+  photo: string
+  descriptionId: string
+  descriptionEn: string
+  calendar: PlotCalendarEntry[]
 }
 
 export interface Farmer {

@@ -21,7 +21,8 @@ const navItems = [
 /**
  * Floating Navbar — design.md §5 / PRD H-03.
  * Pill putih melayang top:20px, max-width 1120px, blur backdrop.
- * Menyusut saat scroll > 80px. Mobile: hamburger membuka panel penuh.
+ * Ukuran/posisi tetap konstan saat scroll — hanya shadow yang menguat. Mobile: hamburger
+ * membuka panel penuh.
  */
 export function Navbar() {
   const { t } = useTranslation()
@@ -37,18 +38,13 @@ export function Navbar() {
   }, [activeItem?.to])
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4">
-      <div
-        className={cn(
-          'mt-5 flex w-full max-w-[1120px] items-center justify-between gap-3 transition-[margin] duration-200 [transition-timing-function:var(--ease-brand)]',
-          scrolled ? 'mt-3' : 'mt-5',
-        )}
-      >
+    <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 [transform:translateZ(0)] will-change-transform">
+      <div className="mt-5 flex w-full max-w-[1120px] items-center justify-between gap-3">
         {/* Pill kiri — logo + menu, mengambang terpisah dari pill CTA (persis referensi) */}
         <div
           className={cn(
-            'flex flex-1 items-center justify-between rounded-pill border border-white/60 bg-white/[.86] backdrop-blur-md transition-[padding,box-shadow] duration-200 [transition-timing-function:var(--ease-brand)]',
-            scrolled ? 'py-2 shadow-[0_4px_24px_rgba(0,0,0,.12)]' : 'py-2.5 shadow-[0_4px_24px_rgba(0,0,0,.08)]',
+            'flex flex-1 items-center justify-between rounded-pill border border-white/60 bg-white/[.86] py-2.5 backdrop-blur-md transition-shadow duration-200 [transition-timing-function:var(--ease-brand)]',
+            scrolled ? 'shadow-[0_4px_24px_rgba(0,0,0,.12)]' : 'shadow-[0_4px_24px_rgba(0,0,0,.08)]',
           )}
         >
           <NavLink to="/" className="flex items-center gap-2 pl-3" onClick={() => setOpen(false)}>

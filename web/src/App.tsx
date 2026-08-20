@@ -9,6 +9,7 @@ import Articles from '@/pages/public/Articles'
 import ArticleDetail from '@/pages/public/ArticleDetail'
 import Program from '@/pages/public/Program'
 import Kebun from '@/pages/public/Kebun'
+import KebunDetail from '@/pages/public/KebunDetail'
 import Contact from '@/pages/public/Contact'
 import NotFound from '@/pages/public/NotFound'
 
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="artikel/:slug" element={<ArticleDetail />} />
         <Route path="program" element={<Program />} />
         <Route path="kebun" element={<Kebun />} />
+        <Route path="kebun/:code" element={<KebunDetail />} />
         <Route path="kontak" element={<Contact />} />
         <Route path="*" element={<NotFound />} />
       </Route>

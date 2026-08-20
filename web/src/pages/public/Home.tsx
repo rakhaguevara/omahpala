@@ -22,7 +22,7 @@ import { usePageContent } from '@/lib/usePageContent'
 export default function Home() {
   const { t } = useTranslation()
   const { items: products } = useProducts()
-  const featured = products.filter((p) => p.isFeatured && p.isActive).slice(0, 3)
+  const featured = products.filter((p) => p.isFeatured && p.isActive).slice(0, 4)
   const heroSubtitle = usePageContent('hero.subtitle')
 
   return (

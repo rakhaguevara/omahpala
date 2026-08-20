@@ -156,7 +156,7 @@ export function EcosystemDiagram() {
   return (
     <>
     <Reveal className="mx-auto flex aspect-square w-full max-w-3xl items-center justify-center">
-      <div className="relative h-full w-full">
+      <div className="relative h-full w-full overflow-hidden">
         {/* Latar partikel — Antigravity (React Bits, three.js). Dimatikan total kalau
             prefers-reduced-motion aktif, konsisten dengan primitive motion lain di proyek ini. */}
         {!reduce && (

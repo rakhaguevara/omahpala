@@ -133,13 +133,23 @@ export default function BounceCards({
   }
 
   return (
-    <div ref={wrapperRef} style={{ width: '100%', height: containerHeight * scale }}>
+    <div
+      ref={wrapperRef}
+      style={{
+        width: '100%',
+        height: containerHeight * scale,
+        display: 'flex',
+        justifyContent: 'center',
+        overflow: 'hidden',
+      }}
+    >
       <div
         className={`bounceCardsContainer ${className}`}
         ref={containerRef}
         style={{
           width: containerWidth,
           height: containerHeight,
+          flexShrink: 0,
           transform: `scale(${scale})`,
           transformOrigin: 'top center',
         }}

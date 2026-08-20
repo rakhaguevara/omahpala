@@ -26,10 +26,10 @@ export function ProductGrid({ products, carousel = false }: ProductGridProps) {
 
   if (!carousel) {
     return (
-      <Stagger className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3" stagger={0.08}>
+      <Stagger className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4" stagger={0.08}>
         {products.map((product) => (
           <StaggerItem key={product.id} className="h-full">
-            <ProductCard product={product} />
+            <ProductCard product={product} compact />
           </StaggerItem>
         ))}
       </Stagger>
@@ -55,7 +55,7 @@ export function ProductGrid({ products, carousel = false }: ProductGridProps) {
               key={product.id}
               className="w-full shrink-0 snap-start sm:w-[calc(50%-8px)] md:w-[calc(25%-12px)] lg:w-[calc(25%-15px)]"
             >
-              <ProductCard product={product} />
+              <ProductCard product={product} compact={false} />
             </StaggerItem>
           ))}
         </Stagger>

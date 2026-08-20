@@ -124,8 +124,10 @@ export const productsSeed: Product[] = [
   },
   // Data contoh TAMBAHAN (prd-04 ke bawah) — dibuat khusus untuk demo katalog per komoditas di
   // halaman Produk, supaya tiap section (Pala/Tanaman Lain/Lainnya dari Wonokerto) minimal berisi
-  // 8 produk. isFeatured selalu false supaya beranda (yang cuma menampilkan 3 produk unggulan)
-  // tidak ikut berubah. WAJIB diganti/diverifikasi tim sebelum situs live — sama seperti data
+  // 8 produk. isFeatured selalu false, kecuali prd-09 (Selai Daging Buah Pala) — dipakai supaya
+  // beranda menampilkan 4 produk unggulan (pas 2x2 di layar mobile) alih-alih 3. Sengaja dipilih
+  // dari commodityId 'pala' supaya tetap cocok dengan narasi section "dari bagian pala yang
+  // dibuang" di beranda. WAJIB diganti/diverifikasi tim sebelum situs live — sama seperti data
   // contoh lain di file ini.
   {
     id: 'prd-04',
@@ -311,7 +313,7 @@ export const productsSeed: Product[] = [
     ],
     shopeeUrl: 'https://shopee.co.id/search?keyword=selai%20daging%20buah%20pala',
     plotId: 'p-01',
-    isFeatured: false,
+    isFeatured: true,
     isActive: true,
     createdAt: '2024-05-02',
   },
