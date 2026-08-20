@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
@@ -12,6 +12,10 @@ import { cn } from '@/lib/utils'
 import { commoditiesSeed } from '@/data/commodities'
 import { IconCheck, IconFilter } from '@/components/ui/Icons'
 import type { CommodityId, Product } from '@/types'
+
+// gsap nambah ~30 KB gzip ke bundle — code-split di sini supaya tidak ikut blocking parse
+// bundle utama (Catalog eager-loaded di App.tsx), konsisten dengan alasan Antigravity di-lazy.
+const BounceCards = lazy(() => import('@/components/motion/BounceCards'))
 
 const OTHER_PLANT_COMMODITIES: CommodityId[] = ['jahe', 'kunyit', 'sereh', 'kencur']
 
@@ -43,17 +47,42 @@ export default function Catalog() {
     [active],
   )
   const otherWonokertoProducts = useMemo(() => active.filter((p) => p.commodityId === 'lainnya'), [active])
+  // Cuplikan foto produk buat BounceCards — pakai foto produk asli (bukan stok foto acak) supaya
+  // langsung menunjukkan hasil olahan tani sungguhan, bukan dekorasi lepas dari isi katalog.
+  const showcaseImages = useMemo(() => active.slice(0, 5).map((p) => p.images[0]), [active])
 
   return (
     <>
       <Seo title={`${t('catalog.title')} — ${t('common.brand')}`} description={t('catalog.subtitle')} path="/produk" />
       <Section tone="paper" className="pt-36">
         <Container>
-          <Reveal className="mx-auto mb-14 flex max-w-2xl flex-col items-center gap-4 text-center">
+          <Reveal className="mx-auto mb-4 flex max-w-2xl flex-col items-center gap-4 text-center">
             <Eyebrow className="justify-center">{t('catalog.eyebrow')}</Eyebrow>
             <h1 className="text-display-l text-balance">{t('catalog.title')}</h1>
             <p className="text-body-l max-content-w text-muted">{t('catalog.subtitle')}</p>
           </Reveal>
+
+          {showcaseImages.length > 0 && (
+            <div className="mx-auto mb-14 flex h-[280px] justify-center">
+              <Suspense fallback={null}>
+                <BounceCards
+                  images={showcaseImages}
+                  containerWidth={560}
+                  containerHeight={280}
+                  animationDelay={0.3}
+                  animationStagger={0.08}
+                  transformStyles={[
+                    'rotate(8deg) translate(-160px)',
+                    'rotate(-4deg) translate(-80px)',
+                    'rotate(3deg)',
+                    'rotate(-6deg) translate(80px)',
+                    'rotate(6deg) translate(160px)',
+                  ]}
+                  enableHover
+                />
+              </Suspense>
+            </div>
+          )}
 
           <div className="flex flex-col gap-14">
             <CatalogSection
@@ -121,7 +150,7 @@ function CatalogSection({
       <p className="mb-6 max-content-w text-body text-muted">{description}</p>
 
       {sorted.length > 0 ? (
-        <ProductGrid products={sorted} />
+        <ProductGrid products={sorted} carousel />
       ) : (
         <div className="rounded-md border border-dashed border-line py-12 text-center">
           <p className="text-body text-muted">{t('catalog.sectionComingSoon')}</p>

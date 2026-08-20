@@ -106,8 +106,15 @@ export default function Home() {
       </Section>
 
       {/* H-09 (Could) */}
-      <Section tone="surface">
+      <Section tone="ink">
         <Container>
+          <Reveal className="mx-auto mb-10 flex max-w-2xl flex-col items-center gap-4 text-center">
+            <Eyebrow tone="white" className="justify-center">
+              {t('home.ecosystemEyebrow')}
+            </Eyebrow>
+            <h2 className="text-display-l text-balance text-white">{t('home.ecosystemTitle')}</h2>
+            <p className="text-body-l max-content-w text-white/70">{t('home.ecosystemBody')}</p>
+          </Reveal>
           <EcosystemDiagram />
         </Container>
       </Section>
@@ -117,12 +124,19 @@ export default function Home() {
         <CtaBand />
       </Section>
 
-      {/* Artikel & kabar — mengikuti banner CTA, ritme sama dengan blok produk H-06 */}
+      {/* Artikel & kabar — mengikuti banner CTA, ritme sama dengan blok produk H-06.
+          Halaman /artikel (daftar lengkap) sengaja tidak masuk Navbar — dijangkau lewat
+          tombol "Lihat semua artikel" di sini supaya nav tidak makin panjang. */}
       <Section tone="paper">
         <Container>
-          <Reveal className="mb-10 flex flex-col items-start gap-4">
-            <Eyebrow>{t('home.articlesEyebrow')}</Eyebrow>
-            <h2 className="text-display-l text-balance">{t('home.articlesTitle')}</h2>
+          <Reveal className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+            <div className="flex max-w-xl flex-col gap-4">
+              <Eyebrow>{t('home.articlesEyebrow')}</Eyebrow>
+              <h2 className="text-display-l text-balance">{t('home.articlesTitle')}</h2>
+            </div>
+            <LinkButton to="/artikel" variant="ghost">
+              {t('home.articlesCta')}
+            </LinkButton>
           </Reveal>
           <ArticleGrid articles={articles} />
         </Container>

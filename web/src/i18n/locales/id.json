@@ -71,9 +71,13 @@
     "ctaCardTitle": "Ajukan kerja sama",
     "articlesEyebrow": "ARTIKEL & KABAR",
     "articlesTitle": "Cerita dan kabar terbaru dari Wonokerto.",
+    "articlesCta": "Lihat semua artikel",
     "articlesReadMore": "Baca selengkapnya",
     "articlesPrev": "Artikel sebelumnya",
-    "articlesNext": "Artikel berikutnya"
+    "articlesNext": "Artikel berikutnya",
+    "ecosystemEyebrow": "EKOSISTEM PROGRAM",
+    "ecosystemTitle": "Peta ekosistem: dari lima pilar sampai produk dan mitra yang nyata.",
+    "ecosystemBody": "Klik setiap simpul untuk melihat penjelasan pilar, produk, atau mitra program."
   },
   "pillars": {
     "screening": "Skrining & Edukasi",
@@ -81,6 +85,11 @@
     "production": "Produksi Herbal",
     "economy": "TOGA Corner & Ekonomi",
     "monitoring": "Monitoring & Keberlanjutan"
+  },
+  "ecosystem": {
+    "pillarLabel": "Pilar Program",
+    "partnerLabel": "Mitra Program",
+    "productLabel": "Produk Unggulan"
   },
   "catalog": {
     "eyebrow": "KATALOG PRODUK",
@@ -106,7 +115,9 @@
     "sortPriceHigh": "Harga tertinggi",
     "filterButtonLabel": "Filter & urutkan",
     "filterCommodityLabel": "Jenis tanaman",
-    "filterSortLabel": "Urutkan"
+    "filterSortLabel": "Urutkan",
+    "carouselPrev": "Produk sebelumnya",
+    "carouselNext": "Produk berikutnya"
   },
   "product": {
     "specTitle": "Spesifikasi produk",
@@ -134,6 +145,17 @@
   },
   "article": {
     "relatedTitle": "Artikel lainnya"
+  },
+  "articles": {
+    "eyebrow": "ARTIKEL & KABAR",
+    "title": "Cerita dan kabar terbaru dari Wonokerto.",
+    "subtitle": "Kabar harian seputar perkembangan TOGA BERDAYA — budidaya, produksi, dan skrining kesehatan di Desa Wonokerto.",
+    "latestPost": "Kabar terbaru",
+    "highlights": "Cerita pilihan",
+    "minRead": "{{count}} menit baca",
+    "pagePrev": "Halaman sebelumnya",
+    "pageNext": "Halaman berikutnya",
+    "pageLabel": "Halaman {{count}}"
   },
   "program": {
     "eyebrow": "PROGRAM TOGA BERDAYA",
@@ -172,7 +194,9 @@
     "eyebrow": "KONTAK",
     "title": "Hubungi tim Omah Pala",
     "subtitle": "Untuk pembelian ritel, hubungi kami lewat WhatsApp. Untuk kerja sama ekspor/distribusi, isi form permintaan di bawah.",
+    "introTitle": "Kami selalu siap membantu dan menjawab pertanyaan Anda.",
     "formTitle": "Form permintaan penawaran",
+    "formSubtitle": "Ceritakan kebutuhan Anda, tim kami membalas dalam 2×24 jam kerja.",
     "fieldName": "Nama lengkap",
     "fieldCompany": "Perusahaan atau institusi (opsional)",
     "fieldCountry": "Negara",
@@ -192,11 +216,12 @@
     "errorRequired": "Kolom ini perlu diisi.",
     "errorEmail": "Format email belum benar. Contoh: nama@perusahaan.com",
     "errorSendFailed": "Permintaan belum terkirim. Coba lagi, atau hubungi kami lewat WhatsApp.",
-    "directTitle": "Kontak langsung",
     "whatsappLabel": "WhatsApp",
     "emailLabel": "Email",
-    "instagramLabel": "Instagram",
-    "addressLabel": "Alamat"
+    "socialLabel": "Sosial media",
+    "addressLabel": "Alamat",
+    "mapTitle": "Lokasi kami",
+    "mapDirections": "Buka di Google Maps"
   },
   "admin": {
     "loginTitle": "Masuk Panel Admin",

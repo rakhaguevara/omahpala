@@ -71,9 +71,13 @@
     "ctaCardTitle": "Propose a partnership",
     "articlesEyebrow": "ARTICLES & UPDATES",
     "articlesTitle": "Stories and updates from Wonokerto.",
+    "articlesCta": "See all articles",
     "articlesReadMore": "Read more",
     "articlesPrev": "Previous article",
-    "articlesNext": "Next article"
+    "articlesNext": "Next article",
+    "ecosystemEyebrow": "PROGRAM ECOSYSTEM",
+    "ecosystemTitle": "The ecosystem map: from five pillars to real products and partners.",
+    "ecosystemBody": "Click any node to see details about that pillar, product, or partner."
   },
   "pillars": {
     "screening": "Screening & Education",
@@ -81,6 +85,11 @@
     "production": "Herbal Production",
     "economy": "TOGA Corner & Local Economy",
     "monitoring": "Monitoring & Sustainability"
+  },
+  "ecosystem": {
+    "pillarLabel": "Program Pillar",
+    "partnerLabel": "Program Partner",
+    "productLabel": "Featured Product"
   },
   "catalog": {
     "eyebrow": "PRODUCT CATALOG",
@@ -106,7 +115,9 @@
     "sortPriceHigh": "Highest price",
     "filterButtonLabel": "Filter & sort",
     "filterCommodityLabel": "Plant type",
-    "filterSortLabel": "Sort by"
+    "filterSortLabel": "Sort by",
+    "carouselPrev": "Previous products",
+    "carouselNext": "Next products"
   },
   "product": {
     "specTitle": "Product specification",
@@ -134,6 +145,17 @@
   },
   "article": {
     "relatedTitle": "More articles"
+  },
+  "articles": {
+    "eyebrow": "ARTICLES & UPDATES",
+    "title": "Stories and updates from Wonokerto.",
+    "subtitle": "Daily updates on TOGA BERDAYA's progress — cultivation, production, and health screening in Desa Wonokerto.",
+    "latestPost": "Latest post",
+    "highlights": "Featured stories",
+    "minRead": "{{count}} min read",
+    "pagePrev": "Previous page",
+    "pageNext": "Next page",
+    "pageLabel": "Page {{count}}"
   },
   "program": {
     "eyebrow": "TOGA BERDAYA PROGRAM",
@@ -172,7 +194,9 @@
     "eyebrow": "CONTACT",
     "title": "Contact the Omah Pala team",
     "subtitle": "For retail purchases, reach us on WhatsApp. For export/distribution partnerships, fill in the request form below.",
+    "introTitle": "We're always ready to help and answer your questions.",
     "formTitle": "Quote request form",
+    "formSubtitle": "Tell us what you need — our team replies within 2 business days.",
     "fieldName": "Full name",
     "fieldCompany": "Company or institution (optional)",
     "fieldCountry": "Country",
@@ -192,11 +216,12 @@
     "errorRequired": "This field is required.",
     "errorEmail": "That email doesn’t look right. Example: name@company.com",
     "errorSendFailed": "Your request wasn’t sent. Try again, or reach us on WhatsApp.",
-    "directTitle": "Direct contact",
     "whatsappLabel": "WhatsApp",
     "emailLabel": "Email",
-    "instagramLabel": "Instagram",
-    "addressLabel": "Address"
+    "socialLabel": "Social media",
+    "addressLabel": "Address",
+    "mapTitle": "Our location",
+    "mapDirections": "Open in Google Maps"
   },
   "admin": {
     "loginTitle": "Admin Panel Login",

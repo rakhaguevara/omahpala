@@ -4,6 +4,7 @@ import { LinkButton } from '@/components/ui/Button'
 import { IconCheck } from '@/components/ui/Icons'
 import { Reveal } from '@/components/motion/Reveal'
 import { Stagger, StaggerItem } from '@/components/motion/Stagger'
+import { StackReveal } from '@/components/motion/StackReveal'
 
 const images = [
   'https://picsum.photos/seed/omahpala-intro-1/700/875',
@@ -27,7 +28,12 @@ export function IntroBlock() {
         <p className="text-body-l max-content-w text-muted">{t('home.introBody')}</p>
       </Reveal>
 
-      <Stagger className="grid w-full grid-cols-1 gap-5 sm:grid-cols-3" stagger={0.1}>
+      {/* Mobile: cards slide in and stack one at a time as the page scrolls past, instead of the
+          3 tall images each costing a full screen of scroll. Rides the page's own scrollbar. */}
+      <StackReveal images={images} className="mx-auto w-full max-w-sm sm:hidden" />
+
+      {/* Tablet/desktop: original 3-up grid, unchanged. */}
+      <Stagger className="hidden w-full grid-cols-1 gap-5 sm:grid sm:grid-cols-3" stagger={0.1}>
         {images.map((src, i) => (
           <StaggerItem key={src} className={i === 1 ? 'sm:mt-8' : ''}>
             <img

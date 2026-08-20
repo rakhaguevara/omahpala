@@ -1,18 +1,25 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Eyebrow } from '@/components/ui/Badge'
 import { LinkButton } from '@/components/ui/Button'
 import { Reveal } from '@/components/motion/Reveal'
-import { IconSparkle } from '@/components/ui/Icons'
+import { IconChevronDown, IconSparkle } from '@/components/ui/Icons'
 import { usePageContent } from '@/lib/usePageContent'
+import { dur, ease } from '@/lib/motion'
+import { cn } from '@/lib/utils'
 
 /**
  * Blok "Mengapa Pala" — PRD H-08. Persis referensi: daftar baris dipisah garis putus-putus
  * (titik hijau + judul + body), foto di kanan dengan tombol CTA mengambang di tepi bawah.
+ * Baris berupa accordion — ringkas, body hanya tampil saat barisnya dibuka.
  */
 export function WhyPala() {
   const { t } = useTranslation()
   const title = usePageContent('why.title')
   const body = usePageContent('why.body')
+  const reduceMotion = useReducedMotion()
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   const rows = [
     { title: t('home.whyRow1Title'), body: t('home.whyRow1Body') },
@@ -28,15 +35,58 @@ export function WhyPala() {
         <p className="text-body-l max-content-w text-muted">{body}</p>
 
         <ul className="flex flex-col">
-          {rows.map((row) => (
-            <li key={row.title} className="flex flex-col gap-1.5 border-b border-dashed border-line py-5 first:pt-0 last:border-b-0">
-              <div className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-accent" aria-hidden />
-                <h3 className="text-title">{row.title}</h3>
-              </div>
-              <p className="max-content-w pl-4.5 text-body text-muted">{row.body}</p>
-            </li>
-          ))}
+          {rows.map((row, i) => {
+            const open = openIndex === i
+            return (
+              <li key={row.title} className="border-b border-dashed border-line py-5 first:pt-0 last:border-b-0">
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(open ? null : i)}
+                  aria-expanded={open}
+                  className="group flex w-full items-center justify-between gap-3 text-left"
+                >
+                  <span className="flex items-center gap-2">
+                    <span
+                      className={cn(
+                        'h-2.5 w-2.5 shrink-0 rounded-full bg-accent transition-opacity duration-200 [transition-timing-function:var(--ease-brand)]',
+                        open ? 'opacity-100' : 'opacity-40 group-hover:opacity-100',
+                      )}
+                      aria-hidden
+                    />
+                    <h3
+                      className={cn(
+                        'text-title transition-colors duration-200 [transition-timing-function:var(--ease-brand)]',
+                        open ? 'text-accent' : 'text-ink group-hover:text-accent',
+                      )}
+                    >
+                      {row.title}
+                    </h3>
+                  </span>
+                  <IconChevronDown
+                    className={cn(
+                      'h-4 w-4 shrink-0 transition-[transform,color] duration-200 [transition-timing-function:var(--ease-brand)]',
+                      open ? 'rotate-180 text-accent' : 'text-muted-2 group-hover:text-accent',
+                    )}
+                    aria-hidden
+                  />
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {open && (
+                    <motion.div
+                      initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                      transition={{ duration: dur.fast, ease }}
+                      className="overflow-hidden"
+                    >
+                      <p className="max-content-w pl-4.5 pt-1.5 text-body text-muted">{row.body}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </li>
+            )
+          })}
         </ul>
       </Reveal>
 

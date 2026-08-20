@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useLocale } from '@/lib/useLocale'
@@ -6,6 +6,7 @@ import { programPillars } from '@/data/program'
 import { productsSeed } from '@/data/products'
 import { PillarIcon } from './PillarIcon'
 import { Reveal } from '@/components/motion/Reveal'
+import { EcosystemNodeCard, type EcosystemCardContent } from './EcosystemNodeCard'
 
 // three.js + @react-three/fiber nambah ~240 KB gzip ke bundle — code-split di sini supaya tidak
 // ikut blocking parse bundle utama Beranda (LCP target PRD §9), baru diunduh saat diagram ini
@@ -29,6 +30,12 @@ interface OutputNode {
   labelId: string
   labelEn: string
   pillarId: string
+  /** 'product' dapat link "Lihat detail produk"; 'partner' hanya penjelasan singkat. */
+  kind: 'product' | 'partner'
+  descriptionId: string
+  descriptionEn: string
+  slug?: string
+  image: string
 }
 
 // Layer luaran — hanya output nyata: produk UNGGULAN dari data/products.ts (bukan seluruh
@@ -37,13 +44,53 @@ interface OutputNode {
 // dengan tujuan awal section ini), dan mitra kelembagaan yang memang disebut pada deskripsi
 // pilar terkait di data/program.ts (SPI & KWT di "cultivation", TOGA Corner di "economy").
 // Tidak ada angka capaian yang belum bersumber di sini.
+// Deskripsi mitra (KWT/SPI/TOGA Corner) bersumber dari glosarium UX-WRITING.md §7, bukan karangan baru.
 const OUTPUT_NODES_BASE: OutputNode[] = [
   ...productsSeed
     .filter((p) => p.isFeatured)
-    .map((p) => ({ id: p.id, labelId: p.nameId, labelEn: p.nameEn, pillarId: 'production' })),
-  { id: 'out-kwt', labelId: 'KWT', labelEn: 'KWT', pillarId: 'cultivation' },
-  { id: 'out-spi', labelId: 'SPI', labelEn: 'SPI', pillarId: 'cultivation' },
-  { id: 'out-toga-corner', labelId: 'TOGA Corner', labelEn: 'TOGA Corner', pillarId: 'economy' },
+    .map((p) => ({
+      id: p.id,
+      labelId: p.nameId,
+      labelEn: p.nameEn,
+      pillarId: 'production',
+      kind: 'product' as const,
+      descriptionId: p.descriptionId,
+      descriptionEn: p.descriptionEn,
+      slug: p.slug,
+      image: p.images[0],
+    })),
+  {
+    id: 'out-kwt',
+    labelId: 'KWT',
+    labelEn: 'KWT',
+    pillarId: 'cultivation',
+    kind: 'partner',
+    descriptionId: 'Kelompok Wanita Tani — bersama SPI menyusun SOP budidaya pala dan TOGA di lahan warga.',
+    descriptionEn:
+      'Kelompok Wanita Tani (women farmer group) — co-drafted the nutmeg and TOGA cultivation SOP with SPI.',
+    image: 'https://picsum.photos/seed/omahpala-kwt/900/700',
+  },
+  {
+    id: 'out-spi',
+    labelId: 'SPI',
+    labelEn: 'SPI',
+    pillarId: 'cultivation',
+    kind: 'partner',
+    descriptionId: 'Serikat Petani Indonesia — bersama KWT menyusun SOP budidaya pala dan TOGA di lahan warga.',
+    descriptionEn:
+      'Serikat Petani Indonesia (Indonesian Farmers Union) — co-drafted the nutmeg and TOGA cultivation SOP with KWT.',
+    image: 'https://picsum.photos/seed/omahpala-spi/900/700',
+  },
+  {
+    id: 'out-toga-corner',
+    labelId: 'TOGA Corner',
+    labelEn: 'TOGA Corner',
+    pillarId: 'economy',
+    kind: 'partner',
+    descriptionId: 'Sentra fisik di balai desa: pusat edukasi, produksi, dan pemasaran produk olahan TOGA.',
+    descriptionEn: 'A physical hub at the village hall for education, production, and sales of TOGA-processed goods.',
+    image: 'https://picsum.photos/seed/omahpala-toga-corner/900/700',
+  },
 ]
 
 // Sebaran rata di lingkaran (360° / 6 node) — bukan dikelompokkan di dekat pilar asalnya, supaya
@@ -77,7 +124,37 @@ export function EcosystemDiagram() {
   const pillarPoints = programPillars.map((p) => ({ ...p, ...pointAt(PILLAR_ANGLES[p.id], pillarRadius) }))
   const outputPoints = OUTPUT_NODES.map((o) => ({ ...o, ...pointAt(o.angle, outputRadius) }))
 
+  const [selected, setSelected] = useState<{ type: 'pillar' | 'output'; id: string } | null>(null)
+
+  let selectedContent: EcosystemCardContent | null = null
+  if (selected?.type === 'pillar') {
+    const pillar = programPillars.find((p) => p.id === selected.id)
+    if (pillar) {
+      selectedContent = {
+        id: `pillar-${pillar.id}`,
+        image: pillar.image,
+        eyebrow: t('ecosystem.pillarLabel'),
+        title: locale === 'id' ? pillar.titleId : pillar.titleEn,
+        description: locale === 'id' ? pillar.descriptionId : pillar.descriptionEn,
+        points: locale === 'id' ? pillar.pointsId : pillar.pointsEn,
+      }
+    }
+  } else if (selected?.type === 'output') {
+    const output = OUTPUT_NODES.find((o) => o.id === selected.id)
+    if (output) {
+      selectedContent = {
+        id: `output-${output.id}`,
+        image: output.image,
+        eyebrow: output.kind === 'product' ? t('ecosystem.productLabel') : t('ecosystem.partnerLabel'),
+        title: locale === 'id' ? output.labelId : output.labelEn,
+        description: locale === 'id' ? output.descriptionId : output.descriptionEn,
+        productSlug: output.kind === 'product' ? output.slug : undefined,
+      }
+    }
+  }
+
   return (
+    <>
     <Reveal className="mx-auto flex aspect-square w-full max-w-3xl items-center justify-center">
       <div className="relative h-full w-full">
         {/* Latar partikel — Antigravity (React Bits, three.js). Dimatikan total kalau
@@ -135,7 +212,7 @@ export function EcosystemDiagram() {
         </svg>
 
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="flex h-16 w-16 flex-col items-center justify-center gap-0.5 rounded-full bg-ink p-1.5 text-center text-white shadow-[0_8px_24px_rgba(0,0,0,.18)] sm:h-24 sm:w-24 sm:gap-1 sm:p-2 lg:h-32 lg:w-32">
+          <div className="flex h-16 w-16 flex-col items-center justify-center gap-0.5 rounded-full border border-line-dark bg-ink-2 p-1.5 text-center text-white shadow-[0_0_32px_rgba(126,234,87,.14)] sm:h-24 sm:w-24 sm:gap-1 sm:p-2 lg:h-32 lg:w-32">
             <span className="text-[9px] leading-tight font-semibold sm:text-label">{t('common.brand')}</span>
             <span className="text-[8px] leading-tight text-white/70 sm:text-meta">{t('common.programName')}</span>
           </div>
@@ -147,10 +224,15 @@ export function EcosystemDiagram() {
             className="pointer-events-none absolute flex w-14 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 text-center sm:w-20 sm:gap-1.5 lg:w-24 lg:gap-2"
             style={{ left: `${pillar.x}%`, top: `${pillar.y}%` }}
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full border border-line bg-white shadow-[0_2px_8px_rgba(0,0,0,.06)] sm:h-10 sm:w-10 lg:h-12 lg:w-12">
-              <PillarIcon icon={pillar.icon} className="h-3.5 w-3.5 text-accent-ink sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
-            </div>
-            <span className="text-[10px] leading-tight text-ink sm:text-meta">
+            <button
+              type="button"
+              onClick={() => setSelected({ type: 'pillar', id: pillar.id })}
+              aria-label={locale === 'id' ? pillar.titleId : pillar.titleEn}
+              className="pointer-events-auto flex h-8 w-8 items-center justify-center rounded-full border border-line-dark bg-ink-2 shadow-[0_2px_8px_rgba(0,0,0,.24)] transition-[box-shadow,transform,border-color] duration-200 [transition-timing-function:var(--ease-brand)] hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_4px_16px_rgba(0,0,0,.32)] sm:h-10 sm:w-10 lg:h-12 lg:w-12"
+            >
+              <PillarIcon icon={pillar.icon} className="h-3.5 w-3.5 text-accent sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
+            </button>
+            <span className="text-[10px] leading-tight text-white/90 sm:text-meta">
               {locale === 'id' ? pillar.titleId : pillar.titleEn}
             </span>
           </div>
@@ -162,15 +244,23 @@ export function EcosystemDiagram() {
             className="pointer-events-none absolute flex w-14 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 text-center sm:w-16 sm:gap-1.5 lg:w-20"
             style={{ left: `${output.x}%`, top: `${output.y}%` }}
           >
-            <div className="flex h-6 w-6 items-center justify-center rounded-full border border-dashed border-line bg-surface-2 sm:h-8 sm:w-8 lg:h-9 lg:w-9">
+            <button
+              type="button"
+              onClick={() => setSelected({ type: 'output', id: output.id })}
+              aria-label={locale === 'id' ? output.labelId : output.labelEn}
+              className="pointer-events-auto flex h-6 w-6 items-center justify-center rounded-full border border-dashed border-line-dark bg-ink-2 transition-[box-shadow,transform,border-color] duration-200 [transition-timing-function:var(--ease-brand)] hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_4px_16px_rgba(0,0,0,.32)] sm:h-8 sm:w-8 lg:h-9 lg:w-9"
+            >
               <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
-            </div>
-            <span className="text-[10px] leading-tight text-muted-2 sm:text-meta">
+            </button>
+            <span className="text-[10px] leading-tight text-white/60 sm:text-meta">
               {locale === 'id' ? output.labelId : output.labelEn}
             </span>
           </div>
         ))}
       </div>
     </Reveal>
+
+    <EcosystemNodeCard content={selectedContent} onClose={() => setSelected(null)} />
+    </>
   )
 }

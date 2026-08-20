@@ -36,13 +36,13 @@ export function ProductCard({ product }: { product: Product }) {
       </Link>
 
       <div className="flex flex-1 flex-col gap-3 p-4 sm:p-7.5">
-        <span className="text-eyebrow text-muted-2">{commodity}</span>
+        <span className="hidden text-eyebrow text-muted-2 sm:block">{commodity}</span>
         <Link to={`/produk/${product.slug}`}>
           <h3 className="text-title text-ink hover:underline">{name}</h3>
         </Link>
 
         {product.certifications.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
+          <div className="hidden flex-wrap gap-1.5 sm:flex">
             {product.certifications.map((c) => (
               <Badge key={c.name} tone={c.status === 'terbit' ? 'neutral' : 'pending'}>
                 {c.name}
@@ -53,7 +53,7 @@ export function ProductCard({ product }: { product: Product }) {
         )}
 
         {product.composition.length > 0 && (
-          <ul className="flex flex-col gap-1.5">
+          <ul className="hidden flex-col gap-1.5 sm:flex">
             {product.composition.map((item) => (
               <li key={item} className="flex items-start gap-2 text-meta text-muted">
                 <IconCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent-ink" aria-hidden />

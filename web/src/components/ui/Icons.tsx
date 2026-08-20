@@ -69,6 +69,14 @@ export function IconChevronRight(props: IconProps) {
   )
 }
 
+export function IconChevronDown(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  )
+}
+
 export function IconWhatsapp(props: IconProps) {
   return (
     <svg {...base} {...props}>
@@ -84,6 +92,30 @@ export function IconInstagram(props: IconProps) {
       <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
       <circle cx="12" cy="12" r="4" />
       <circle cx="17" cy="7" r="0.8" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+export function IconFacebook(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" {...props}>
+      <path d="M13.5 21v-7.6h2.55l.38-2.96h-2.93V8.5c0-.86.24-1.44 1.47-1.44h1.57V4.4A21 21 0 0 0 14.3 4.3c-2.24 0-3.78 1.37-3.78 3.87v2.16H7.95v2.96h2.57V21h2.98z" />
+    </svg>
+  )
+}
+
+export function IconYoutube(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" {...props}>
+      <path d="M21.6 7.6a2.8 2.8 0 0 0-2-2C17.9 5.2 12 5.2 12 5.2s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.4 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.4zM10 15V9l5.2 3-5.2 3z" />
+    </svg>
+  )
+}
+
+export function IconTiktok(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" {...props}>
+      <path d="M16.5 3c.3 1.9 1.6 3.4 3.5 3.8v2.9c-1.3 0-2.5-.4-3.5-1.1v6.6a5.6 5.6 0 1 1-4.8-5.6v3a2.6 2.6 0 1 0 1.8 2.5V3h3z" />
     </svg>
   )
 }

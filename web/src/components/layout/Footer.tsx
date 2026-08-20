@@ -28,7 +28,13 @@ export function Footer() {
         backgroundPosition: 'center',
       }}
     >
-      <Container>
+      {/* Transisi dari section putih sebelumnya — glow putih lembut di tepi atas footer,
+          senada dengan fade di tepi bawah Hero, supaya potongan putih→foto gelap tidak tajam. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white to-transparent sm:h-40 lg:h-56"
+      />
+      <Container className="relative z-10">
         <div className="grid gap-10 rounded-lg bg-white p-7.5 text-ink shadow-[0_16px_60px_rgba(0,0,0,.25)] sm:p-10 lg:grid-cols-[1.1fr_1fr]">
           <div className="flex flex-col gap-6">
             <NavLink to="/" className="flex items-center gap-2">

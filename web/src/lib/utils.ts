@@ -49,6 +49,12 @@ export function formatDate(iso: string, locale: 'id' | 'en'): string {
   })
 }
 
+/** Estimasi lama baca dari jumlah kata konten, dibulatkan ke menit terdekat (min. 1). */
+export function estimateReadMinutes(paragraphs: string[]): number {
+  const words = paragraphs.reduce((total, p) => total + p.trim().split(/\s+/).filter(Boolean).length, 0)
+  return Math.max(1, Math.round(words / 200))
+}
+
 export const WHATSAPP_NUMBER = '6281234567890'
 
 export function waLink(message: string): string {

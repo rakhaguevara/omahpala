@@ -5,6 +5,7 @@ import { PublicLayout } from '@/components/layout/PublicLayout'
 import Home from '@/pages/public/Home'
 import Catalog from '@/pages/public/Catalog'
 import ProductDetail from '@/pages/public/ProductDetail'
+import Articles from '@/pages/public/Articles'
 import ArticleDetail from '@/pages/public/ArticleDetail'
 import Program from '@/pages/public/Program'
 import Kebun from '@/pages/public/Kebun'
@@ -31,6 +32,7 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path="produk" element={<Catalog />} />
         <Route path="produk/:slug" element={<ProductDetail />} />
+        <Route path="artikel" element={<Articles />} />
         <Route path="artikel/:slug" element={<ArticleDetail />} />
         <Route path="program" element={<Program />} />
         <Route path="kebun" element={<Kebun />} />

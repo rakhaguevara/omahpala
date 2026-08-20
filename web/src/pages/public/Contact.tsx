@@ -1,12 +1,21 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
 import { Eyebrow } from '@/components/ui/Badge'
-import { Button } from '@/components/ui/Button'
+import { Button, ExternalLinkButton } from '@/components/ui/Button'
 import { FieldWrapper, Input, Select, Textarea } from '@/components/ui/Field'
-import { IconInstagram, IconMail, IconMapPin, IconWhatsapp } from '@/components/ui/Icons'
+import {
+  IconFacebook,
+  IconInstagram,
+  IconMail,
+  IconMapPin,
+  IconSparkle,
+  IconTiktok,
+  IconWhatsapp,
+  IconYoutube,
+} from '@/components/ui/Icons'
 import { Reveal } from '@/components/motion/Reveal'
 import { Seo } from '@/components/layout/Seo'
 import { useInquiries, useProducts } from '@/lib/useEntities'
@@ -129,18 +138,131 @@ export default function Contact() {
     <>
       <Seo title={`${t('contact.title')} — ${t('common.brand')}`} description={t('contact.subtitle')} path="/kontak" />
 
-      <Section tone="paper" className="pt-36">
-        <Container>
-          <Reveal className="mx-auto mb-14 flex max-w-2xl flex-col items-center gap-4 text-center">
-            <Eyebrow className="justify-center">{t('contact.eyebrow')}</Eyebrow>
-            <h1 className="text-display-l text-balance">{t('contact.title')}</h1>
-            <p className="text-body-l max-content-w text-muted">{t('contact.subtitle')}</p>
-          </Reveal>
+      {/* Banner — foto full-bleed + overlay gradient standar design.md §2, bukan hero 100vh
+          Beranda. Navbar mengambang tetap di atasnya seperti pola Hero.tsx. Mark kecil pojok
+          kiri atas + breadcrumb pojok kanan bawah — persis referensi. */}
+      <section className="relative flex h-[360px] items-end overflow-hidden bg-ink sm:h-[420px]">
+        <img
+          src="https://picsum.photos/seed/omahpala-contact-hero/1800/1000"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div
+          className="absolute inset-0"
+          style={{ backgroundImage: 'linear-gradient(180deg, rgba(33,33,33,.55) 0%, rgba(33,33,33,.75) 100%)' }}
+          aria-hidden
+        />
 
-          <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
-            <Reveal>
+        <Container className="absolute inset-x-0 top-6 z-10 sm:top-8">
+          <IconSparkle className="h-5 w-5 text-white" aria-hidden />
+        </Container>
+
+        <Container className="absolute inset-x-0 bottom-4 z-10 sm:bottom-6">
+          <div className="ml-auto flex w-fit items-center gap-1.5 rounded-pill bg-white/90 px-3 py-1.5 text-meta text-ink shadow-[0_2px_8px_rgba(0,0,0,.12)] backdrop-blur-sm">
+            <Link to="/" className="hover:text-muted">
+              {t('nav.home')}
+            </Link>
+            <span className="text-muted-2">/</span>
+            <span>{t('nav.contact')}</span>
+          </div>
+        </Container>
+
+        <Container className="relative z-10 pb-14 sm:pb-16">
+          <Reveal className="flex flex-col gap-4">
+            <Eyebrow tone="white">{t('contact.eyebrow')}</Eyebrow>
+            <h1 className="text-display-xl text-balance text-white">{t('contact.title')}</h1>
+          </Reveal>
+        </Container>
+      </section>
+
+      <Section tone="paper">
+        <Container>
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
+            {/* Info kontak — tiap fakta jadi kotak bg-surface-2 lebar sama (grid-cols-2 items-stretch),
+                mengikuti referensi tapi dengan latar (bukan teks polos di atas halaman). */}
+            <Reveal className="flex flex-col gap-8">
+              <div className="flex flex-col gap-4">
+                <h2 className="text-display-xl text-balance">{t('contact.introTitle')}</h2>
+                <p className="text-body-l max-content-w text-muted">{t('contact.subtitle')}</p>
+              </div>
+
+              <div className="grid grid-cols-2 items-stretch gap-4">
+                <a
+                  href={waLink('Halo Omah Pala, saya ingin bertanya lebih lanjut.')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col gap-2 rounded-md bg-surface-2 p-5 text-body text-ink hover:text-muted"
+                >
+                  <span className="flex items-center gap-2 text-meta text-muted-2">
+                    <IconWhatsapp className="h-4 w-4" aria-hidden />
+                    {t('contact.whatsappLabel')}
+                  </span>
+                  +62 812-3456-7890
+                </a>
+
+                <div className="flex flex-col gap-2 rounded-md bg-surface-2 p-5">
+                  <span className="flex items-center gap-2 text-meta text-muted-2">
+                    <IconMapPin className="h-4 w-4" aria-hidden />
+                    {t('contact.addressLabel')}
+                  </span>
+                  <span className="text-body text-ink">{t('footer.address1')}</span>
+                </div>
+
+                <a
+                  href="mailto:halo@omahpala.id"
+                  className="flex flex-col gap-2 rounded-md bg-surface-2 p-5 text-body text-ink hover:text-muted"
+                >
+                  <span className="flex items-center gap-2 text-meta text-muted-2">
+                    <IconMail className="h-4 w-4" aria-hidden />
+                    {t('contact.emailLabel')}
+                  </span>
+                  halo@omahpala.id
+                </a>
+
+                {/* Sosial media — ikon saja, cukup ruang untuk beberapa platform tanpa jadi
+                    padat teks. YouTube/TikTok/Facebook: Data contoh — user akan isi URL akun
+                    asli sendiri, jangan pernah publish href="#" ini ke produksi. */}
+                <div className="flex flex-col gap-2 rounded-md bg-surface-2 p-5">
+                  <span className="text-meta text-muted-2">{t('contact.socialLabel')}</span>
+                  <div className="mt-1 flex items-center gap-2">
+                    <a
+                      href="https://instagram.com/omahpala.id"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Instagram Omah Pala"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink hover:bg-surface"
+                    >
+                      <IconInstagram className="h-4.5 w-4.5" aria-hidden />
+                    </a>
+                    <a
+                      href="#"
+                      aria-label="YouTube Omah Pala"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink hover:bg-surface"
+                    >
+                      <IconYoutube className="h-4.5 w-4.5" aria-hidden />
+                    </a>
+                    <a
+                      href="#"
+                      aria-label="TikTok Omah Pala"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink hover:bg-surface"
+                    >
+                      <IconTiktok className="h-4.5 w-4.5" aria-hidden />
+                    </a>
+                    <a
+                      href="#"
+                      aria-label="Facebook Omah Pala"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-ink hover:bg-surface"
+                    >
+                      <IconFacebook className="h-4.5 w-4.5" aria-hidden />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1} className="rounded-md bg-surface-2 p-7.5 sm:p-8">
               {submitted ? (
-                <div className="flex flex-col items-start gap-4 rounded-md bg-surface-2 p-8">
+                <div className="flex flex-col items-start gap-4">
                   <h2 className="text-title">{t('contact.successTitle')}</h2>
                   <p className="text-body text-muted">{t('contact.successBody')}</p>
                   <Button variant="ghost" onClick={resetForm}>
@@ -148,8 +270,11 @@ export default function Contact() {
                   </Button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-                  <h2 className="text-title">{t('contact.formTitle')}</h2>
+                <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
+                  <div className="flex flex-col gap-1.5">
+                    <h2 className="text-title">{t('contact.formTitle')}</h2>
+                    <p className="text-meta text-muted">{t('contact.formSubtitle')}</p>
+                  </div>
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <FieldWrapper label={t('contact.fieldName')} htmlFor="name" required error={errors.name}>
@@ -253,52 +378,44 @@ export default function Contact() {
                 </form>
               )}
             </Reveal>
-
-            <Reveal delay={0.1} className="flex flex-col gap-5 rounded-md bg-surface-2 p-7.5 h-fit">
-              <h2 className="text-title">{t('contact.directTitle')}</h2>
-              <a
-                href={waLink('Halo Omah Pala, saya ingin bertanya lebih lanjut.')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-body text-ink hover:text-muted"
-              >
-                <IconWhatsapp className="h-5 w-5 text-muted-2" aria-hidden />
-                <div>
-                  <p className="text-meta text-muted-2">{t('contact.whatsappLabel')}</p>
-                  +62 812-3456-7890
-                </div>
-              </a>
-              <a
-                href="mailto:halo@omahpala.id"
-                className="flex items-center gap-3 text-body text-ink hover:text-muted"
-              >
-                <IconMail className="h-5 w-5 text-muted-2" aria-hidden />
-                <div>
-                  <p className="text-meta text-muted-2">{t('contact.emailLabel')}</p>
-                  halo@omahpala.id
-                </div>
-              </a>
-              <a
-                href="https://instagram.com/omahpala.id"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-body text-ink hover:text-muted"
-              >
-                <IconInstagram className="h-5 w-5 text-muted-2" aria-hidden />
-                <div>
-                  <p className="text-meta text-muted-2">{t('contact.instagramLabel')}</p>
-                  @omahpala.id
-                </div>
-              </a>
-              <div className="flex items-start gap-3 text-body text-ink">
-                <IconMapPin className="mt-0.5 h-5 w-5 shrink-0 text-muted-2" aria-hidden />
-                <div>
-                  <p className="text-meta text-muted-2">{t('contact.addressLabel')}</p>
-                  {t('footer.address1')}
-                </div>
-              </div>
-            </Reveal>
           </div>
+        </Container>
+      </Section>
+
+      {/* Peta — kartu (border + rounded), bukan full-bleed, sesuai referensi terbaru. Tombol
+          "Buka di Google Maps" menuju Google Maps sungguhan (bukan cuma OpenStreetMap embed di
+          bawahnya). Sengaja tidak pakai rating/ulasan seperti referensi karena data itu tidak
+          kita punya — jangan pernah menampilkan angka karangan (lihat "Data contoh" &
+          UX-WRITING.md soal kejujuran angka). */}
+      <Section tone="paper" className="pt-0">
+        <Container>
+          <h2 className="mb-5 text-title">{t('contact.mapTitle')}</h2>
+          <Reveal className="relative h-[360px] w-full overflow-hidden rounded-lg border border-line sm:h-[420px]">
+            <iframe
+              title={t('contact.mapTitle')}
+              className="h-full w-full"
+              loading="lazy"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=110.398%2C-7.675%2C110.445%2C-7.650&layer=mapnik&marker=-7.6631%2C110.4203"
+            />
+            <div className="absolute top-4 left-4 flex max-w-[260px] flex-col gap-2 rounded-md bg-white p-4 shadow-[0_12px_32px_rgba(0,0,0,.16)] sm:top-6 sm:left-6 sm:max-w-xs sm:p-5">
+              <p className="text-label text-ink">{t('common.brand')}</p>
+              <p className="flex items-start gap-2 text-meta text-muted">
+                <IconMapPin className="mt-0.5 h-4 w-4 shrink-0 text-muted-2" aria-hidden />
+                {t('footer.address1')}
+              </p>
+            </div>
+            <ExternalLinkButton
+              href="https://www.google.com/maps?q=-7.6631,110.4203"
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="light"
+              size="sm"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6"
+            >
+              <IconMapPin className="h-4 w-4" aria-hidden />
+              {t('contact.mapDirections')}
+            </ExternalLinkButton>
+          </Reveal>
         </Container>
       </Section>
     </>
