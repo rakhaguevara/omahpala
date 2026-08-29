@@ -36,12 +36,10 @@ export function Footer() {
         className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white to-transparent sm:h-40 lg:h-56"
       />
       <Container className="relative z-10">
-        <div className="grid gap-10 rounded-lg bg-white p-7.5 text-ink shadow-[0_16px_60px_rgba(0,0,0,.25)] sm:p-10 lg:grid-cols-[1.1fr_1fr]">
+        <div className="grid gap-10 rounded-lg bg-white p-7.5 text-ink shadow-[0_16px_60px_rgba(0,0,0,.25)] sm:p-10 lg:grid-cols-[1fr_1.3fr]">
           <div className="flex flex-col gap-6">
             <NavLink to="/" className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-sm font-semibold text-white">
-                OP
-              </span>
+            <img src="/favicon.svg" alt="" className="h-8 w-8 rounded-full object-cover" />
               <span className="text-title">{t('common.brand')}</span>
             </NavLink>
             <p className="max-content-w text-body text-muted">{t('footer.tagline')}</p>
@@ -74,7 +72,7 @@ export function Footer() {
           </div>
 
           {/* Dipisah garis putus-putus antar kolom — persis referensi */}
-          <div className="grid grid-cols-2 divide-y divide-dashed divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          <div className="grid grid-cols-2 divide-y divide-dashed divide-line sm:grid-cols-[0.8fr_1.3fr_1.3fr] sm:divide-x sm:divide-y-0">
             <div className="flex flex-col gap-3 pb-5 sm:pb-0 sm:pr-6">
               <h3 className="text-label text-muted-2">{t('footer.navTitle')}</h3>
               <ul className="flex flex-col gap-2">
@@ -92,7 +90,7 @@ export function Footer() {
               <h3 className="text-label text-muted-2">{t('footer.addressTitle')}</h3>
               <p className="flex items-start gap-2 text-body text-ink">
                 <IconMapPin className="mt-0.5 h-4 w-4 shrink-0 text-muted-2" aria-hidden />
-                {t('footer.address1')}
+                <span className="wrap-break-word">{t('footer.address1')}</span>
               </p>
             </div>
 
@@ -108,11 +106,11 @@ export function Footer() {
                 +62 812-3456-7890
               </a>
               <a
-                href="mailto:halo@omahpala.id"
+                href="mailto:ppkohimfauii@gmail.com"
                 className="flex items-center gap-2 text-body text-ink hover:text-muted"
               >
                 <IconMail className="h-4 w-4 text-muted-2" aria-hidden />
-                halo@omahpala.id
+                ppkohimfauii@gmail.com
               </a>
               <div className="mt-1 flex items-center gap-2">
                 <a

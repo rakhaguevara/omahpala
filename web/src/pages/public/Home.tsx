@@ -33,7 +33,7 @@ export default function Home() {
           '@context': 'https://schema.org',
           '@type': 'Organization',
           name: 'Omah Pala',
-          url: 'https://omahpala.site',
+          url: 'https://omahpala.com',
           description: t('home.metaDescription'),
           address: {
             '@type': 'PostalAddress',

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
-const SITE_URL = 'https://omahpala.site'
+const SITE_URL = 'https://omahpala.com'
 
 async function loadData() {
   const server = await createServer({

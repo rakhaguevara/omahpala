@@ -48,9 +48,7 @@ export function Navbar() {
           )}
         >
           <NavLink to="/" className="flex items-center gap-2 pl-3" onClick={() => setOpen(false)}>
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-sm font-semibold text-white">
-              OP
-            </span>
+            <img src="/favicon.svg" alt="" className="h-8 w-8 rounded-full object-cover" />
             <span className="text-label font-semibold text-ink">{t('common.brand')}</span>
           </NavLink>
 

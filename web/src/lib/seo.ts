@@ -1,4 +1,4 @@
-export const SITE_URL = 'https://omahpala.site'
+export const SITE_URL = 'https://omahpala.com'
 
 /** BreadcrumbList schema.org — dipakai di halaman detail (produk/artikel/lahan) supaya Google
  * berpeluang menampilkan breadcrumb (bukan URL mentah) di hasil pencarian. `path` relatif
