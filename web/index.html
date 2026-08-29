@@ -12,10 +12,13 @@
       rel="stylesheet"
     />
     <title>Omah Pala — Produk Olahan Pala Desa Wonokerto</title>
-    <meta
-      name="description"
-      content="Omah Pala — produk olahan daging buah pala asli Desa Wonokerto, hasil program TOGA BERDAYA. Teh, sirup, dan gummy daging buah pala siap ekspor."
-    />
+    <!-- SENGAJA TANPA <meta name="description"> statis di sini: react-helmet-async (lihat
+         src/components/layout/Seo.tsx) tidak mengganti tag yang sudah ada sebelum React mount,
+         cuma menambahkan satu lagi — jadi kalau ada versi statis di sini, SETIAP halaman selain
+         Beranda akan punya DUA tag description sekaligus (satu deskripsi Beranda yang salah, satu
+         deskripsi halaman yang benar), dan crawler yang membaca tag pertama akan salah lihat
+         deskripsi Beranda di semua halaman produk/artikel/lahan. <Seo> selalu merender satu tag
+         description yang benar lewat Helmet, jadi baris statis ini tidak dibutuhkan. -->
   </head>
   <body>
     <div id="root"></div>

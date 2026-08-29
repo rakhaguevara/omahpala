@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/Field'
 import { Button } from '@/components/ui/Button'
 import { IconInstagram, IconMail, IconMapPin, IconPhone, IconWhatsapp } from '@/components/ui/Icons'
 import { waLink } from '@/lib/utils'
+import { sharedImages } from '@/lib/images'
 
 const navItems = [
   { to: '/', key: 'home' },
@@ -23,7 +24,7 @@ export function Footer() {
       className="relative overflow-hidden bg-ink pt-24 pb-10"
       style={{
         backgroundImage:
-          "linear-gradient(180deg, rgba(33,33,33,.55) 0%, rgba(33,33,33,.85) 100%), url('https://picsum.photos/seed/omahpala-footer/1800/900')",
+          `linear-gradient(180deg, rgba(33,33,33,.55) 0%, rgba(33,33,33,.85) 100%), url('${sharedImages.footerBg}')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}

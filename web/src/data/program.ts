@@ -1,4 +1,5 @@
 import type { ProgramMilestone, ProgramPillar, StatItem } from '@/types'
+import { programImages } from '@/lib/images'
 
 // Lima pilar — PRD §7.3 PR-01
 export const programPillars: ProgramPillar[] = [
@@ -21,7 +22,7 @@ export const programPillars: ProgramPillar[] = [
       'TOGA-based nutrition education',
       'Village health cadre training',
     ],
-    image: 'https://picsum.photos/seed/toga-screening/1000/1250',
+    image: programImages.screening,
   },
   {
     id: 'cultivation',
@@ -42,7 +43,7 @@ export const programPillars: ProgramPillar[] = [
       'Cultivation SOPs drafted with SPI and KWT (farmer groups)',
       'Drying with a ripeness-detection tool (TTG) for consistent quality across harvests',
     ],
-    image: 'https://picsum.photos/seed/toga-cultivation/1000/1250',
+    image: programImages.cultivation,
   },
   {
     id: 'production',
@@ -63,7 +64,7 @@ export const programPillars: ProgramPillar[] = [
       'Recipe development & regular taste testing',
       'Market-ready packaging training',
     ],
-    image: 'https://picsum.photos/seed/toga-production/1000/1250',
+    image: programImages.production,
   },
   {
     id: 'economy',
@@ -84,7 +85,7 @@ export const programPillars: ProgramPillar[] = [
       'Simple sales bookkeeping',
       'Basic marketing training',
     ],
-    image: 'https://picsum.photos/seed/toga-economy/1000/1250',
+    image: programImages.economy,
   },
   {
     id: 'monitoring',
@@ -105,7 +106,7 @@ export const programPillars: ProgramPillar[] = [
       'Management handover to the farmer group',
       'Activity documentation as impact evidence',
     ],
-    image: 'https://picsum.photos/seed/toga-monitoring/1000/1250',
+    image: programImages.monitoring,
   },
 ]
 

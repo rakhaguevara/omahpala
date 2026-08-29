@@ -66,7 +66,7 @@ export default function Kebun() {
 
           {/* K-02 */}
           <h2 className="mb-5 text-title">{t('kebun.farmersTitle')}</h2>
-          <Stagger className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4" stagger={0.06}>
+          <Stagger className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4" stagger={0.06}>
             {farmers.map((farmer) => (
               <StaggerItem key={farmer.id}>
                 <FarmerCard farmer={farmer} />
@@ -202,8 +202,8 @@ function FarmerCard({ farmer }: { farmer: Farmer }) {
         onError={fallbackToPlaceholder(farmer.id)}
         className="aspect-[4/5] w-full object-cover"
       />
-      <div className="flex flex-col gap-1 p-5">
-        <p className="text-title">{farmer.name}</p>
+      <div className="flex flex-col gap-1 p-4 sm:p-5">
+        <p className="text-title max-sm:text-sm max-sm:font-semibold max-sm:leading-snug">{farmer.name}</p>
         <p className="text-meta text-muted">{farmer.role}</p>
         <p className="text-meta text-muted-2">
           {t('kebun.farmerJoined')} {formatDate(farmer.joinedAt, locale)}

@@ -17,26 +17,24 @@ import { ArticleGrid } from '@/components/blocks/ArticleGrid'
 import { useProducts } from '@/lib/useEntities'
 import { programStats } from '@/data/program'
 import { articles } from '@/data/articles'
-import { usePageContent } from '@/lib/usePageContent'
 
 export default function Home() {
   const { t } = useTranslation()
   const { items: products } = useProducts()
   const featured = products.filter((p) => p.isFeatured && p.isActive).slice(0, 4)
-  const heroSubtitle = usePageContent('hero.subtitle')
 
   return (
     <>
       <Seo
         title={`${t('common.brand')} — Produk Olahan Pala Desa Wonokerto`}
-        description={heroSubtitle}
+        description={t('home.metaDescription')}
         path="/"
         jsonLd={{
           '@context': 'https://schema.org',
           '@type': 'Organization',
           name: 'Omah Pala',
           url: 'https://omahpala.site',
-          description: heroSubtitle,
+          description: t('home.metaDescription'),
           address: {
             '@type': 'PostalAddress',
             addressLocality: 'Desa Wonokerto, Turi',

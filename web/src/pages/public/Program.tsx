@@ -10,15 +10,9 @@ import { StatBand } from '@/components/blocks/StatBand'
 import { Seo } from '@/components/layout/Seo'
 import { useLocale } from '@/lib/useLocale'
 import { programMilestones, programStats } from '@/data/program'
+import { programImages } from '@/lib/images'
 
-const galleryImages = [
-  'https://picsum.photos/seed/toga-gallery-1/700/875',
-  'https://picsum.photos/seed/toga-gallery-2/700/525',
-  'https://picsum.photos/seed/toga-gallery-3/700/525',
-  'https://picsum.photos/seed/toga-gallery-4/700/875',
-  'https://picsum.photos/seed/toga-gallery-5/700/875',
-  'https://picsum.photos/seed/toga-gallery-6/700/525',
-]
+const galleryImages = programImages.gallery
 
 /** Program TOGA Berdaya — PRD §7.3 PR-01..PR-05. */
 export default function Program() {
@@ -27,7 +21,7 @@ export default function Program() {
 
   return (
     <>
-      <Seo title={`${t('program.title')} — ${t('common.brand')}`} description={t('program.subtitle')} path="/program" />
+      <Seo title={`${t('program.title')} — ${t('common.brand')}`} description={t('program.metaDescription')} path="/program" />
 
       <Section tone="ink" className="pt-36">
         <Container>

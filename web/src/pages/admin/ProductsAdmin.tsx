@@ -6,12 +6,15 @@ import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { FieldWrapper, Input, Select, Textarea } from '@/components/ui/Field'
 import { ImageUploader } from '@/components/admin/ImageUploader'
+import { IconChevronLeft, IconChevronRight } from '@/components/ui/Icons'
 import { formatIdr, slugify, commodityLabel } from '@/lib/utils'
 import { commoditiesSeed } from '@/data/commodities'
 import { Seo } from '@/components/layout/Seo'
 import { useLocale } from '@/lib/useLocale'
 
 type Draft = Omit<Product, 'id' | 'createdAt'>
+
+const PAGE_SIZE = 10
 
 function emptyDraft(): Draft {
   return {
@@ -51,6 +54,11 @@ export default function ProductsAdmin() {
   const [editingId, setEditingId] = useState<string | 'new' | null>(null)
   const [draft, setDraft] = useState<Draft>(emptyDraft())
   const [error, setError] = useState<string | null>(null)
+  const [page, setPage] = useState(0)
+
+  const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE))
+  const currentPage = Math.min(page, pageCount - 1)
+  const pageProducts = products.slice(currentPage * PAGE_SIZE, currentPage * PAGE_SIZE + PAGE_SIZE)
 
   function startNew() {
     setDraft(emptyDraft())
@@ -305,7 +313,7 @@ export default function ProductsAdmin() {
             </tr>
           </thead>
           <tbody>
-            {products.map((p) => (
+            {pageProducts.map((p) => (
               <tr key={p.id} className="border-b border-line last:border-0">
                 <td className="px-5 py-3">{p.nameId}</td>
                 <td className="px-5 py-3">{commodityLabel(p.commodityId, locale)}</td>
@@ -341,6 +349,34 @@ export default function ProductsAdmin() {
           </tbody>
         </table>
       </div>
+
+      {products.length > PAGE_SIZE && (
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-meta text-muted-2">
+            {t('admin.tablePageOf', { page: currentPage + 1, total: pageCount })}
+          </p>
+          <div className="flex gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setPage(currentPage - 1)}
+              disabled={currentPage === 0}
+            >
+              <IconChevronLeft className="h-4 w-4" />
+              {t('admin.tablePrev')}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setPage(currentPage + 1)}
+              disabled={currentPage === pageCount - 1}
+            >
+              {t('admin.tableNext')}
+              <IconChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -10,6 +10,7 @@ import { usePageContent } from '@/lib/usePageContent'
 import { useLocale } from '@/lib/useLocale'
 import { useProducts, usePlots } from '@/lib/useEntities'
 import { heroEnter } from '@/lib/motion'
+import { homeImages } from '@/lib/images'
 import { programPillars, programStats } from '@/data/program'
 import type { StatItem } from '@/types'
 
@@ -114,7 +115,7 @@ export function Hero() {
       <div className="absolute inset-0 overflow-hidden">
         <motion.div aria-hidden style={{ y }} className="absolute inset-0 -top-[12%] bg-cover bg-center">
           <img
-            src="https://picsum.photos/seed/omahpala-hero/2000/1400"
+            src={homeImages.hero}
             alt=""
             className="h-full w-full scale-110 object-cover"
           />

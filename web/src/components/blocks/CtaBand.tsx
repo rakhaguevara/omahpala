@@ -3,6 +3,7 @@ import { useReducedMotion } from 'framer-motion'
 import { LinkButton } from '@/components/ui/Button'
 import { usePageContent } from '@/lib/usePageContent'
 import { ScrollExpand } from '@/components/motion/ScrollExpand'
+import { homeImages } from '@/lib/images'
 
 /**
  * CTA penutup — PRD H-10. Full-bleed, frame foto yang membuka penuh seiring scroll
@@ -18,7 +19,7 @@ export function CtaBand() {
 
   return (
     <ScrollExpand
-      src="https://picsum.photos/seed/omahpala-forest/1800/1000"
+      src={homeImages.ctaForest}
       alt={title}
       title={title}
       scrollHint={t('common.scrollHint')}

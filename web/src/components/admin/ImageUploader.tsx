@@ -62,3 +62,55 @@ export function ImageUploader({ images, onChange }: ImageUploaderProps) {
     </div>
   )
 }
+
+interface PhotoUploaderProps {
+  photo: string
+  onChange: (photo: string) => void
+}
+
+/** Versi satu-foto dari ImageUploader — dipakai untuk field `photo` tunggal (lahan, penanam). */
+export function PhotoUploader({ photo, onChange }: PhotoUploaderProps) {
+  const { t } = useTranslation()
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  function handleFile(file: File | undefined) {
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      if (typeof reader.result === 'string') onChange(reader.result)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  return (
+    <div className="flex items-center gap-3">
+      {photo ? (
+        <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-sm border border-line">
+          <img src={photo} alt="" className="h-full w-full object-cover" />
+          <button
+            type="button"
+            onClick={() => onChange('')}
+            aria-label={t('admin.removePhoto')}
+            className="absolute right-0.5 top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-ink text-white"
+          >
+            <IconClose className="h-3 w-3" />
+          </button>
+        </div>
+      ) : (
+        <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-sm border border-dashed border-line text-meta text-muted-2">
+          —
+        </div>
+      )}
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => handleFile(e.target.files?.[0])}
+      />
+      <Button type="button" variant="ghost" size="sm" onClick={() => inputRef.current?.click()}>
+        + {t('admin.uploadPhoto')}
+      </Button>
+    </div>
+  )
+}

@@ -5,12 +5,9 @@ import { IconCheck } from '@/components/ui/Icons'
 import { Reveal } from '@/components/motion/Reveal'
 import { Stagger, StaggerItem } from '@/components/motion/Stagger'
 import { StackReveal } from '@/components/motion/StackReveal'
+import { homeImages } from '@/lib/images'
 
-const images = [
-  'https://picsum.photos/seed/omahpala-intro-1/700/875',
-  'https://picsum.photos/seed/omahpala-intro-2/700/875',
-  'https://picsum.photos/seed/omahpala-intro-3/700/875',
-]
+const images = homeImages.intro
 
 /** Pengantar program — PRD H-04. */
 export function IntroBlock() {

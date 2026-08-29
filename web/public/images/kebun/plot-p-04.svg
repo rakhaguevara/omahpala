@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="675" viewBox="0 0 900 675">
+  <rect width="900" height="675" fill="#f5f5f5"/>
+  <rect x="0.5" y="0.5" width="899" height="674" fill="none" stroke="#ebebeb" stroke-width="1"/>
+  <line x1="0" y1="0" x2="900" y2="675" stroke="#ebebeb" stroke-width="1"/>
+  <line x1="900" y1="0" x2="0" y2="675" stroke="#ebebeb" stroke-width="1"/>
+  <circle cx="450" cy="306.5" r="27.900000000000002" fill="#7eea57"/>
+  <text x="50%" y="374.7" text-anchor="middle" font-family="sans-serif" font-size="31" fill="#212121">kebun/plot-p-04</text>
+  <text x="50%" y="411.9" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#5c5c5c">900×675 placeholder — replace this file</text>
+</svg>

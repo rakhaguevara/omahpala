@@ -1,4 +1,5 @@
 import type { Plot, PlotCalendarEntry } from '@/types'
+import { plotPhoto } from '@/lib/images'
 
 // Data contoh — ganti dengan data lahan sesungguhnya (koordinat GPS presisi dari tim lapangan,
 // deskripsi & kalender tanam/panen dari kelompok tani). commodities pakai CommodityId dari
@@ -18,7 +19,7 @@ export const plotsSeed: Plot[] = [
     farmerIds: ['f-01'],
     lat: -7.6631,
     lng: 110.4203,
-    photo: 'https://picsum.photos/seed/wonokerto-plot-1/900/675',
+    photo: plotPhoto('p-01'),
     descriptionId:
       'Lahan pala tertua di kelompok tani, berundak di lereng utara Dusun Ngasem. Pohon pala berumur 15–20 tahun, dipanen manual dua kali seminggu selama musim panen.',
     descriptionEn:
@@ -35,7 +36,7 @@ export const plotsSeed: Plot[] = [
     farmerIds: ['f-01'],
     lat: -7.6608,
     lng: 110.4227,
-    photo: 'https://picsum.photos/seed/wonokerto-plot-2/900/675',
+    photo: plotPhoto('p-02'),
     descriptionId:
       'Berdekatan dengan mata air Sendang, lahan ini punya tanah paling lembap di antara kebun pala Wonokerto — cocok untuk pohon pala muda yang baru mulai berbuah.',
     descriptionEn:
@@ -52,7 +53,7 @@ export const plotsSeed: Plot[] = [
     farmerIds: ['f-02'],
     lat: -7.6645,
     lng: 110.4188,
-    photo: 'https://picsum.photos/seed/wonokerto-plot-3/900/675',
+    photo: plotPhoto('p-03'),
     descriptionId:
       'Kebun percontohan TOGA di halaman balai desa — empat rimpang ditanam bergiliran dalam bedengan kecil supaya warga bisa belajar langsung sebelum menerapkannya di pekarangan sendiri.',
     descriptionEn:
@@ -76,7 +77,7 @@ export const plotsSeed: Plot[] = [
     farmerIds: ['f-03', 'f-01'],
     lat: -7.6592,
     lng: 110.4251,
-    photo: 'https://picsum.photos/seed/wonokerto-plot-4/900/675',
+    photo: plotPhoto('p-04'),
     descriptionId:
       'Lahan pala terluas di Wonokerto, dirawat bersama oleh dua kelompok tani karena luasnya. Tanah vulkanik di kaki bukit Krajan menghasilkan biji pala dengan kadar minyak atsiri tinggi.',
     descriptionEn:
@@ -93,7 +94,7 @@ export const plotsSeed: Plot[] = [
     farmerIds: ['f-04'],
     lat: -7.6669,
     lng: 110.4212,
-    photo: 'https://picsum.photos/seed/wonokerto-plot-5/900/675',
+    photo: plotPhoto('p-05'),
     descriptionId:
       'Lahan tertinggi dari permukaan laut di antara kebun binaan program, sedang diistirahatkan setelah panen besar tahun lalu untuk menjaga kesuburan tanah sebelum siklus tanam berikutnya.',
     descriptionEn:

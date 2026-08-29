@@ -6,6 +6,7 @@ import { Chip } from '@/components/ui/Chip'
 import { Button } from '@/components/ui/Button'
 import { FieldWrapper, Input, Select, Textarea } from '@/components/ui/Field'
 import { Badge } from '@/components/ui/Badge'
+import { PhotoUploader } from '@/components/admin/ImageUploader'
 import { Seo } from '@/components/layout/Seo'
 import { commoditiesSeed } from '@/data/commodities'
 import { cn, commodityLabel, monthShort } from '@/lib/utils'
@@ -99,11 +100,7 @@ function PlotsPanel() {
               <Input id="name" value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />
             </FieldWrapper>
             <FieldWrapper label={t('admin.fieldPhoto')} htmlFor="pphoto" className="sm:col-span-2">
-              <Input
-                id="pphoto"
-                value={draft.photo}
-                onChange={(e) => setDraft({ ...draft, photo: e.target.value })}
-              />
+              <PhotoUploader photo={draft.photo} onChange={(photo) => setDraft({ ...draft, photo })} />
             </FieldWrapper>
             <FieldWrapper label="Deskripsi (ID)" htmlFor="pdescId" className="sm:col-span-2">
               <Textarea
@@ -254,7 +251,7 @@ function FarmersPanel() {
               <Input id="frole" value={draft.role} onChange={(e) => setDraft({ ...draft, role: e.target.value })} />
             </FieldWrapper>
             <FieldWrapper label={t('admin.fieldPhoto')} htmlFor="fphoto" className="sm:col-span-2">
-              <Input id="fphoto" value={draft.photo} onChange={(e) => setDraft({ ...draft, photo: e.target.value })} />
+              <PhotoUploader photo={draft.photo} onChange={(photo) => setDraft({ ...draft, photo })} />
             </FieldWrapper>
             <FieldWrapper label={t('admin.fieldJoinedAt')} htmlFor="fjoined">
               <Input

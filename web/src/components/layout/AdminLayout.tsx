@@ -5,6 +5,7 @@ import { RequireAuth } from '@/components/admin/RequireAuth'
 import { can, logout } from '@/lib/auth'
 import { cn } from '@/lib/utils'
 import { IconClose, IconMenu } from '@/components/ui/Icons'
+import { LanguageSwitch } from '@/components/layout/LanguageSwitch'
 
 type AdminArea = 'produk' | 'pesanan' | 'kebun' | 'konten'
 
@@ -34,28 +35,31 @@ export function AdminLayout() {
       {(user) => {
         const visibleLinks = links.filter((l) => !l.area || can(user.role, l.area))
         return (
-          <div className="flex min-h-screen bg-surface text-ink">
+          <div className="flex h-screen bg-surface text-ink">
             <aside
               className={cn(
-                'fixed inset-y-0 left-0 z-40 w-72 shrink-0 -translate-x-full border-r border-line bg-white p-6 transition-transform duration-300 lg:static lg:translate-x-0',
+                'fixed inset-y-0 left-0 z-40 w-72 shrink-0 -translate-x-full overflow-y-auto border-r border-line bg-white p-6 transition-transform duration-300 lg:translate-x-0',
                 open && 'translate-x-0',
               )}
             >
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-2">
                 <NavLink to="/admin" className="flex items-center gap-2">
                   <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-sm font-semibold text-white">
                     OP
                   </span>
                   <span className="text-label font-semibold">{t('common.brand')}</span>
                 </NavLink>
-                <button
-                  type="button"
-                  className="rounded-full p-2 lg:hidden"
-                  onClick={() => setOpen(false)}
-                  aria-label={t('common.close')}
-                >
-                  <IconClose className="h-5 w-5" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <LanguageSwitch />
+                  <button
+                    type="button"
+                    className="rounded-full p-2 lg:hidden"
+                    onClick={() => setOpen(false)}
+                    aria-label={t('common.close')}
+                  >
+                    <IconClose className="h-5 w-5" />
+                  </button>
+                </div>
               </div>
 
               <nav className="mt-8 flex flex-col gap-1" aria-label="Navigasi admin">
@@ -104,17 +108,20 @@ export function AdminLayout() {
               />
             )}
 
-            <div className="flex-1">
+            <div className="flex h-full flex-1 flex-col overflow-y-auto lg:pl-72">
               <header className="flex items-center justify-between border-b border-line bg-white px-5 py-4 lg:hidden">
                 <span className="text-label font-semibold">{t('admin.dashboard')}</span>
-                <button
-                  type="button"
-                  className="rounded-full p-2"
-                  onClick={() => setOpen(true)}
-                  aria-label={t('common.menu')}
-                >
-                  <IconMenu className="h-5 w-5" />
-                </button>
+                <div className="flex items-center gap-3">
+                  <LanguageSwitch />
+                  <button
+                    type="button"
+                    className="rounded-full p-2"
+                    onClick={() => setOpen(true)}
+                    aria-label={t('common.menu')}
+                  >
+                    <IconMenu className="h-5 w-5" />
+                  </button>
+                </div>
               </header>
               <div className="p-5 sm:p-8 lg:p-10">
                 <Outlet />

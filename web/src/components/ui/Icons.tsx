@@ -233,3 +233,12 @@ export function IconFilter(props: IconProps) {
     </svg>
   )
 }
+
+export function IconAlertTriangle(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 4L21.5 20.5H2.5L12 4Z" strokeLinejoin="round" />
+      <path d="M12 10v4.5M12 17.5v.01" />
+    </svg>
+  )
+}

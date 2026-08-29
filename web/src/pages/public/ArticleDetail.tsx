@@ -6,6 +6,7 @@ import { LinkButton } from '@/components/ui/Button'
 import { Reveal } from '@/components/motion/Reveal'
 import { ArticleGrid } from '@/components/blocks/ArticleGrid'
 import { Seo } from '@/components/layout/Seo'
+import { breadcrumbJsonLd } from '@/lib/seo'
 import { useLocale } from '@/lib/useLocale'
 import { formatDate } from '@/lib/utils'
 import { articles } from '@/data/articles'
@@ -30,7 +31,30 @@ export default function ArticleDetail() {
 
   return (
     <>
-      <Seo title={`${title} — ${t('common.brand')}`} description={excerpt} path={`/artikel/${article.slug}`} image={article.image} />
+      <Seo
+        title={`${title} — ${t('common.brand')}`}
+        description={excerpt}
+        path={`/artikel/${article.slug}`}
+        image={article.image}
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: title,
+            description: excerpt,
+            image: article.image,
+            datePublished: article.publishedAt,
+            articleSection: category,
+            author: { '@type': 'Organization', name: 'Omah Pala' },
+            publisher: { '@type': 'Organization', name: 'Omah Pala' },
+          },
+          breadcrumbJsonLd([
+            { name: t('common.brand'), path: '/' },
+            { name: t('articles.title'), path: '/artikel' },
+            { name: title, path: `/artikel/${article.slug}` },
+          ]),
+        ]}
+      />
 
       <Section tone="paper" className="pt-36">
         <Container>

@@ -9,6 +9,7 @@ import { IconArrowRight, IconStorefront } from '@/components/ui/Icons'
 import { Reveal } from '@/components/motion/Reveal'
 import { ProductGrid } from '@/components/blocks/ProductGrid'
 import { Seo } from '@/components/layout/Seo'
+import { breadcrumbJsonLd } from '@/lib/seo'
 import { useProducts, usePlots, useFarmers } from '@/lib/useEntities'
 import { useLocale } from '@/lib/useLocale'
 import { formatIdr, formatUsd, waLink } from '@/lib/utils'
@@ -44,24 +45,31 @@ export default function ProductDetail() {
         description={description}
         path={`/produk/${product.slug}`}
         image={product.images[0]}
-        jsonLd={{
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          name,
-          description,
-          image: product.images,
-          brand: { '@type': 'Brand', name: 'Omah Pala' },
-          offers: product.priceIdr
-            ? {
-                '@type': 'Offer',
-                priceCurrency: 'IDR',
-                price: product.priceIdr,
-                availability: product.isActive
-                  ? 'https://schema.org/InStock'
-                  : 'https://schema.org/OutOfStock',
-              }
-            : undefined,
-        }}
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name,
+            description,
+            image: product.images,
+            brand: { '@type': 'Brand', name: 'Omah Pala' },
+            offers: product.priceIdr
+              ? {
+                  '@type': 'Offer',
+                  priceCurrency: 'IDR',
+                  price: product.priceIdr,
+                  availability: product.isActive
+                    ? 'https://schema.org/InStock'
+                    : 'https://schema.org/OutOfStock',
+                }
+              : undefined,
+          },
+          breadcrumbJsonLd([
+            { name: t('common.brand'), path: '/' },
+            { name: t('nav.catalog'), path: '/produk' },
+            { name, path: `/produk/${product.slug}` },
+          ]),
+        ]}
       />
 
       <Section tone="paper" className="pt-36">

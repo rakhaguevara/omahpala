@@ -7,6 +7,7 @@ import { productsSeed } from '@/data/products'
 import { PillarIcon } from './PillarIcon'
 import { Reveal } from '@/components/motion/Reveal'
 import { EcosystemNodeCard, type EcosystemCardContent } from './EcosystemNodeCard'
+import { homeImages } from '@/lib/images'
 
 // three.js + @react-three/fiber nambah ~240 KB gzip ke bundle — code-split di sini supaya tidak
 // ikut blocking parse bundle utama Beranda (LCP target PRD §9), baru diunduh saat diagram ini
@@ -68,7 +69,7 @@ const OUTPUT_NODES_BASE: OutputNode[] = [
     descriptionId: 'Kelompok Wanita Tani — bersama SPI menyusun SOP budidaya pala dan TOGA di lahan warga.',
     descriptionEn:
       'Kelompok Wanita Tani (women farmer group) — co-drafted the nutmeg and TOGA cultivation SOP with SPI.',
-    image: 'https://picsum.photos/seed/omahpala-kwt/900/700',
+    image: homeImages.ecosystemKwt,
   },
   {
     id: 'out-spi',
@@ -79,7 +80,7 @@ const OUTPUT_NODES_BASE: OutputNode[] = [
     descriptionId: 'Serikat Petani Indonesia — bersama KWT menyusun SOP budidaya pala dan TOGA di lahan warga.',
     descriptionEn:
       'Serikat Petani Indonesia (Indonesian Farmers Union) — co-drafted the nutmeg and TOGA cultivation SOP with KWT.',
-    image: 'https://picsum.photos/seed/omahpala-spi/900/700',
+    image: homeImages.ecosystemSpi,
   },
   {
     id: 'out-toga-corner',
@@ -89,7 +90,7 @@ const OUTPUT_NODES_BASE: OutputNode[] = [
     kind: 'partner',
     descriptionId: 'Sentra fisik di balai desa: pusat edukasi, produksi, dan pemasaran produk olahan TOGA.',
     descriptionEn: 'A physical hub at the village hall for education, production, and sales of TOGA-processed goods.',
-    image: 'https://picsum.photos/seed/omahpala-toga-corner/900/700',
+    image: homeImages.ecosystemTogaCorner,
   },
 ]
 

@@ -10,6 +10,7 @@ import { Reveal } from '@/components/motion/Reveal'
 import { Stagger, StaggerItem } from '@/components/motion/Stagger'
 import { ProductGrid } from '@/components/blocks/ProductGrid'
 import { Seo } from '@/components/layout/Seo'
+import { breadcrumbJsonLd } from '@/lib/seo'
 import { useFarmers, usePlots, useProducts } from '@/lib/useEntities'
 import { useLocale } from '@/lib/useLocale'
 import { cn, commodityLabel, monthShort, plotPlaceholder } from '@/lib/utils'
@@ -55,6 +56,20 @@ export default function KebunDetail() {
         description={description}
         path={`/kebun/${plot.code.toLowerCase()}`}
         image={plot.photo}
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Place',
+            name: plot.name,
+            description,
+            geo: { '@type': 'GeoCoordinates', latitude: plot.lat, longitude: plot.lng },
+          },
+          breadcrumbJsonLd([
+            { name: t('common.brand'), path: '/' },
+            { name: t('kebun.title'), path: '/kebun' },
+            { name: plot.name, path: `/kebun/${plot.code.toLowerCase()}` },
+          ]),
+        ]}
       />
 
       <Section tone="paper" className="pt-36">

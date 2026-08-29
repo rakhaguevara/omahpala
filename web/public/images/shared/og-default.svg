@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f5f5f5"/>
+  <rect x="0.5" y="0.5" width="1199" height="629" fill="none" stroke="#ebebeb" stroke-width="1"/>
+  <line x1="0" y1="0" x2="1200" y2="630" stroke="#ebebeb" stroke-width="1"/>
+  <line x1="1200" y1="0" x2="0" y2="630" stroke="#ebebeb" stroke-width="1"/>
+  <circle cx="600" cy="286" r="26.1" fill="#7eea57"/>
+  <text x="50%" y="349.8" text-anchor="middle" font-family="sans-serif" font-size="29" fill="#212121">shared/og-default</text>
+  <text x="50%" y="384.6" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#5c5c5c">1200×630 placeholder — replace this file</text>
+</svg>

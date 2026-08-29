@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="875" viewBox="0 0 700 875">
+  <rect width="700" height="875" fill="#f5f5f5"/>
+  <rect x="0.5" y="0.5" width="699" height="874" fill="none" stroke="#ebebeb" stroke-width="1"/>
+  <line x1="0" y1="0" x2="700" y2="875" stroke="#ebebeb" stroke-width="1"/>
+  <line x1="700" y1="0" x2="0" y2="875" stroke="#ebebeb" stroke-width="1"/>
+  <circle cx="350" cy="405.5" r="28.8" fill="#7eea57"/>
+  <text x="50%" y="475.9" text-anchor="middle" font-family="sans-serif" font-size="32" fill="#212121">program/gallery-4</text>
+  <text x="50%" y="514.3" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#5c5c5c">700×875 placeholder — replace this file</text>
+</svg>

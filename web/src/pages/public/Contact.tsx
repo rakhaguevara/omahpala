@@ -21,6 +21,7 @@ import { Seo } from '@/components/layout/Seo'
 import { useInquiries, useProducts } from '@/lib/useEntities'
 import { useLocale } from '@/lib/useLocale'
 import { waLink } from '@/lib/utils'
+import { contactImages } from '@/lib/images'
 import type { Inquiry } from '@/types'
 
 const RATE_LIMIT_KEY = 'omahpala_last_inquiry_at'
@@ -143,7 +144,7 @@ export default function Contact() {
           kiri atas + breadcrumb pojok kanan bawah — persis referensi. */}
       <section className="relative flex h-[360px] items-end overflow-hidden bg-ink sm:h-[420px]">
         <img
-          src="https://picsum.photos/seed/omahpala-contact-hero/1800/1000"
+          src={contactImages.hero}
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
         />

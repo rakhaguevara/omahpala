@@ -8,6 +8,7 @@ import { ProductGrid } from '@/components/blocks/ProductGrid'
 import { Seo } from '@/components/layout/Seo'
 import { useProducts } from '@/lib/useEntities'
 import { useLocale } from '@/lib/useLocale'
+import { SITE_URL } from '@/lib/seo'
 import { cn } from '@/lib/utils'
 import { commoditiesSeed } from '@/data/commodities'
 import { IconCheck, IconFilter } from '@/components/ui/Icons'
@@ -38,6 +39,7 @@ function sortProducts(products: Product[], sort: SortKey): Product[] {
  */
 export default function Catalog() {
   const { t } = useTranslation()
+  const { locale } = useLocale()
   const { items: products } = useProducts()
 
   const active = useMemo(() => products.filter((p) => p.isActive), [products])
@@ -53,7 +55,21 @@ export default function Catalog() {
 
   return (
     <>
-      <Seo title={`${t('catalog.title')} — ${t('common.brand')}`} description={t('catalog.subtitle')} path="/produk" />
+      <Seo
+        title={`${t('catalog.title')} — ${t('common.brand')}`}
+        description={t('catalog.subtitle')}
+        path="/produk"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'ItemList',
+          itemListElement: active.map((p, i) => ({
+            '@type': 'ListItem',
+            position: i + 1,
+            url: `${SITE_URL}/produk/${p.slug}`,
+            name: locale === 'id' ? p.nameId : p.nameEn,
+          })),
+        }}
+      />
       <Section tone="paper" className="pt-36">
         <Container>
           <Reveal className="mx-auto mb-4 flex max-w-2xl flex-col items-center gap-4 text-center">

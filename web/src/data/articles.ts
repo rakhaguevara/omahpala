@@ -1,4 +1,5 @@
 import type { Article } from '@/types'
+import { articleImage } from '@/lib/images'
 
 // Data contoh — artikel/kabar TOGA BERDAYA untuk beranda dan halaman detail artikel.
 // Konten & foto di sini adalah placeholder yang perlu diverifikasi tim sebelum rilis nyata.
@@ -22,7 +23,7 @@ export const articles: Article[] = [
       'Before harvesting, the mentoring team checked fruit ripeness using a detection tool (TTG) to keep raw material quality consistent across plots. This harvest will move on to the TOGA Corner production kitchen to be processed into nutmeg fruit products.',
       'The farmer group is aiming for more pilot plots to be included in the next harvest cycle as SOP mentoring continues in Desa Wonokerto.',
     ],
-    image: 'https://picsum.photos/seed/omahpala-article-harvest/900/650',
+    image: articleImage('panen-perdana-pala-wonokerto'),
     categoryId: 'Budidaya',
     categoryEn: 'Cultivation',
     publishedAt: '2026-07-14',
@@ -46,7 +47,7 @@ export const articles: Article[] = [
       'With the certificate in hand, the kitchen has started processing nutmeg fruit flesh into tea and syrup, following the production SOP drafted with the TOGA BERDAYA team. Every production stage is logged to keep quality consistent across batches.',
       'Certification for the nutmeg fruit gummy is still in process and will be announced once issued.',
     ],
-    image: 'https://picsum.photos/seed/omahpala-article-kitchen/900/650',
+    image: articleImage('dapur-produksi-pirt'),
     categoryId: 'Produksi',
     categoryEn: 'Production',
     publishedAt: '2026-08-02',
@@ -70,7 +71,7 @@ export const articles: Article[] = [
       'Residents who took part in the first round were prioritized so results could be compared over time. Screening data is recorded by Puskesmas Turi and used to evaluate the program’s progress in later stages.',
       'The next round of screening will be scheduled ahead of the program’s final evaluation.',
     ],
-    image: 'https://picsum.photos/seed/omahpala-article-screening/900/650',
+    image: articleImage('skrining-kesehatan-tahap-dua'),
     categoryId: 'Kesehatan',
     categoryEn: 'Health',
     publishedAt: '2026-08-10',

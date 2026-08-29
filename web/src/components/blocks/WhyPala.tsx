@@ -8,6 +8,7 @@ import { IconChevronDown, IconSparkle } from '@/components/ui/Icons'
 import { usePageContent } from '@/lib/usePageContent'
 import { dur, ease } from '@/lib/motion'
 import { cn } from '@/lib/utils'
+import { homeImages } from '@/lib/images'
 
 /**
  * Blok "Mengapa Pala" — PRD H-08. Persis referensi: daftar baris dipisah garis putus-putus
@@ -93,7 +94,7 @@ export function WhyPala() {
       <Reveal delay={0.1} className="relative">
         <div className="relative z-0 overflow-hidden rounded-lg bg-white p-3 shadow-[0_16px_40px_rgba(0,0,0,.1)]">
           <img
-            src="https://picsum.photos/seed/omahpala-why-farmer/900/1000"
+            src={homeImages.whyFarmer}
             alt=""
             loading="lazy"
             className="aspect-[9/10] w-full rounded-md object-cover"
