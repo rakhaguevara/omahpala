@@ -17,7 +17,7 @@
 const base = (p: string) => `/images/${p}`
 
 export const homeImages = {
-  hero: base('home/hero.svg'),
+  hero: base('home/hero.jpg'),
   intro: [base('home/intro-1.svg'), base('home/intro-2.svg'), base('home/intro-3.svg')],
   whyFarmer: base('home/why-farmer.svg'),
   ctaForest: base('home/cta-forest.svg'),
@@ -31,7 +31,7 @@ export const contactImages = {
 }
 
 export const sharedImages = {
-  footerBg: base('shared/footer-bg.svg'),
+  footerBg: base('shared/footer-bg.jpg'),
   ogDefault: base('shared/og-default.svg'),
 }
 
