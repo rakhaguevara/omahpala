@@ -6,60 +6,63 @@
 //
 // CARA GANTI GAMBAR (tanpa sentuh kode):
 //   1. Buka folder `public/images/<page>/` yang sesuai.
-//   2. Timpa file placeholder (.svg) dengan foto asli — pertahankan NAMA FILE yang sama
-//      (mis. `hero.svg` tetap `hero.svg`) supaya baris di file ini tidak perlu diubah.
-//   3. Kalau foto asli formatnya .jpg/.webp (disarankan, bukan .svg), ganti ekstensi pada
-//      baris terkait di bawah — itu satu-satunya kondisi yang perlu edit kode.
+//   2. Timpa file dengan foto asli — pertahankan NAMA FILE yang sama (mis. `hero.webp` tetap
+//      `hero.webp`) supaya baris di file ini tidak perlu diubah.
+//   3. Kalau foto asli formatnya beda (mis. .jpg/.png, bukan .webp), ganti ekstensi pada baris
+//      terkait di bawah — itu satu-satunya kondisi yang perlu edit kode. Disarankan tetap pakai
+//      .webp (convert dulu) supaya situs tetap ringan — lihat public/images/README.md.
 //
-// Semua path saat ini masih placeholder (dibuat otomatis, bukan foto asli) — lihat
-// `public/images/README.md` untuk ukuran & format yang disarankan per gambar.
+// Foto saat ini: diambil dari Unsplash (lisensi bebas pakai komersial, tanpa atribusi wajib)
+// sebagai placeholder sementara — relevan secara tema (pala, jahe, kunyit, sereh, kebun,
+// petani, dst.) tapi BUKAN foto asli produk/petani Omah Pala. Wajib diganti foto asli
+// sebelum rilis sungguhan — lihat `public/images/README.md`.
 
 const base = (p: string) => `/images/${p}`
 
 export const homeImages = {
-  hero: base('home/hero.jpg'),
-  intro: [base('home/intro-1.svg'), base('home/intro-2.svg'), base('home/intro-3.svg')],
-  whyFarmer: base('home/why-farmer.svg'),
-  ctaForest: base('home/cta-forest.svg'),
-  ecosystemKwt: base('home/ecosystem-kwt.svg'),
-  ecosystemSpi: base('home/ecosystem-spi.svg'),
-  ecosystemTogaCorner: base('home/ecosystem-toga-corner.svg'),
+  hero: base('home/hero.webp'),
+  intro: [base('home/intro-1.webp'), base('home/intro-2.webp'), base('home/intro-3.webp')],
+  whyFarmer: base('home/why-farmer.webp'),
+  ctaForest: base('home/cta-forest.webp'),
+  ecosystemKwt: base('home/ecosystem-kwt.webp'),
+  ecosystemSpi: base('home/ecosystem-spi.webp'),
+  ecosystemTogaCorner: base('home/ecosystem-toga-corner.webp'),
 }
 
 export const contactImages = {
-  hero: base('contact/hero.svg'),
+  hero: base('contact/hero.webp'),
 }
 
 export const sharedImages = {
-  footerBg: base('shared/footer-bg.jpg'),
-  ogDefault: base('shared/og-default.svg'),
+  footerBg: base('shared/footer-bg.webp'),
+  ogDefault: base('shared/og-default.webp'),
 }
 
 export const programImages = {
-  screening: base('program/screening.svg'),
-  cultivation: base('program/cultivation.svg'),
-  production: base('program/production.svg'),
-  economy: base('program/economy.svg'),
-  monitoring: base('program/monitoring.svg'),
-  gallery: [1, 2, 3, 4, 5, 6].map((i) => base(`program/gallery-${i}.svg`)),
+  screening: base('program/screening.webp'),
+  cultivation: base('program/cultivation.webp'),
+  production: base('program/production.webp'),
+  economy: base('program/economy.webp'),
+  monitoring: base('program/monitoring.webp'),
+  gallery: [1, 2, 3, 4, 5, 6].map((i) => base(`program/gallery-${i}.webp`)),
 }
 
 /** Dua foto produk (katalog + detail) — nama file mengikuti `slug` produk di data/products.ts. */
 export function productImages(slug: string): [string, string] {
-  return [base(`products/${slug}-1.svg`), base(`products/${slug}-2.svg`)]
+  return [base(`products/${slug}-1.webp`), base(`products/${slug}-2.webp`)]
 }
 
 /** Foto petani — nama file mengikuti `id` di data/farmers.ts (mis. `f-01`). */
 export function farmerPhoto(id: string): string {
-  return base(`kebun/farmer-${id}.svg`)
+  return base(`kebun/farmer-${id}.webp`)
 }
 
 /** Foto lahan — nama file mengikuti `id` di data/plots.ts (mis. `p-01`). */
 export function plotPhoto(id: string): string {
-  return base(`kebun/plot-${id}.svg`)
+  return base(`kebun/plot-${id}.webp`)
 }
 
 /** Foto artikel — nama file mengikuti `slug` di data/articles.ts. */
 export function articleImage(slug: string): string {
-  return base(`articles/${slug}.svg`)
+  return base(`articles/${slug}.webp`)
 }
