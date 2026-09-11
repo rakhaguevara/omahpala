@@ -47,9 +47,10 @@ export const programImages = {
   gallery: [1, 2, 3, 4, 5, 6].map((i) => base(`program/gallery-${i}.webp`)),
 }
 
-/** Dua foto produk (katalog + detail) — nama file mengikuti `slug` produk di data/products.ts. */
-export function productImages(slug: string): [string, string] {
-  return [base(`products/${slug}-1.webp`), base(`products/${slug}-2.webp`)]
+/** Dua foto produk (katalog + detail) — nama file mengikuti `slug` produk di data/products.ts.
+ * `ext` default `webp`; dipakai `png` untuk foto yang belum dikonversi (lihat public/images/README.md). */
+export function productImages(slug: string, ext: 'webp' | 'png' = 'webp'): [string, string] {
+  return [base(`products/${slug}-1.${ext}`), base(`products/${slug}-2.${ext}`)]
 }
 
 /** Foto petani — nama file mengikuti `id` di data/farmers.ts (mis. `f-01`). */
