@@ -108,6 +108,16 @@ Urutan berdasar dampak, bukan berdasar tahap PRD:
    untuk: harga publik vs "request quotation" saja, penerima notifikasi inquiry, legalitas usaha
    (NIB/PIRT) yang boleh dicantumkan, bahasa target selain Inggris.
 
+## Find My Polo (game QR) — satu-satunya bagian dengan backend
+
+Game berburu QR untuk booth/event, dengan Supabase sungguhan (bukan localStorage) karena stamp dan hadiah harus
+diputuskan server. Dokumentasi lengkap (setup, keputusan terbuka, QA, keamanan, rollback): `supabase/README.md`.
+
+- Halaman: `/find-my-polo`, `/find-my-polo/scan`, `/find-my-polo/q/:token` (tautan di QR fisik); panel panitia `/admin/find-my-polo`.
+- Env: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (lihat `.env.example`). Tanpa env, halaman game menampilkan
+  "belum tersedia" dan seluruh situs lain berjalan seperti biasa.
+- Tes: `npm test`.
+
 ## Struktur
 
 Mengikuti design.md §10, dengan tambahan `pages/` dan `lib/` khas Vite/React Router:

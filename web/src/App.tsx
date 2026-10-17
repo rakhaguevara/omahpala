@@ -24,6 +24,12 @@ const ProductsAdmin = lazy(() => import('@/pages/admin/ProductsAdmin'))
 const OrdersAdmin = lazy(() => import('@/pages/admin/OrdersAdmin'))
 const KebunAdmin = lazy(() => import('@/pages/admin/KebunAdmin'))
 const ContentAdmin = lazy(() => import('@/pages/admin/ContentAdmin'))
+const PoloAdmin = lazy(() => import('@/pages/admin/PoloAdmin'))
+
+// Find My Polo (modul game): halaman + klien Supabase ikut lazy, tidak membebani bundle publik.
+const FindMyPolo = lazy(() => import('@/features/find-my-polo/pages/FindMyPolo'))
+const PoloScan = lazy(() => import('@/features/find-my-polo/pages/ScanPage'))
+const PoloQrLink = lazy(() => import('@/features/find-my-polo/pages/QrLink'))
 
 // Peta situs — PRD §6
 export default function App() {
@@ -39,6 +45,9 @@ export default function App() {
         <Route path="kebun" element={<Kebun />} />
         <Route path="kebun/:code" element={<KebunDetail />} />
         <Route path="kontak" element={<Contact />} />
+        <Route path="find-my-polo" element={<Suspense fallback={null}><FindMyPolo /></Suspense>} />
+        <Route path="find-my-polo/scan" element={<Suspense fallback={null}><PoloScan /></Suspense>} />
+        <Route path="find-my-polo/q/:token" element={<Suspense fallback={null}><PoloQrLink /></Suspense>} />
         <Route path="*" element={<NotFound />} />
       </Route>
 
@@ -63,6 +72,7 @@ export default function App() {
         <Route path="pesanan" element={<OrdersAdmin />} />
         <Route path="kebun" element={<KebunAdmin />} />
         <Route path="konten" element={<ContentAdmin />} />
+        <Route path="find-my-polo" element={<PoloAdmin />} />
       </Route>
     </Routes>
   )

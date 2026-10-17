@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 import { IconClose, IconMenu } from '@/components/ui/Icons'
 import { LanguageSwitch } from '@/components/layout/LanguageSwitch'
 
-type AdminArea = 'produk' | 'pesanan' | 'kebun' | 'konten'
+type AdminArea = 'produk' | 'pesanan' | 'kebun' | 'konten' | 'polo'
 
 interface AdminNavLink {
   to: string
@@ -22,6 +22,7 @@ const links: AdminNavLink[] = [
   { to: '/admin/pesanan', end: false, key: 'navOrders', area: 'pesanan' },
   { to: '/admin/kebun', end: false, key: 'navKebun', area: 'kebun' },
   { to: '/admin/konten', end: false, key: 'navContent', area: 'konten' },
+  { to: '/admin/find-my-polo', end: false, key: 'navPolo', area: 'polo' },
 ]
 
 /** Panel admin — responsif penuh (A-09): sidebar desktop, drawer di mobile. */

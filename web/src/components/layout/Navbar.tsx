@@ -15,6 +15,7 @@ const navItems = [
   { to: '/produk', key: 'catalog' },
   { to: '/program', key: 'program' },
   { to: '/kebun', key: 'kebun' },
+  { to: '/find-my-polo', key: 'polo' },
   { to: '/kontak', key: 'contact' },
 ] as const
 

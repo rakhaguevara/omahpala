@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment — jangan commit (hanya .env.example yang masuk Git)
+.env
+.env.*
+!.env.example
+supabase/.temp
+supabase/.branches
+qr-codes/

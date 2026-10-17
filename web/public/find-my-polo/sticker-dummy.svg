@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Stiker digital sementara">
+  <!-- DUMMY: ganti dengan stiker digital resmi. Pemetaan ada di src/features/find-my-polo/config.ts -->
+  <rect x="12" y="12" width="216" height="216" rx="40" fill="#ffffff" stroke="#212121" stroke-width="4"/>
+  <rect x="28" y="28" width="184" height="184" rx="28" fill="#7eea57"/>
+  <path d="M80 150c0-38 32-64 72-64 0 38-28 64-72 64z" fill="#163b0a"/>
+  <path d="M80 150c18-18 44-42 72-64" fill="none" stroke="#7eea57" stroke-width="5" stroke-linecap="round"/>
+  <text x="120" y="188" text-anchor="middle" font-family="Geist, Instrument Sans, system-ui, sans-serif" font-size="26" font-weight="600" fill="#163b0a" letter-spacing="3">FIND MY POLO</text>
+  <text x="120" y="208" text-anchor="middle" font-family="Geist, Instrument Sans, system-ui, sans-serif" font-size="12" fill="#163b0a" letter-spacing="4">DUMMY</text>
+</svg>

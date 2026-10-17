@@ -1,0 +1,12 @@
+// Prisma dipakai SEBAGAI PENJALAN MIGRATION saja (`npm run db:deploy`). Aplikasi tidak memakai
+// Prisma Client: situs ini React (Vite) murni di browser, dan Prisma tidak bisa jalan di browser.
+// Tabel/RLS/fungsi didefinisikan di prisma/migrations/*/migration.sql (SQL mentah) — jangan pakai
+// `prisma migrate dev` / `db push`: schema ini sengaja tanpa model, dan perintah itu akan mencoba
+// menghapus tabel yang tidak ia kenal.
+//
+// DIRECT_URL = koneksi langsung Postgres Supabase (port 5432), bukan pooler: migration butuh sesi
+// penuh. Diisi di web/.env.server (tidak masuk Git). Lihat .env.example.
+datasource db {
+  provider = "postgresql"
+  url      = env("DIRECT_URL")
+}

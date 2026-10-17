@@ -54,7 +54,7 @@ export function getSession(): AdminUser | null {
   }
 }
 
-export function can(role: AdminRole, area: 'produk' | 'pesanan' | 'kebun' | 'konten'): boolean {
+export function can(role: AdminRole, area: 'produk' | 'pesanan' | 'kebun' | 'konten' | 'polo'): boolean {
   if (role === 'admin') return true
   // pengurus: produk & pesanan saja — PRD §7.6 A-02
   return area === 'produk' || area === 'pesanan'

@@ -28,10 +28,11 @@ npm run dev       # Vite dev server, http://localhost:5173
 npm run build     # tsc -b (typecheck) + vite build -> dist/
 npm run preview   # serve the production build locally
 npm run lint       # oxlint
+npm test           # vitest: Find My Polo frontend utils + SQL migration tests (PGlite)
 ```
 
-There is no test runner configured in this project. Type-checking (`npm run build`) and `npm run lint`
-are the available correctness checks.
+Tests exist only for Find My Polo (`npm test`); the rest of the site is covered by type-checking
+(`npm run build`) and `npm run lint`.
 
 Demo admin login (`/admin/login`):
 
@@ -47,7 +48,12 @@ react-helmet-async, Tailwind v4 (via `@theme`, no config file — tokens live in
 This is a deliberate deviation from PRD §10 (which specified Next.js 15 App Router + Postgres/Prisma +
 Auth.js) — see `web/README.md` for the full mapping of "PRD plan" → "what's actually here" and why.
 
-**No backend.** There is no server, API, or database. Everything is client-side:
+**No backend — except Find My Polo.** The marketing site and admin panel have no server, API, or database;
+everything there is client-side. The one exception is the Find My Polo QR game (`web/src/features/find-my-polo/`,
+`web/supabase/`), which uses real Supabase (Auth + Postgres + RLS + RPC) because stamps and rewards must be
+decided server-side. Read `web/supabase/README.md` before touching it; it is Supabase-only by decision (no
+localStorage/demo mode — don't add one). `npm test` runs its tests (vitest; the SQL migration runs in PGlite).
+The rest of this section describes everything *else*:
 
 - **Data layer** (`src/lib/storage.ts`): a localStorage-backed store with an in-memory `cache` Map
   keyed by collection name. Reads/writes go through `getCollection`/`setCollection`; a pub/sub

@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Navbar } from './Navbar'
 import { Footer } from './Footer'
+import { ChallengeGate } from '@/features/find-my-polo/components/ChallengeGate'
 
 export function PublicLayout() {
   const { t } = useTranslation()
@@ -22,6 +23,7 @@ export function PublicLayout() {
         <Outlet />
       </main>
       <Footer />
+      <ChallengeGate />
     </div>
   )
 }
