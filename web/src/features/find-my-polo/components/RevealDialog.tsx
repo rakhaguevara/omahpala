@@ -12,10 +12,12 @@ interface RevealDialogProps {
   children?: ReactNode
   closeLabel: string
   onClose: () => void
+  /** Gambar berputar 3D (putaran sumbu-Y) saat muncul, lalu berayun pelan. Mati bila reduced motion. */
+  spin3d?: boolean
 }
 
 /** Dialog pop-up hadiah visual (stamp baru, stiker digital). Esc menutup; fokus pindah ke tombol tutup. */
-export function RevealDialog({ image, imageAlt, title, highlight, children, closeLabel, onClose }: RevealDialogProps) {
+export function RevealDialog({ image, imageAlt, title, highlight, children, closeLabel, onClose, spin3d = false }: RevealDialogProps) {
   const reduce = useReducedMotion()
   const dialogRef = useRef<HTMLDivElement>(null)
 
@@ -40,14 +42,35 @@ export function RevealDialog({ image, imageAlt, title, highlight, children, clos
         transition={{ duration: dur.slow, ease }}
         className="flex w-full max-w-sm flex-col items-center gap-4 rounded-lg bg-white p-8 text-center shadow-[0_16px_50px_rgba(0,0,0,.18)]"
       >
-        <motion.img
-          src={image}
-          alt={imageAlt}
-          className="h-44 w-44"
-          initial={reduce ? false : { rotate: -12, scale: 0.6 }}
-          animate={{ rotate: 0, scale: 1 }}
-          transition={{ duration: dur.slow, ease }}
-        />
+        {spin3d && !reduce ? (
+          <div className="h-44 w-44" style={{ perspective: 800 }}>
+            <motion.div
+              className="h-full w-full"
+              style={{ transformStyle: 'preserve-3d' }}
+              initial={{ rotateY: -720, scale: 0.4, opacity: 0 }}
+              animate={{ rotateY: 0, scale: 1, opacity: 1 }}
+              transition={{ duration: dur.slow * 1.5, ease }}
+            >
+              {/* Setelah putaran masuk selesai, stempel berayun pelan supaya sisi 3D-nya terasa. */}
+              <motion.img
+                src={image}
+                alt={imageAlt}
+                className="h-full w-full drop-shadow-[0_10px_16px_rgba(0,0,0,.25)]"
+                animate={{ rotateY: [-14, 14, -14] }}
+                transition={{ duration: dur.slow * 5, ease, repeat: Infinity, delay: dur.slow * 1.5 }}
+              />
+            </motion.div>
+          </div>
+        ) : (
+          <motion.img
+            src={image}
+            alt={imageAlt}
+            className="h-44 w-44"
+            initial={reduce ? false : { rotate: -12, scale: 0.6 }}
+            animate={{ rotate: 0, scale: 1 }}
+            transition={{ duration: dur.slow, ease }}
+          />
+        )}
         <h2 id="polo-reveal-title" className="text-display-m">
           {title}
         </h2>

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
-import { setMuted, useMuted } from '../hooks/useSound'
+import { playSound, setMuted, unlockAudio, useMuted } from '../hooks/useSound'
 
 /** Kontrol mute. Status disampaikan lewat teks + aria-pressed, bukan hanya ikon/warna. */
 export function SoundToggle({ className }: { className?: string }) {
@@ -11,7 +11,12 @@ export function SoundToggle({ className }: { className?: string }) {
       type="button"
       aria-pressed={!muted}
       aria-label={t('polo.soundToggle')}
-      onClick={() => setMuted(!muted)}
+      onClick={() => {
+        // Tombol ini adalah sentuhan pengguna: pakai untuk membuka audio, dan beri bunyi contoh saat dinyalakan.
+        unlockAudio()
+        setMuted(!muted)
+        if (muted) playSound('stamp')
+      }}
       className={cn(
         'inline-flex items-center gap-2 rounded-pill border border-line bg-white px-4 py-2 text-label text-ink transition-colors duration-200 hover:bg-surface',
         className,

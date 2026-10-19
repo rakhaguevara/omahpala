@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 import { AuthPanel } from '@/features/find-my-polo/components/AuthPanel'
 import { REWARD_TYPES, ROUTES } from '@/features/find-my-polo/config'
 import { signOut, useAuthSession } from '@/features/find-my-polo/hooks/useAuthSession'
+import { playSound } from '@/features/find-my-polo/hooks/useSound'
 import { GameError, isGameConfigured } from '@/features/find-my-polo/services/supabase'
 import * as staff from '@/features/find-my-polo/services/staffApi'
 import type { AdminQr, AdminStats, ClaimLookup, EventInfo, StaffRole } from '@/features/find-my-polo/types'
@@ -189,6 +190,7 @@ function RedeemTab({ isAdmin }: { isAdmin: boolean }) {
     const res = await run(() => staff.redeemReward(code))
     if (!res) return
     if (res.ok) {
+      playSound('success')
       setMessage(t('polo.admin.redeemed', { reward: rewardName(res.reward_type) }))
       setLookup(null)
       setCode('')

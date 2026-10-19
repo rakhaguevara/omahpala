@@ -84,8 +84,12 @@ export default function ScanPage() {
             total: res.progress.total_active,
             unlocksSticker: res.progress.sticker_unlocked && stickerWasUnlocked.current === false,
           })
+        } else if (res.result === 'already_collected' || res.result === 'invalid_qr') {
+          playSound('info')
+        } else if (res.result === 'event_inactive' || res.result === 'rate_limited') {
+          playSound('error')
         } else {
-          playSound('neutral')
+          playSound('tap')
         }
         stickerWasUnlocked.current = res.progress.sticker_unlocked
 
@@ -95,6 +99,7 @@ export default function ScanPage() {
         }
         setOutcome({ code: res.result, label: res.qr_label })
       } catch (e) {
+        playSound('error')
         setError(errorText(t, e instanceof GameError ? e.code : 'unknown'))
       } finally {
         setBusy(false)

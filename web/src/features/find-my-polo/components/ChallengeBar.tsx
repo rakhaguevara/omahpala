@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Button, LinkButton } from '@/components/ui/Button'
 import { ROUTES } from '../config'
+import { playSound } from '../hooks/useSound'
 import { beginChallenge, completeChallenge } from '../services/gameApi'
 import type { PendingChallenge } from '../types'
 import { clearChallenge, samePath } from '../utils/challengeStore'
@@ -30,6 +31,7 @@ export default function ChallengeBar({ challenge }: { challenge: PendingChalleng
 
   const finish = useCallback(() => {
     clearChallenge()
+    playSound('ding')
     setPhase('done')
   }, [])
 

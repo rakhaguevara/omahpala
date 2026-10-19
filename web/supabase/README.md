@@ -24,6 +24,9 @@ Browser tidak dipercaya. Semua keputusan diambil oleh fungsi `SECURITY DEFINER` 
    itu tidak berarti apa-apa bila Supabase sendiri yang mengisinya.)
 3. **Auth → URL Configuration:** Site URL = domain produksi. Redirect URLs tambahkan
    `https://DOMAIN/find-my-polo` dan `https://DOMAIN/admin/find-my-polo` (plus varian `http://localhost:5173/...` untuk dev).
+   **Jika tautan verifikasi email membuka `localhost:3000`:** artinya Site URL masih bawaan Supabase, atau alamat situs belum ada di Redirect URLs
+   (Supabase lalu mengabaikan `emailRedirectTo` dan memakai Site URL). Perbaiki di sini, lalu daftar ulang dengan email baru (tautan lama tetap salah arah).
+   Gunakan pola `https://DOMAIN/**` agar semua halaman game ikut diizinkan.
 4. **Terapkan migration lewat Prisma** (hanya sebagai penjalan migration; app tidak memakai Prisma Client):
    1. Dashboard → Connect → *Direct connection* (port 5432). Salin ke `web/.env.server` sebagai `DIRECT_URL` (contoh di `.env.example`).
    2. Dari `web/`: `npm run db:deploy` (menerapkan `prisma/migrations/*` berurutan), cek dengan `npm run db:status`.

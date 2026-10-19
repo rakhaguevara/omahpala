@@ -36,8 +36,9 @@ export function StampBoard({ total, collected, justCollected = null }: StampBoar
             <li key={i}>
               <motion.div
                 key={found ? `f-${label}` : `e-${i}`}
-                initial={isNew && !reduce ? { scale: 0.6, opacity: 0, rotate: -8 } : false}
-                animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                initial={isNew && !reduce ? { scale: 0.6, opacity: 0, rotateY: -360 } : false}
+                animate={{ scale: 1, opacity: 1, rotateY: 0 }}
+                style={{ transformPerspective: 800 }}
                 transition={{ duration: dur.slow, ease }}
                 className={cn(
                   'flex aspect-square flex-col items-center justify-center gap-2 rounded-md p-3 text-center',

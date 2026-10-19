@@ -74,6 +74,20 @@ export function AuthPanel({ allowSignUp = true, redirectPath = ROUTES.home, init
     }
   }
 
+  /** Setelah daftar: coba masuk langsung dengan email+password yang baru diisi (tanpa mengetik ulang). */
+  async function continueToLogin() {
+    setError(null)
+    setBusy(true)
+    try {
+      const { error: err } = await requireClient().auth.signInWithPassword({ email: email.trim(), password })
+      if (err) setError(mapAuthError(err.message, err.status))
+    } catch {
+      setError(t('polo.errors.network'))
+    } finally {
+      setBusy(false)
+    }
+  }
+
   async function resend() {
     setBusy(true)
     try {
@@ -96,6 +110,9 @@ export function AuthPanel({ allowSignUp = true, redirectPath = ROUTES.home, init
       <div className="flex flex-col gap-4" role="status">
         <h2 className="text-title">{t('polo.auth.checkEmailTitle')}</h2>
         <p className="text-body text-muted">{t('polo.auth.checkEmailBody', { email: email.trim() })}</p>
+        <Button variant="dark" onClick={continueToLogin} disabled={busy} className="self-start">
+          {busy ? t('polo.auth.working') : t('polo.auth.continueLogin')}
+        </Button>
         <Button variant="ghost" size="sm" onClick={resend} disabled={busy} className="self-start">
           {t('polo.auth.resend')}
         </Button>

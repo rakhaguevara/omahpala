@@ -373,7 +373,10 @@
       "errEmail": "Email looks incomplete. Example: name@email.com",
       "errRate": "Too many attempts. Wait a few minutes and try again.",
       "errGeneric": "That didn’t work. Check what you entered and try again.",
-      "errNotConfirmed": "Email isn’t verified yet. Open the link in your email, or resend it."
+      "errNotConfirmed": "Email isn’t verified yet. Open the link in your email, or resend it.",
+      "continueLogin": "I’ve verified, continue to sign in",
+      "verifiedBanner": "Email verified. You’re signed in; press Start Hunting to begin.",
+      "expiredBanner": "The verification link has expired or was already used. Sign in with your account, or resend the verification email."
     },
     "start": "Start Hunting",
     "starting": "Getting ready…",

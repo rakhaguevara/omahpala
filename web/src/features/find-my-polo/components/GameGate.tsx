@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { AuthPanel } from './AuthPanel'
 import { getPublicEvent } from '../services/gameApi'
-import { isGameConfigured, requireClient } from '../services/supabase'
+import { initialAuthRedirect, isGameConfigured, requireClient } from '../services/supabase'
 import { signOut } from '../hooks/useAuthSession'
 import { playSound } from '../hooks/useSound'
 import type { useGame } from '../hooks/useGame'
@@ -40,7 +40,7 @@ function Notice({ title, body }: { title: string; body: string }) {
  * login, email belum terverifikasi, event belum dibuka, belum menekan Start Hunting.
  * Hanya bila semuanya lolos, `children` dirender dengan progres dari server.
  */
-export function GameGate({ game, loginNote, startNote, children }: GameGateProps) {
+function GameGateInner({ game, loginNote, startNote, children }: GameGateProps) {
   const { t } = useTranslation()
   const { auth } = game
   const [publicOpen, setPublicOpen] = useState<boolean | null>(null)
@@ -160,7 +160,7 @@ export function GameGate({ game, loginNote, startNote, children }: GameGateProps
           className="mt-5 w-full"
           disabled={game.starting}
           onClick={() => {
-            playSound('neutral')
+            playSound('start')
             void game.start()
           }}
         >
@@ -176,4 +176,29 @@ export function GameGate({ game, loginNote, startNote, children }: GameGateProps
   }
 
   return <>{children(game.started)}</>
+}
+
+/** Menambahkan banner hasil klik tautan verifikasi email di atas semua keadaan gerbang. */
+export function GameGate(props: GameGateProps) {
+  const { t } = useTranslation()
+  const { auth } = props.game
+  const banner =
+    initialAuthRedirect === 'expired' && !auth.user
+      ? { tone: 'warn', text: t('polo.auth.expiredBanner') }
+      : initialAuthRedirect === 'verified' && auth.verified
+        ? { tone: 'ok', text: t('polo.auth.verifiedBanner') }
+        : null
+  return (
+    <>
+      {banner && (
+        <p
+          role="status"
+          className={`mx-auto mb-6 w-full max-w-md rounded-md p-4 text-body ${banner.tone === 'ok' ? 'bg-accent-soft text-accent-ink' : 'bg-[#FFF6E0] text-[#7A5A00]'}`}
+        >
+          {banner.text}
+        </p>
+      )}
+      <GameGateInner {...props} />
+    </>
+  )
 }

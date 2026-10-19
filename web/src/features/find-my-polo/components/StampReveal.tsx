@@ -20,6 +20,7 @@ export function StampReveal({ label, count, total, onClose }: StampRevealProps) 
       highlight={t('polo.reveal.count', { count, total })}
       closeLabel={t('polo.reveal.close')}
       onClose={onClose}
+      spin3d
     >
       <p className="text-body text-muted">{count >= total ? t('polo.progress.allFound') : t('polo.reveal.body', { n: label })}</p>
       <p className="text-meta text-muted-2">{t('polo.dummyNote')}</p>

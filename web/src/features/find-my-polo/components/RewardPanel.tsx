@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { GameError } from '../services/supabase'
+import { playSound } from '../hooks/useSound'
 import { createRewardClaim } from '../services/gameApi'
 import type { RewardState, StartedProgress } from '../types'
 import { ASSETS } from '../config'
@@ -24,7 +25,9 @@ export function RewardPanel({ progress, onProgress }: RewardPanelProps) {
     setError(null)
     try {
       onProgress(await createRewardClaim(type))
+      playSound('success')
     } catch (e) {
+      playSound('error')
       setError(errorText(t, e instanceof GameError ? e.code : 'unknown'))
     } finally {
       setBusy(null)

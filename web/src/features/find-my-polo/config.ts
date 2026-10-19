@@ -15,8 +15,8 @@ export const ROUTES = {
  * path di bawah (atau menimpa file di public/find-my-polo/ dengan nama yang sama).
  */
 export const ASSETS = {
-  /** Gambar stamp untuk QR bernomor `label`. Saat ini satu gambar dummy untuk semua. */
-  stamp: (_label: number) => '/find-my-polo/stamp-dummy.svg',
+  /** Gambar stempel untuk QR bernomor `label` (1–4 → stempel1–4.svg; di luar itu berulang). */
+  stamp: (label: number) => `/find-my-polo/stempel${(((label - 1) % 4) + 4) % 4 + 1}.svg`,
   /** Stiker digital yang terbuka pada ambang sticker_unlock_at. */
   digitalSticker: '/find-my-polo/sticker-dummy.svg',
 } as const
