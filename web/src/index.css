@@ -99,6 +99,25 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Warna akhir fade di tepi bawah PageBanner = tone section tepat di bawahnya. */
+  [data-page-banner] {
+    --banner-fade: var(--color-paper);
+  }
+  [data-page-banner]:has(+ section[data-tone='surface']) {
+    --banner-fade: var(--color-surface);
+  }
+
+  /* Warna awal fade di tepi atas footer = tone section terakhir di <main> (lihat Footer.tsx). */
+  footer {
+    --footer-fade: var(--color-paper);
+  }
+  main:has(> section[data-tone='surface']:last-of-type) + footer {
+    --footer-fade: var(--color-surface);
+  }
+  main:has(> section[data-tone='ink']:last-of-type) + footer {
+    --footer-fade: var(--color-ink);
+  }
+
   h1,
   h2,
   h3,

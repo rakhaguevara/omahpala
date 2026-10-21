@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
-import { Eyebrow, Badge } from '@/components/ui/Badge'
+import { PageBanner } from '@/components/blocks/PageBanner'
+import { bannerImages } from '@/lib/images'
+import { Badge } from '@/components/ui/Badge'
 import { Reveal } from '@/components/motion/Reveal'
 import { Stagger, StaggerItem } from '@/components/motion/Stagger'
 import { Seo } from '@/components/layout/Seo'
@@ -37,14 +39,16 @@ export default function Kebun() {
     <>
       <Seo title={`${t('kebun.title')} — ${t('common.brand')}`} description={t('kebun.subtitle')} path="/kebun" />
 
-      <Section tone="paper" className="pt-36">
-        <Container>
-          <Reveal className="mx-auto mb-12 flex max-w-2xl flex-col items-center gap-4 text-center">
-            <Eyebrow className="justify-center">{t('kebun.eyebrow')}</Eyebrow>
-            <h1 className="text-display-l text-balance">{t('kebun.title')}</h1>
-            <p className="text-body-l max-content-w text-muted">{t('kebun.subtitle')}</p>
-          </Reveal>
+      <PageBanner
+        image={bannerImages.kebun}
+        eyebrow={t('kebun.eyebrow')}
+        title={t('kebun.title')}
+        subtitle={t('kebun.subtitle')}
+        crumb={t('nav.kebun')}
+      />
 
+      <Section tone="paper">
+        <Container>
           {/* K-01 — pala (komoditas utama) dapat section sendiri; sisanya (jahe/kunyit/sereh/kencur/
               lainnya) digabung jadi satu section supaya lahan campuran tidak muncul berulang di
               tiap section komoditasnya. Komoditas tiap lahan tetap dijelaskan di kartunya. */}

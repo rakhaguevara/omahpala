@@ -24,7 +24,7 @@
     "kebun": "Farms",
     "contact": "Contact",
     "contactCta": "Contact Us",
-    "polo": "Find My Polo"
+    "polo": "Polo Games"
   },
   "footer": {
     "tagline": "Nutmeg-fruit products from Desa Wonokerto, made through the TOGA BERDAYA program.",
@@ -98,6 +98,9 @@
     "eyebrow": "PRODUCT CATALOG",
     "title": "Processed products from TOGA Corner plants",
     "subtitle": "Every product is traceable to its plot and grower. Click a product for full export specs.",
+    "introEyebrow": "A GLIMPSE OF OUR PRODUCTS",
+    "introTitle": "From Wonokerto gardens to your hands",
+    "introBody": "Wonokerto villagers turn nutmeg and TOGA plants into food, beverages, and care products. Browse the selection below.",
     "categoryPangan": "Food",
     "categoryMinuman": "Beverage",
     "categoryNonPangan": "Non-food",
@@ -593,6 +596,18 @@
       "count": "{{count}}/{{total}}",
       "body": "QR {{n}} is now in your collection.",
       "close": "View collection"
+    },
+    "miss": {
+      "alt": "Not found (placeholder image)",
+      "cta": "Explore the page",
+      "inactive_for_player": {
+        "title": "Too bad, not this one",
+        "body": "This QR isn’t your target, so no stamp this time. Explore this page to keep scanning QR codes."
+      },
+      "challenge_required": {
+        "title": "Finish the challenge first",
+        "body": "Explore the Omah Pala page that was opened to keep scanning QR codes."
+      }
     }
   }
 }

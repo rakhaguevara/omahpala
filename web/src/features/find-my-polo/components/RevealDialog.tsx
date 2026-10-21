@@ -12,12 +12,14 @@ interface RevealDialogProps {
   children?: ReactNode
   closeLabel: string
   onClose: () => void
+  /** Bila ada, tombol utama memanggil ini (mis. lanjut ke halaman lain); Esc tetap memanggil onClose. */
+  onConfirm?: () => void
   /** Gambar berputar 3D (putaran sumbu-Y) saat muncul, lalu berayun pelan. Mati bila reduced motion. */
   spin3d?: boolean
 }
 
 /** Dialog pop-up hadiah visual (stamp baru, stiker digital). Esc menutup; fokus pindah ke tombol tutup. */
-export function RevealDialog({ image, imageAlt, title, highlight, children, closeLabel, onClose, spin3d = false }: RevealDialogProps) {
+export function RevealDialog({ image, imageAlt, title, highlight, children, closeLabel, onClose, onConfirm, spin3d = false }: RevealDialogProps) {
   const reduce = useReducedMotion()
   const dialogRef = useRef<HTMLDivElement>(null)
 
@@ -80,7 +82,7 @@ export function RevealDialog({ image, imageAlt, title, highlight, children, clos
           </p>
         )}
         {children}
-        <Button variant="dark" onClick={onClose} className="mt-2">
+        <Button variant="dark" onClick={onConfirm ?? onClose} className="mt-2">
           {closeLabel}
         </Button>
       </motion.div>

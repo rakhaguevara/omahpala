@@ -16,7 +16,6 @@ const navItems = [
   { to: '/program', key: 'program' },
   { to: '/kebun', key: 'kebun' },
   { to: '/find-my-polo', key: 'polo' },
-  { to: '/kontak', key: 'contact' },
 ] as const
 
 /**

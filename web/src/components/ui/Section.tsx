@@ -23,6 +23,7 @@ export function Section({ children, tone = 'paper', className, id, ...props }: S
   return (
     <section
       id={id}
+      data-tone={tone}
       className={cn(
         'py-[clamp(80px,10vw,140px)]',
         toneClass[tone],

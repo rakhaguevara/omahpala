@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
+import { PageBanner } from '@/components/blocks/PageBanner'
 import { Eyebrow } from '@/components/ui/Badge'
 import { Badge } from '@/components/ui/Badge'
 import { Reveal } from '@/components/motion/Reveal'
@@ -10,7 +11,7 @@ import { StatBand } from '@/components/blocks/StatBand'
 import { Seo } from '@/components/layout/Seo'
 import { useLocale } from '@/lib/useLocale'
 import { programMilestones, programStats } from '@/data/program'
-import { programImages } from '@/lib/images'
+import { bannerImages, programImages } from '@/lib/images'
 
 const galleryImages = programImages.gallery
 
@@ -23,17 +24,14 @@ export default function Program() {
     <>
       <Seo title={`${t('program.title')} — ${t('common.brand')}`} description={t('program.metaDescription')} path="/program" />
 
-      <Section tone="ink" className="pt-36">
-        <Container>
-          <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
-            <Eyebrow tone="white" className="justify-center">
-              {t('program.eyebrow')}
-            </Eyebrow>
-            <h1 className="text-display-xl text-balance text-white">{t('program.title')}</h1>
-            <p className="text-body-l max-content-w text-white/85">{t('program.subtitle')}</p>
-          </Reveal>
-        </Container>
-      </Section>
+      <PageBanner
+        image={bannerImages.program}
+        eyebrow={t('program.eyebrow')}
+        title={t('program.title')}
+        subtitle={t('program.subtitle')}
+        crumb={t('nav.program')}
+        imagePosition="center 35%"
+      />
 
       {/* PR-01 + PR-02 */}
       <Section tone="surface">

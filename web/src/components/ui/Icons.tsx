@@ -242,3 +242,42 @@ export function IconAlertTriangle(props: IconProps) {
     </svg>
   )
 }
+
+export function IconUserPlus(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="10" cy="8" r="3.5" />
+      <path d="M3.5 19.5c.6-3.3 3.1-5 6.5-5s5.9 1.7 6.5 5M19 8v6M16 11h6" />
+    </svg>
+  )
+}
+
+export function IconTarget(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="8.5" />
+      <circle cx="12" cy="12" r="4.5" />
+      <circle cx="12" cy="12" r=".8" fill="currentColor" />
+    </svg>
+  )
+}
+
+export function IconQrCode(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3.5" y="3.5" width="6" height="6" rx="1" />
+      <rect x="14.5" y="3.5" width="6" height="6" rx="1" />
+      <rect x="3.5" y="14.5" width="6" height="6" rx="1" />
+      <path d="M14.5 14.5h2.5v2.5h-2.5zM20.5 14.5v2M17 20.5h3.5M14.5 20.5v-.5" />
+    </svg>
+  )
+}
+
+export function IconGift(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3.5" y="8.5" width="17" height="4" rx="1" />
+      <path d="M5 12.5v7h14v-7M12 8.5v11M12 8.5C12 6 10.5 4.5 9 4.5S6.5 6.5 9 8.5M12 8.5c0-2.5 1.5-4 3-4s2.5 2 0 4" />
+    </svg>
+  )
+}

@@ -33,6 +33,14 @@ export const contactImages = {
   hero: base('contact/hero.webp'),
 }
 
+/** Foto banner header halaman publik (PageBanner). Kebun memakai homeImages.ctaForest. */
+export const bannerImages = {
+  catalog: base('products/banner.webp'),
+  program: base('program/banner.webp'),
+  kebun: homeImages.ctaForest,
+  polo: base('polo/banner.webp'),
+}
+
 export const sharedImages = {
   footerBg: base('shared/footer-bg.webp'),
   ogDefault: base('shared/og-default.webp'),

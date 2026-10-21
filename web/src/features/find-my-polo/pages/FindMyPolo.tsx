@@ -2,12 +2,13 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
-import { Eyebrow } from '@/components/ui/Badge'
 import { Button, LinkButton } from '@/components/ui/Button'
-import { IconArrowRight } from '@/components/ui/Icons'
+import { IconArrowRight, IconGift, IconQrCode, IconTarget, IconUserPlus } from '@/components/ui/Icons'
 import { Reveal } from '@/components/motion/Reveal'
 import { Stagger, StaggerItem } from '@/components/motion/Stagger'
 import { Seo } from '@/components/layout/Seo'
+import { PageBanner } from '@/components/blocks/PageBanner'
+import { bannerImages } from '@/lib/images'
 import { GameGate } from '../components/GameGate'
 import { RewardPanel } from '../components/RewardPanel'
 import { SoundToggle } from '../components/SoundToggle'
@@ -17,7 +18,12 @@ import { signOut } from '../hooks/useAuthSession'
 import { useGame } from '../hooks/useGame'
 import { saveChallenge } from '../utils/challengeStore'
 
-const STEPS = [1, 2, 3, 4] as const
+const STEPS = [
+  { n: 1, Icon: IconUserPlus },
+  { n: 2, Icon: IconTarget },
+  { n: 3, Icon: IconQrCode },
+  { n: 4, Icon: IconGift },
+] as const
 
 /** Find My Polo — beranda permainan: aturan, masuk/daftar, Start Hunting, koleksi stamp, hadiah. */
 export default function FindMyPolo() {
@@ -29,17 +35,13 @@ export default function FindMyPolo() {
     <>
       <Seo title={`${t('polo.metaTitle')} — ${t('common.brand')}`} description={t('polo.metaDescription')} path={ROUTES.home} />
 
-      <Section tone="ink" className="pt-36">
-        <Container>
-          <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
-            <Eyebrow tone="white" className="justify-center">
-              {t('polo.eyebrow')}
-            </Eyebrow>
-            <h1 className="text-display-xl text-balance text-white">{t('polo.title')}</h1>
-            <p className="text-body-l max-content-w text-white/85">{t('polo.subtitle')}</p>
-          </Reveal>
-        </Container>
-      </Section>
+      <PageBanner
+        image={bannerImages.polo}
+        eyebrow={t('polo.eyebrow')}
+        title={t('polo.title')}
+        subtitle={t('polo.subtitle')}
+        crumb={t('nav.polo')}
+      />
 
       <Section tone="surface">
         <Container className="flex flex-col gap-12">
@@ -110,10 +112,15 @@ export default function FindMyPolo() {
                 <h2 className="text-display-m">{t('polo.rulesTitle')}</h2>
               </Reveal>
               <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                {STEPS.map((n) => (
+                {STEPS.map(({ n, Icon }) => (
                   <StaggerItem key={n}>
                     <div className="flex h-full flex-col gap-3 rounded-md border border-line bg-white p-5">
-                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-label text-white">{n}</span>
+                      <div className="flex items-center justify-between">
+                        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-accent-soft text-accent-ink">
+                          <Icon className="h-6 w-6" aria-hidden="true" />
+                        </span>
+                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-label text-white">{n}</span>
+                      </div>
                       <h3 className="text-title">{t(`polo.step${n}Title`)}</h3>
                       <p className="text-body text-muted">{t(`polo.step${n}Body`)}</p>
                     </div>

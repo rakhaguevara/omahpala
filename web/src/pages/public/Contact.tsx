@@ -1,9 +1,8 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
-import { Eyebrow } from '@/components/ui/Badge'
 import { Button, ExternalLinkButton } from '@/components/ui/Button'
 import { FieldWrapper, Input, Select, Textarea } from '@/components/ui/Field'
 import {
@@ -11,12 +10,12 @@ import {
   IconInstagram,
   IconMail,
   IconMapPin,
-  IconSparkle,
   IconTiktok,
   IconWhatsapp,
   IconYoutube,
 } from '@/components/ui/Icons'
 import { Reveal } from '@/components/motion/Reveal'
+import { PageBanner } from '@/components/blocks/PageBanner'
 import { Seo } from '@/components/layout/Seo'
 import { useInquiries, useProducts } from '@/lib/useEntities'
 import { useLocale } from '@/lib/useLocale'
@@ -139,47 +138,12 @@ export default function Contact() {
     <>
       <Seo title={`${t('contact.title')} — ${t('common.brand')}`} description={t('contact.subtitle')} path="/kontak" />
 
-      {/* Banner — foto full-bleed + overlay gradient standar design.md §2, bukan hero 100vh
-          Beranda. Navbar mengambang tetap di atasnya seperti pola Hero.tsx. Mark kecil pojok
-          kiri atas + breadcrumb pojok kanan bawah — persis referensi. */}
-      <section className="relative flex h-[360px] items-end overflow-hidden bg-ink sm:h-[420px]">
-        <img
-          src={contactImages.hero}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        <div
-          className="absolute inset-0"
-          style={{ backgroundImage: 'linear-gradient(180deg, rgba(33,33,33,.55) 0%, rgba(33,33,33,.75) 100%)' }}
-          aria-hidden
-        />
-        {/* Transisi ke section putih berikutnya — glow putih lembut di tepi bawah, sama seperti Hero.tsx */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-white sm:h-24 lg:h-28"
-        />
-
-        <Container className="absolute inset-x-0 top-6 z-10 sm:top-8">
-          <IconSparkle className="h-5 w-5 text-white" aria-hidden />
-        </Container>
-
-        <Container className="absolute inset-x-0 bottom-4 z-10 sm:bottom-6">
-          <div className="ml-auto flex w-fit items-center gap-1.5 rounded-pill bg-white/90 px-3 py-1.5 text-meta text-ink shadow-[0_2px_8px_rgba(0,0,0,.12)] backdrop-blur-sm">
-            <Link to="/" className="hover:text-muted">
-              {t('nav.home')}
-            </Link>
-            <span className="text-muted-2">/</span>
-            <span>{t('nav.contact')}</span>
-          </div>
-        </Container>
-
-        <Container className="relative z-10 pb-14 sm:pb-16">
-          <Reveal className="flex flex-col gap-4">
-            <Eyebrow tone="white">{t('contact.eyebrow')}</Eyebrow>
-            <h1 className="text-display-xl text-balance text-white">{t('contact.title')}</h1>
-          </Reveal>
-        </Container>
-      </section>
+      <PageBanner
+        image={contactImages.hero}
+        eyebrow={t('contact.eyebrow')}
+        title={t('contact.title')}
+        crumb={t('nav.contact')}
+      />
 
       <Section tone="paper">
         <Container>

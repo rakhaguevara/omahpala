@@ -19,6 +19,8 @@ export const ASSETS = {
   stamp: (label: number) => `/find-my-polo/stempel${(((label - 1) % 4) + 4) % 4 + 1}.svg`,
   /** Stiker digital yang terbuka pada ambang sticker_unlock_at. */
   digitalSticker: '/find-my-polo/sticker-dummy.svg',
+  /** Pop-up saat QR bukan target pemain (tanpa stamp). */
+  miss: '/find-my-polo/miss-dummy.svg',
 } as const
 
 /** Tipe hadiah yang dikenal UI; harus sama dengan kunci config.rewards di database. */

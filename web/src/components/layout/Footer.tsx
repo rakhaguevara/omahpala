@@ -12,6 +12,7 @@ const navItems = [
   { to: '/produk', key: 'catalog' },
   { to: '/program', key: 'program' },
   { to: '/kebun', key: 'kebun' },
+  { to: '/find-my-polo', key: 'polo' },
   { to: '/kontak', key: 'contact' },
 ] as const
 
@@ -29,11 +30,23 @@ export function Footer() {
         backgroundPosition: 'center',
       }}
     >
-      {/* Transisi dari section putih sebelumnya — glow putih lembut di tepi atas footer,
-          senada dengan fade di tepi bawah Hero, supaya potongan putih→foto gelap tidak tajam. */}
+      {/* Transisi dari section sebelumnya — warna awal fade mengikuti tone section terakhir
+          di <main> (--footer-fade, diatur di index.css), jadi tidak ada garis potong tajam
+          baik di atas section putih, abu, maupun gelap. Stop gradient dibuat bertahap (eased)
+          supaya tidak terlihat berpita. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-white to-transparent sm:h-40 lg:h-56"
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 sm:h-52 lg:h-72"
+        style={{
+          backgroundImage: `linear-gradient(180deg,
+            var(--footer-fade) 0%,
+            color-mix(in srgb, var(--footer-fade) 92%, transparent) 12%,
+            color-mix(in srgb, var(--footer-fade) 75%, transparent) 28%,
+            color-mix(in srgb, var(--footer-fade) 50%, transparent) 46%,
+            color-mix(in srgb, var(--footer-fade) 26%, transparent) 64%,
+            color-mix(in srgb, var(--footer-fade) 9%, transparent) 82%,
+            transparent 100%)`,
+        }}
       />
       <Container className="relative z-10">
         <div className="grid gap-10 rounded-lg bg-white p-7.5 text-ink shadow-[0_16px_60px_rgba(0,0,0,.25)] sm:p-10 lg:grid-cols-[1fr_1.3fr]">

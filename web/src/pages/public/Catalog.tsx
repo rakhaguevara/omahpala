@@ -4,6 +4,8 @@ import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
 import { Eyebrow } from '@/components/ui/Badge'
 import { Reveal } from '@/components/motion/Reveal'
+import { PageBanner } from '@/components/blocks/PageBanner'
+import { bannerImages } from '@/lib/images'
 import { ProductGrid } from '@/components/blocks/ProductGrid'
 import { Seo } from '@/components/layout/Seo'
 import { useProducts } from '@/lib/useEntities'
@@ -70,12 +72,21 @@ export default function Catalog() {
           })),
         }}
       />
-      <Section tone="paper" className="pt-36">
+      <PageBanner
+        image={bannerImages.catalog}
+        eyebrow={t('catalog.eyebrow')}
+        title={t('catalog.title')}
+        subtitle={t('catalog.subtitle')}
+        crumb={t('nav.catalog')}
+        imagePosition="center 40%"
+      />
+
+      <Section tone="paper">
         <Container>
-          <Reveal className="mx-auto mb-4 flex max-w-2xl flex-col items-center gap-4 text-center">
-            <Eyebrow className="justify-center">{t('catalog.eyebrow')}</Eyebrow>
-            <h1 className="text-display-l text-balance">{t('catalog.title')}</h1>
-            <p className="text-body-l max-content-w text-muted">{t('catalog.subtitle')}</p>
+          <Reveal className="mx-auto mb-10 flex max-w-2xl flex-col items-center gap-4 text-center">
+            <Eyebrow className="justify-center">{t('catalog.introEyebrow')}</Eyebrow>
+            <h2 className="text-display-l text-balance">{t('catalog.introTitle')}</h2>
+            <p className="text-body-l max-content-w text-muted">{t('catalog.introBody')}</p>
           </Reveal>
 
           {showcaseImages.length > 0 && (

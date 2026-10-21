@@ -32,31 +32,53 @@ export function StampBoard({ total, collected, justCollected = null }: StampBoar
           const label = sorted[i]
           const found = label !== undefined
           const isNew = found && label === justCollected
+          const cardBase = 'flex aspect-square flex-col items-center justify-center gap-2 rounded-md p-3 text-center'
+          const emptyFace = (
+            <>
+              <span aria-hidden="true" className="flex h-16 w-16 items-center justify-center rounded-full border border-dashed border-line text-title text-muted-2 sm:h-20 sm:w-20">
+                ?
+              </span>
+              <span className="inline-flex items-center gap-1 text-meta text-ink">{t('polo.progress.slotEmpty')}</span>
+            </>
+          )
+          const foundFace = found && (
+            <>
+              <img src={ASSETS.stamp(label)} alt={t('polo.stampAlt')} className="h-16 w-16 object-contain sm:h-20 sm:w-20" />
+              <span className="inline-flex items-center gap-1 text-meta text-ink">
+                <IconCheck className="h-4 w-4 text-accent-ink" aria-hidden="true" />
+                {`${t('polo.progress.qrNo', { n: label })} · ${t('polo.progress.slotFound')}`}
+              </span>
+            </>
+          )
+          const hidden = { backfaceVisibility: 'hidden' as const, WebkitBackfaceVisibility: 'hidden' as const }
+
           return (
-            <li key={i}>
-              <motion.div
-                key={found ? `f-${label}` : `e-${i}`}
-                initial={isNew && !reduce ? { scale: 0.6, opacity: 0, rotateY: -360 } : false}
-                animate={{ scale: 1, opacity: 1, rotateY: 0 }}
-                style={{ transformPerspective: 800 }}
-                transition={{ duration: dur.slow, ease }}
-                className={cn(
-                  'flex aspect-square flex-col items-center justify-center gap-2 rounded-md p-3 text-center',
-                  found ? 'border border-accent bg-accent-soft' : 'border border-dashed border-line bg-white',
-                )}
-              >
-                {found ? (
-                  <img src={ASSETS.stamp(label)} alt={t('polo.stampAlt')} className="h-16 w-16 object-contain sm:h-20 sm:w-20" />
-                ) : (
-                  <span aria-hidden="true" className="flex h-16 w-16 items-center justify-center rounded-full border border-dashed border-line text-title text-muted-2 sm:h-20 sm:w-20">
-                    ?
-                  </span>
-                )}
-                <span className="inline-flex items-center gap-1 text-meta text-ink">
-                  {found && <IconCheck className="h-4 w-4 text-accent-ink" aria-hidden="true" />}
-                  {found ? `${t('polo.progress.qrNo', { n: label })} · ${t('polo.progress.slotFound')}` : t('polo.progress.slotEmpty')}
-                </span>
-              </motion.div>
+            <li key={i} style={{ perspective: 800 }}>
+              {isNew && !reduce ? (
+                // Kartu dua sisi: sisi luar "?" berputar ke sisi dalam (stempel) saat baru ditemukan.
+                <motion.div
+                  key={`flip-${label}`}
+                  className="relative aspect-square"
+                  style={{ transformStyle: 'preserve-3d' }}
+                  initial={{ rotateY: 0 }}
+                  animate={{ rotateY: 180 }}
+                  transition={{ duration: dur.slow, ease, delay: dur.fast }}
+                >
+                  <div className={cn(cardBase, 'absolute inset-0 border border-dashed border-line bg-white')} style={hidden}>
+                    {emptyFace}
+                  </div>
+                  <div
+                    className={cn(cardBase, 'absolute inset-0 border border-accent bg-accent-soft')}
+                    style={{ ...hidden, transform: 'rotateY(180deg)' }}
+                  >
+                    {foundFace}
+                  </div>
+                </motion.div>
+              ) : (
+                <div className={cn(cardBase, found ? 'border border-accent bg-accent-soft' : 'border border-dashed border-line bg-white')}>
+                  {found ? foundFace : emptyFace}
+                </div>
+              )}
             </li>
           )
         })}

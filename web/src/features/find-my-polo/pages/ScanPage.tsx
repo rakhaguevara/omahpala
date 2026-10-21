@@ -11,6 +11,7 @@ import { GameGate } from '../components/GameGate'
 import { QrScannerView } from '../components/QrScannerView'
 import { SoundToggle } from '../components/SoundToggle'
 import { StampBoard } from '../components/StampBoard'
+import { MissReveal } from '../components/MissReveal'
 import { StampReveal } from '../components/StampReveal'
 import { StickerReveal } from '../components/StickerReveal'
 import { ROUTES } from '../config'
@@ -39,6 +40,8 @@ export default function ScanPage() {
   const [outcome, setOutcome] = useState<Outcome | null>(null)
   const [justCollected, setJustCollected] = useState<number | null>(null)
   const [showSticker, setShowSticker] = useState(false)
+  // QR bukan target: pop-up dulu, baru ke halaman tantangan lewat tombolnya.
+  const [miss, setMiss] = useState<{ code: 'inactive_for_player' | 'challenge_required'; challenge: PendingChallenge } | null>(null)
   // Stamp yang baru didapat: pop-up tampil dulu, slot koleksi terisi setelah pop-up ditutup.
   const [reveal, setReveal] = useState<{ label: number; count: number; total: number; unlocksSticker: boolean } | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -88,13 +91,14 @@ export default function ScanPage() {
           playSound('info')
         } else if (res.result === 'event_inactive' || res.result === 'rate_limited') {
           playSound('error')
-        } else {
-          playSound('tap')
         }
         stickerWasUnlocked.current = res.progress.sticker_unlocked
 
         if (res.result === 'inactive_for_player' || res.result === 'challenge_required') {
-          goChallenge(res.progress)
+          if (res.progress.pending_challenge) {
+            playSound('info')
+            setMiss({ code: res.result, challenge: res.progress.pending_challenge })
+          }
           return
         }
         setOutcome({ code: res.result, label: res.qr_label })
@@ -105,7 +109,7 @@ export default function ScanPage() {
         setBusy(false)
       }
     },
-    [apply, goChallenge, t],
+    [apply, t],
   )
 
   // Tautan QR: token datang lewat router state; dikonsumsi sekali lalu dihapus dari history.
@@ -116,6 +120,12 @@ export default function ScanPage() {
     navigate(location.pathname, { replace: true, state: null })
     void submit(stateToken)
   }, [started, stateToken, navigate, location.pathname, submit])
+
+  function continueMiss() {
+    if (!miss) return
+    saveChallenge(miss.challenge)
+    navigate(miss.challenge.destination_path)
+  }
 
   function closeReveal() {
     const unlocks = reveal?.unlocksSticker
@@ -248,6 +258,7 @@ export default function ScanPage() {
         </Container>
       </Section>
 
+      {miss && <MissReveal code={miss.code} onContinue={continueMiss} onClose={() => setMiss(null)} />}
       {reveal && <StampReveal label={reveal.label} count={reveal.count} total={reveal.total} onClose={closeReveal} />}
       {showSticker && <StickerReveal onClose={() => setShowSticker(false)} />}
     </>

@@ -24,7 +24,7 @@
     "kebun": "Kebun",
     "contact": "Kontak",
     "contactCta": "Hubungi Kami",
-    "polo": "Find My Polo"
+    "polo": "Polo Games"
   },
   "footer": {
     "tagline": "Produk olahan pala Desa Wonokerto, hasil program TOGA BERDAYA.",
@@ -98,6 +98,9 @@
     "eyebrow": "KATALOG PRODUK",
     "title": "Produk olahan tanaman TOGA Corner",
     "subtitle": "Semua produk tertaut ke lahan dan penanam asalnya. Klik produk untuk spesifikasi ekspor lengkap.",
+    "introEyebrow": "SEKILAS PRODUK KAMI",
+    "introTitle": "Dari kebun Wonokerto ke tangan Anda",
+    "introBody": "Warga Desa Wonokerto mengolah pala dan tanaman TOGA menjadi pangan, minuman, dan produk perawatan. Jelajahi pilihan produk di bawah ini.",
     "categoryPangan": "Pangan",
     "categoryMinuman": "Minuman",
     "categoryNonPangan": "Non-pangan",
@@ -593,6 +596,18 @@
       "count": "{{count}}/{{total}}",
       "body": "QR {{n}} masuk ke koleksi Anda.",
       "close": "Lihat koleksi"
+    },
+    "miss": {
+      "alt": "Belum ketemu (gambar sementara)",
+      "cta": "Jelajahi halaman",
+      "inactive_for_player": {
+        "title": "Sayang sekali, belum ketemu",
+        "body": "QR ini bukan targetmu, jadi tidak ada stamp kali ini. Jelajahi halaman ini untuk melanjutkan memindai QR."
+      },
+      "challenge_required": {
+        "title": "Selesaikan tantangan dulu",
+        "body": "Jelajahi halaman Omah Pala yang dibuka untuk melanjutkan memindai QR."
+      }
     }
   }
 }

@@ -14,6 +14,7 @@ nama file di sini, supaya ganti gambar cukup di folder ini, bukan berburu di ban
 | `program/` | Halaman Program, kartu pilar di Beranda | 1 foto per pilar (`screening`/`cultivation`/`production`/`economy`/`monitoring`) + 6 foto galeri |
 | `kebun/` | Halaman Kebun & detail lahan | Foto petani (`farmer-<id>.webp`) & foto lahan (`plot-<id>.webp`) — id dari `src/data/farmers.ts` / `plots.ts` |
 | `articles/` | Artikel/Kabar | 1 foto per artikel — nama file `<slug-artikel>.webp` (slug dari `src/data/articles.ts`) |
+| `polo/` | Halaman Polo Games (`PageBanner`) | Foto banner hero (peta harta karun) |
 | `contact/` | Halaman Kontak | Foto banner hero |
 | `shared/` | Footer (semua halaman), meta `og:image` default | Foto latar footer, gambar share default |
 
