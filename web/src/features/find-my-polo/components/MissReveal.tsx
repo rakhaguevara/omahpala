@@ -4,6 +4,8 @@ import { RevealDialog } from './RevealDialog'
 
 interface MissRevealProps {
   code: 'inactive_for_player' | 'challenge_required'
+  /** Nomor QR yang baru dipindai (hanya diketahui untuk inactive_for_player). */
+  label?: number
   /** Tombol utama: lanjut ke halaman tantangan. */
   onContinue: () => void
   /** Esc / klik di luar tombol: tetap di halaman scan (kartu "Lanjutkan tantangan" tetap tersedia). */
@@ -11,7 +13,7 @@ interface MissRevealProps {
 }
 
 /** Pop-up saat scan tidak memberi stamp: QR valid tapi bukan target, atau tantangan lama belum selesai. */
-export function MissReveal({ code, onContinue, onClose }: MissRevealProps) {
+export function MissReveal({ code, label, onContinue, onClose }: MissRevealProps) {
   const { t } = useTranslation()
   return (
     <RevealDialog
@@ -22,7 +24,7 @@ export function MissReveal({ code, onContinue, onClose }: MissRevealProps) {
       onClose={onClose}
       onConfirm={onContinue}
     >
-      <p className="text-body text-muted">{t(`polo.miss.${code}.body`)}</p>
+      <p className="text-body text-muted">{t(`polo.miss.${code}.body`, { n: label })}</p>
       <p className="text-meta text-muted-2">{t('polo.dummyNote')}</p>
     </RevealDialog>
   )

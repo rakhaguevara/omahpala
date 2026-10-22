@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from 'react'
+import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import QRCode from 'qrcode'
 import { Seo } from '@/components/layout/Seo'
@@ -7,16 +7,17 @@ import { Button } from '@/components/ui/Button'
 import { FieldWrapper, Input, Select } from '@/components/ui/Field'
 import { cn } from '@/lib/utils'
 import { AuthPanel } from '@/features/find-my-polo/components/AuthPanel'
+import { QrScannerView } from '@/features/find-my-polo/components/QrScannerView'
 import { REWARD_TYPES, ROUTES } from '@/features/find-my-polo/config'
 import { signOut, useAuthSession } from '@/features/find-my-polo/hooks/useAuthSession'
 import { playSound } from '@/features/find-my-polo/hooks/useSound'
 import { GameError, isGameConfigured } from '@/features/find-my-polo/services/supabase'
 import * as staff from '@/features/find-my-polo/services/staffApi'
-import type { AdminQr, AdminStats, ClaimLookup, EventInfo, StaffRole } from '@/features/find-my-polo/types'
+import type { AdminQr, AdminStats, ClaimLookup, EventInfo, QrIdentity, StaffRole } from '@/features/find-my-polo/types'
 import { errorText } from '@/features/find-my-polo/utils/errorText'
-import { buildQrUrl } from '@/features/find-my-polo/utils/qrToken'
+import { buildQrUrl, extractQrToken } from '@/features/find-my-polo/utils/qrToken'
 
-type Tab = 'redeem' | 'stats' | 'setup'
+type Tab = 'redeem' | 'check' | 'stats' | 'setup'
 
 const card = 'rounded-md border border-line bg-white p-6'
 
@@ -105,9 +106,10 @@ export default function PoloAdmin() {
 function Console({ role }: { role: StaffRole }) {
   const { t } = useTranslation()
   const [tab, setTab] = useState<Tab>('redeem')
-  const tabs: Tab[] = role === 'admin' ? ['redeem', 'stats', 'setup'] : ['redeem', 'stats']
+  const tabs: Tab[] = role === 'admin' ? ['redeem', 'check', 'stats', 'setup'] : ['redeem', 'check', 'stats']
   const label: Record<Tab, string> = {
     redeem: t('polo.admin.tabRedeem'),
+    check: t('polo.admin.tabCheck'),
     stats: t('polo.admin.tabStats'),
     setup: t('polo.admin.tabSetup'),
   }
@@ -131,6 +133,7 @@ function Console({ role }: { role: StaffRole }) {
         ))}
       </div>
       {tab === 'redeem' && <RedeemTab isAdmin={role === 'admin'} />}
+      {tab === 'check' && <CheckQrTab />}
       {tab === 'stats' && <StatsTab />}
       {tab === 'setup' && role === 'admin' && <SetupTab />}
     </div>
@@ -165,6 +168,87 @@ function ErrorLine({ error }: { error: string | null }) {
       {error}
     </p>
   ) : null
+}
+
+/* ————————————————— Cek QR (kamera) ————————————————— */
+
+/**
+ * Pindai QR cetakan untuk mengetahui nomornya (1–5) dan jenisnya (stempel / bukan), TANPA efek
+ * samping: tidak membuat stamp, scan_attempt, atau tantangan. Nomor dari server, bukan dari tebakan klien.
+ */
+function CheckQrTab() {
+  const { t } = useTranslation()
+  const { busy, error, run, setError } = useAction()
+  const [result, setResult] = useState<QrIdentity | null>(null)
+  const [checked, setChecked] = useState<number[]>([])
+  const last = useRef<{ text: string; at: number } | null>(null)
+
+  async function onDecode(text: string) {
+    // Kamera membaca 5x/detik: abaikan QR yang sama selama 3 detik supaya tidak membanjiri server.
+    const now = Date.now()
+    if (last.current && last.current.text === text && now - last.current.at < 3000) return
+    last.current = { text, at: now }
+    const token = extractQrToken(text)
+    if (!token) {
+      setError(null)
+      setResult({ found: false })
+      return
+    }
+    const res = await run(() => staff.identifyQr(token))
+    if (!res) return
+    setResult(res)
+    if (res.found) {
+      playSound(res.status === 'active' ? 'info' : 'error')
+      setChecked((c) => (c.includes(res.label) ? c : [...c, res.label].sort((a, b) => a - b)))
+    }
+  }
+
+  return (
+    <div className={cn(card, 'mx-auto flex w-full max-w-xl flex-col gap-5')}>
+      <div className="flex flex-col gap-1">
+        <h2 className="text-title">{t('polo.admin.checkTitle')}</h2>
+        <p className="text-body text-muted">{t('polo.admin.checkHelp')}</p>
+      </div>
+
+      <QrScannerView onDecode={(text) => void onDecode(text)} paused={busy} />
+
+      <div role="status" aria-live="polite" className="flex min-h-24 flex-col items-center justify-center gap-2 rounded-md border border-line bg-surface p-5 text-center">
+        {!result && <p className="text-body text-muted">{t('polo.admin.checkWaiting')}</p>}
+        {result && !result.found && <p className="text-body text-[#B23A3A]">{t('polo.admin.checkUnknown')}</p>}
+        {result?.found && (
+          <>
+            <p className="text-display-m tabular-nums">{t('polo.progress.qrNo', { n: result.label })}</p>
+            <p className="text-label">
+              {result.awards_stamp ? t('polo.admin.checkStamp') : t('polo.admin.checkNoStamp')}
+            </p>
+            {result.status !== 'active' && (
+              <p className="text-meta text-[#B23A3A]">{t('polo.admin.checkInactive', { status: result.status })}</p>
+            )}
+          </>
+        )}
+      </div>
+
+      <ErrorLine error={error} />
+
+      <div className="flex flex-col gap-2">
+        <p className="text-meta text-muted-2">{t('polo.admin.checkedTitle')}</p>
+        <ul className="flex flex-wrap gap-2">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <li
+              key={n}
+              className={cn(
+                'rounded-pill border px-3 py-1 text-meta tabular-nums',
+                checked.includes(n) ? 'border-accent bg-accent-soft text-accent-ink' : 'border-line text-muted-2',
+              )}
+            >
+              {checked.includes(n) ? '✓ ' : ''}
+              {t('polo.progress.qrNo', { n })}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )
 }
 
 /* ————————————————— Tukar hadiah ————————————————— */

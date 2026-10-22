@@ -88,11 +88,11 @@ export interface Fixture {
   db: PGlite
   admin: string
   staff: string
-  /** label QR (1..10) -> token plaintext (hanya ada di test; di produksi tampil sekali) */
+  /** label QR (1..5) -> token plaintext (hanya ada di test; di produksi tampil sekali) */
   tokens: Record<number, string>
 }
 
-/** Event aktif, 10 QR bertoken, stok hadiah, plus satu admin & satu staff. */
+/** Event aktif, 5 QR bertoken (1–3 stempel, 4–5 bukan), stok hadiah, plus satu admin & satu staff. */
 export async function createFixture(opts: { stock?: { small_gift?: number; sticker?: number } } = {}): Promise<Fixture> {
   const db = await createDb()
   const admin = await createUser(db)

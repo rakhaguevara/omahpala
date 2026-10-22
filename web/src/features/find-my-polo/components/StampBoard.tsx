@@ -14,7 +14,7 @@ interface StampBoardProps {
 }
 
 /**
- * Papan 4 slot stamp. Status ditunjukkan dengan ikon centang + teks ("Ditemukan"/"Belum ditemukan"),
+ * Papan slot stamp (3 slot: QR 1–3). Status ditunjukkan dengan ikon centang + teks ("Ditemukan"/"Belum ditemukan"),
  * tidak hanya lewat warna. Animasi mati bila pengguna memilih reduced motion.
  */
 export function StampBoard({ total, collected, justCollected = null }: StampBoardProps) {
@@ -27,7 +27,7 @@ export function StampBoard({ total, collected, justCollected = null }: StampBoar
       <p className="text-title" aria-live="polite">
         {t('polo.progress.count', { count: sorted.length, total })}
       </p>
-      <ul className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4" aria-label={t('polo.progress.title')}>
+      <ul className={cn('mt-5 grid gap-4', total === 3 ? 'grid-cols-3' : 'grid-cols-2 sm:grid-cols-4')} aria-label={t('polo.progress.title')}>
         {Array.from({ length: total }, (_, i) => {
           const label = sorted[i]
           const found = label !== undefined

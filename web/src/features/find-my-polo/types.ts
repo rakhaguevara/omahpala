@@ -44,7 +44,7 @@ export interface StartedProgress {
   game_status: 'active' | 'completed' | 'suspended'
   stamp_count: number
   total_active: number
-  /** Nomor QR (1..10) yang sudah dikumpulkan. Assignment lengkap TIDAK dikirim ke klien. */
+  /** Nomor QR stempel (1..3) yang sudah dikumpulkan. */
   collected: number[]
   all_found: boolean
   sticker_unlock_at: number
@@ -68,6 +68,7 @@ export type ScanResultCode =
 
 export interface ScanResponse {
   result: ScanResultCode
+  /** Ada pada stamp_awarded, already_collected, dan inactive_for_player. */
   qr_label?: number
   progress: StartedProgress
 }
@@ -106,7 +107,13 @@ export interface AdminQr {
   label: number
   status: 'active' | 'disabled' | 'revoked'
   destination_path: string
+  /** true = QR ini memberi stempel (QR 1–3); false = hanya membuka halaman + tantangan scroll. */
+  awards_stamp: boolean
 }
+
+export type QrIdentity =
+  | { found: false }
+  | { found: true; label: number; status: AdminQr['status']; awards_stamp: boolean; destination_path: string }
 
 export interface RotatedToken {
   label: number

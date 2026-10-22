@@ -15,17 +15,26 @@ async function newPlayer() {
   const id = await createUser(f.db)
   await rpc(f.db, id, 'fmp_start_game', SLUG)
   const active = await assignedLabels(f.db, id)
-  const inactive = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter((l) => !active.includes(l))
+  const inactive = [1, 2, 3, 4, 5].filter((l) => !active.includes(l))
   return { id, active, inactive }
 }
 const scan = (uid: string, label: number) => rpc(f.db, uid, 'fmp_scan_qr', SLUG, f.tokens[label])
 
 describe('start-game & assignment', () => {
-  it('memberi tepat 4 QR berbeda dari 10', async () => {
-    const p = await newPlayer()
-    expect(p.active).toHaveLength(4)
-    expect(new Set(p.active).size).toBe(4)
-    expect(p.inactive).toHaveLength(6)
+  it('semua pemain mendapat QR stempel yang sama: 1, 2, 3 (tidak diacak); 4 dan 5 bukan stempel', async () => {
+    const a = await newPlayer()
+    const b = await newPlayer()
+    expect(a.active).toEqual([1, 2, 3])
+    expect(b.active).toEqual([1, 2, 3])
+    expect(a.inactive).toEqual([4, 5])
+  })
+
+  it('hanya 5 QR yang aktif; slot 6–10 dinonaktifkan', async () => {
+    expect(await sql(f.db, `select label from public.game_qrs where status='active' order by label`))
+      .toEqual([1, 2, 3, 4, 5].map((label) => ({ label })))
+    expect(await sql(f.db, `select label from public.game_qrs where awards_stamp order by label`))
+      .toEqual([1, 2, 3].map((label) => ({ label })))
+    expect(Object.keys(f.tokens).map(Number).sort()).toEqual([1, 2, 3, 4, 5])
   })
 
   it('tidak berubah saat start-game dipanggil ulang (refresh / login ulang / perangkat lain)', async () => {
@@ -61,8 +70,8 @@ describe('start-game & assignment', () => {
     expect(await rpcError(f.db, u, 'fmp_start_game', SLUG)).toBe('event_not_found') // draft tidak terlihat publik
   })
 
-  it('menolak jika QR aktif tidak tepat 10', async () => {
-    await rpc(f.db, f.admin, 'fmp_admin_set_qr_status', SLUG, 10, 'disabled')
+  it('menolak jika QR aktif tidak tepat 5', async () => {
+    await rpc(f.db, f.admin, 'fmp_admin_set_qr_status', SLUG, 5, 'disabled')
     const u = await createUser(f.db)
     expect(await rpcError(f.db, u, 'fmp_start_game', SLUG)).toBe('event_not_ready')
   })
@@ -145,6 +154,17 @@ describe('scan-qr', () => {
     expect(await sql(f.db, `select count(*)::int n from public.scan_attempts where result='rate_limited'`)).toEqual([{ n: 1 }])
   })
 
+  it('QR 4 dan 5 menyertakan nomor QR di respons dan tidak pernah memberi stamp', async () => {
+    const p = await newPlayer()
+    const r = await scan(p.id, 4)
+    expect(r.result).toBe('inactive_for_player')
+    expect(r.qr_label).toBe(4)
+    await finishChallenge(f.db, p.id, r.progress.pending_challenge.id)
+    const r5 = await scan(p.id, 5)
+    expect(r5.qr_label).toBe(5)
+    expect(r5.progress.stamp_count).toBe(0)
+  })
+
   it('stamp tidak mungkin dibuat untuk QR di luar assignment (constraint DB)', async () => {
     const p = await newPlayer()
     const [pg] = await sql<{ id: string }>(f.db, `select id from public.player_games where user_id=$1`, [p.id])
@@ -152,6 +172,26 @@ describe('scan-qr', () => {
     await expect(
       sql(f.db, `insert into public.player_stamps (player_game_id, qr_id) values ($1, $2)`, [pg.id, qr.id]),
     ).rejects.toThrow(/foreign key|violates/)
+  })
+
+  it('pemain lama tanpa assignment tetap bisa mendapat stamp (assignment dibuat saat scan)', async () => {
+    const p = await newPlayer()
+    await sql(f.db, `delete from public.player_qr_assignments`)
+    const r = await scan(p.id, 2)
+    expect(r.result).toBe('stamp_awarded')
+    expect(r.progress.collected).toEqual([2])
+  })
+
+  it('stamp lama pada QR yang tidak lagi memberi stempel tidak dihitung', async () => {
+    const p = await newPlayer()
+    const [pg] = await sql<{ id: string }>(f.db, `select id from public.player_games where user_id=$1`, [p.id])
+    const [qr] = await sql<{ id: string }>(f.db, `select id from public.game_qrs where label=7`)
+    await sql(f.db, `insert into public.player_qr_assignments (player_game_id, event_id, qr_id) select $1, event_id, id from public.game_qrs where id=$2`, [pg.id, qr.id])
+    await sql(f.db, `insert into public.player_stamps (player_game_id, qr_id) values ($1, $2)`, [pg.id, qr.id])
+    const progress = await rpc(f.db, p.id, 'fmp_get_progress', SLUG)
+    expect(progress.stamp_count).toBe(0)
+    expect(progress.collected).toEqual([])
+    expect(progress.total_active).toBe(3)
   })
 
   it('pemain tidak bisa memakai progres pemain lain', async () => {
@@ -241,7 +281,7 @@ describe('scroll challenge', () => {
   })
 })
 
-describe('ambang stamp 2/3/4', () => {
+describe('ambang stamp 2/3 (total 3 stempel)', () => {
   it('menghitung dari database, bukan dari klien', async () => {
     const p = await newPlayer()
     let r = await scan(p.id, p.active[0])
@@ -254,13 +294,9 @@ describe('ambang stamp 2/3/4', () => {
     expect(r.progress.sticker_unlocked).toBe(false)
 
     r = await scan(p.id, p.active[2])
-    expect(r.progress.sticker_unlocked).toBe(true)
-    expect(r.progress.all_found).toBe(false)
-
-    r = await scan(p.id, p.active[3])
-    expect(r.progress).toMatchObject({ stamp_count: 4, all_found: true, game_status: 'completed' })
-    // Tidak pernah lebih dari 4
-    expect((await scan(p.id, p.active[3])).progress.stamp_count).toBe(4)
+    expect(r.progress).toMatchObject({ stamp_count: 3, total_active: 3, sticker_unlocked: true, all_found: true, game_status: 'completed' })
+    // Tidak pernah lebih dari 3
+    expect((await scan(p.id, p.active[2])).progress.stamp_count).toBe(3)
   })
 
   it('progres bertahan lintas sesi (dibaca ulang dari DB)', async () => {
@@ -374,7 +410,7 @@ describe('otorisasi admin', () => {
 
   it('staff boleh melihat statistik; admin bisa mengatur; perubahan tercatat di audit log', async () => {
     const s = await rpc(f.db, f.staff, 'fmp_admin_stats', SLUG)
-    expect(s.active_qrs).toBe(10)
+    expect(s.active_qrs).toBe(5)
     expect(await rpc(f.db, f.staff, 'fmp_staff_role')).toBe('staff')
     expect(await rpc(f.db, f.admin, 'fmp_staff_role')).toBe('admin')
     expect(await rpc(f.db, await createUser(f.db), 'fmp_staff_role')).toBeNull()
@@ -396,6 +432,27 @@ describe('otorisasi admin', () => {
     const list = await rpc(f.db, f.admin, 'fmp_admin_list_qrs', SLUG)
     expect(JSON.stringify(list)).not.toMatch(/token|hash/)
     expect(list).toHaveLength(10)
+    expect(list.filter((q: any) => q.awards_stamp).map((q: any) => q.label)).toEqual([1, 2, 3])
+    expect(list.filter((q: any) => q.status === 'active')).toHaveLength(5)
+  })
+
+  it('rotasi token melewati slot nonaktif (6–10) dan tidak mengaktifkannya kembali', async () => {
+    const rotated = await rpc(f.db, f.admin, 'fmp_admin_rotate_tokens', SLUG, true)
+    expect(rotated.map((q: any) => q.label)).toEqual([1, 2, 3, 4, 5])
+    expect(await sql(f.db, `select count(*)::int n from public.game_qrs where status='active'`)).toEqual([{ n: 5 }])
+  })
+
+  it('cek QR (panitia): menunjukkan nomor & jenis tanpa efek samping; pemain biasa ditolak', async () => {
+    const u = await createUser(f.db)
+    expect(await rpcError(f.db, u, 'fmp_admin_identify_qr', SLUG, f.tokens[1])).toBe('forbidden')
+    expect(await rpcError(f.db, null, 'fmp_admin_identify_qr', SLUG, f.tokens[1])).toMatch(/permission denied|authentication_required/)
+    for (const who of [f.staff, f.admin]) {
+      expect(await rpc(f.db, who, 'fmp_admin_identify_qr', SLUG, f.tokens[2])).toMatchObject({ found: true, label: 2, awards_stamp: true, status: 'active' })
+      expect(await rpc(f.db, who, 'fmp_admin_identify_qr', SLUG, f.tokens[5])).toMatchObject({ found: true, label: 5, awards_stamp: false })
+    }
+    expect(await rpc(f.db, f.staff, 'fmp_admin_identify_qr', SLUG, 'x'.repeat(30))).toEqual({ found: false })
+    expect(await rpc(f.db, f.staff, 'fmp_admin_identify_qr', SLUG, 'x')).toEqual({ found: false })
+    expect(await sql(f.db, `select count(*)::int n from public.scan_attempts`)).toEqual([{ n: 0 }])
   })
 })
 
@@ -471,7 +528,7 @@ describe('RLS & hak akses langsung', () => {
 })
 
 describe('simulasi 100 akun sintetis (berurutan)', () => {
-  it('integritas data: 1 game/akun, 4 assignment berbeda, tanpa stamp ganda, stok tidak terlampaui', async () => {
+  it('integritas data: 1 game/akun, 3 assignment berbeda, tanpa stamp ganda, stok tidak terlampaui', async () => {
     await sql(f.db, `delete from public.reward_inventory`)
     await rpc(f.db, f.admin, 'fmp_admin_set_inventory', SLUG, 'small_gift', 30)
     await sql(f.db, `update public.game_events set config = jsonb_set(config, '{scan_rate_limit,max}', '1000')`)
@@ -482,7 +539,7 @@ describe('simulasi 100 akun sintetis (berurutan)', () => {
     let granted = 0
     let outOfStock = 0
     for (const p of players) {
-      // scan semua 10 QR; QR tidak aktif memicu challenge yang harus diselesaikan dulu
+      // scan semua 5 QR; QR tidak aktif memicu challenge yang harus diselesaikan dulu
       for (const label of [...p.inactive.slice(0, 2), ...p.active, ...p.active.slice(0, 2)]) {
         const r = await scan(p.id, label)
         if (r.result === 'inactive_for_player') await finishChallenge(f.db, p.id, r.progress.pending_challenge.id)
@@ -495,9 +552,9 @@ describe('simulasi 100 akun sintetis (berurutan)', () => {
     }
 
     expect(await sql(f.db, `select count(*)::int n from public.player_games`)).toEqual([{ n: 100 }])
-    expect(await sql(f.db, `select count(*)::int n from (select player_game_id from public.player_qr_assignments group by 1 having count(distinct qr_id) <> 4) x`)).toEqual([{ n: 0 }])
+    expect(await sql(f.db, `select count(*)::int n from (select player_game_id from public.player_qr_assignments group by 1 having count(distinct qr_id) <> 3) x`)).toEqual([{ n: 0 }])
     expect(await sql(f.db, `select count(*)::int n from (select player_game_id, qr_id from public.player_stamps group by 1,2 having count(*) > 1) x`)).toEqual([{ n: 0 }])
-    expect(await sql(f.db, `select max(c)::int m from (select count(*) c from public.player_stamps group by player_game_id) x`)).toEqual([{ m: 4 }])
+    expect(await sql(f.db, `select max(c)::int m from (select count(*) c from public.player_stamps group by player_game_id) x`)).toEqual([{ m: 3 }])
     expect(await sql(f.db, `select count(*)::int n from public.player_games where status='completed'`)).toEqual([{ n: 100 }])
     expect(granted).toBe(30)
     expect(outOfStock).toBe(70)

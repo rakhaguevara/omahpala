@@ -1,5 +1,5 @@
 import { EVENT_SLUG } from '../config'
-import type { AdminQr, AdminStats, ClaimLookup, EventInfo, RedeemResponse, RotatedToken, StaffRole } from '../types'
+import type { AdminQr, AdminStats, ClaimLookup, EventInfo, QrIdentity, RedeemResponse, RotatedToken, StaffRole } from '../types'
 import { rpc } from './rpc'
 
 // Semua otorisasi diputuskan di database (game_staff). UI hanya menyembunyikan tombol.
@@ -17,3 +17,5 @@ export const setInventory = (rewardType: string, total: number) =>
   rpc<{ ok: boolean }>('fmp_admin_set_inventory', { p_event_slug: EVENT_SLUG, p_reward_type: rewardType, p_total: total })
 export const rotateTokens = (confirmActive: boolean) =>
   rpc<RotatedToken[]>('fmp_admin_rotate_tokens', { p_event_slug: EVENT_SLUG, p_confirm_active: confirmActive })
+export const identifyQr = (token: string) =>
+  rpc<QrIdentity>('fmp_admin_identify_qr', { p_event_slug: EVENT_SLUG, p_token: token })

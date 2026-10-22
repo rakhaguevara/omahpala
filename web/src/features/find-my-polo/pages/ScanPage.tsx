@@ -41,7 +41,7 @@ export default function ScanPage() {
   const [justCollected, setJustCollected] = useState<number | null>(null)
   const [showSticker, setShowSticker] = useState(false)
   // QR bukan target: pop-up dulu, baru ke halaman tantangan lewat tombolnya.
-  const [miss, setMiss] = useState<{ code: 'inactive_for_player' | 'challenge_required'; challenge: PendingChallenge } | null>(null)
+  const [miss, setMiss] = useState<{ code: 'inactive_for_player' | 'challenge_required'; label?: number; challenge: PendingChallenge } | null>(null)
   // Stamp yang baru didapat: pop-up tampil dulu, slot koleksi terisi setelah pop-up ditutup.
   const [reveal, setReveal] = useState<{ label: number; count: number; total: number; unlocksSticker: boolean } | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -97,7 +97,7 @@ export default function ScanPage() {
         if (res.result === 'inactive_for_player' || res.result === 'challenge_required') {
           if (res.progress.pending_challenge) {
             playSound('info')
-            setMiss({ code: res.result, challenge: res.progress.pending_challenge })
+            setMiss({ code: res.result, label: res.qr_label, challenge: res.progress.pending_challenge })
           }
           return
         }
@@ -258,7 +258,7 @@ export default function ScanPage() {
         </Container>
       </Section>
 
-      {miss && <MissReveal code={miss.code} onContinue={continueMiss} onClose={() => setMiss(null)} />}
+      {miss && <MissReveal code={miss.code} label={miss.label} onContinue={continueMiss} onClose={() => setMiss(null)} />}
       {reveal && <StampReveal label={reveal.label} count={reveal.count} total={reveal.total} onClose={closeReveal} />}
       {showSticker && <StickerReveal onClose={() => setShowSticker(false)} />}
     </>

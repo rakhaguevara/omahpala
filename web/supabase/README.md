@@ -1,6 +1,6 @@
 # Find My Polo — backend Supabase
 
-Game berburu QR di booth Omah Pala. **Ini satu-satunya bagian situs yang punya backend sungguhan.**
+Game berburu QR di booth Omah Pala (5 QR: QR 1–3 memberi stempel, QR 4–5 tidak). **Ini satu-satunya bagian situs yang punya backend sungguhan.**
 Sisa situs (produk, kebun, admin demo) tetap client-side + localStorage seperti sebelumnya.
 
 Migration ada di `prisma/migrations/` (dijalankan Prisma). Kode frontend: `src/features/find-my-polo/`. Panel panitia: `/admin/find-my-polo`.
@@ -10,7 +10,7 @@ Spesifikasi sumber: `PROMPT_FIND_MY_POLO_OMAHPALA.md` di root repo.
 
 Browser tidak dipercaya. Semua keputusan diambil oleh fungsi `SECURITY DEFINER` di Postgres:
 
-- 4 QR aktif per akun dipilih server sekali (`fmp_start_game`) dan tidak pernah diacak ulang.
+- Hanya 5 QR yang dipakai (nomor 1–5). QR 1, 2, 3 (`game_qrs.awards_stamp`) memberi stempel — sama untuk semua pemain, tidak diacak. QR 4 dan 5 membuka halaman produk + tantangan scroll. Slot 6–10 dinonaktifkan (migration `20261023000000_five_qr_fixed_stamps`).
 - Stamp hanya lahir dari `fmp_scan_qr`. Foreign key komposit membuat database **menolak** stamp untuk QR di luar assignment.
 - Tantangan scroll: server memegang jam, kepemilikan, kedaluwarsa, dan sekali-pakai.
 - Klaim & penukaran hadiah atomik (stok dikunci `FOR UPDATE`; penukaran satu `UPDATE ... WHERE status='claimed'`).
@@ -55,13 +55,13 @@ Browser tidak dipercaya. Semua keputusan diambil oleh fungsi `SECURITY DEFINER` 
    ```
 8. Buka `/admin/login` (login demo situs), menu **Find My Polo**, lalu masuk dengan akun panitia Supabase (peran `admin`) → tab **QR & stok**:
    1. Isi **stok hadiah** (tanpa stok, hadiah tidak bisa diklaim; sengaja tidak ada "tak terbatas" diam-diam).
-   2. **QR fisik:** dua cara. (a) Skrip `npm run qr:generate` (default `--base https://omahpala.com`) membuat 10 PNG + `sheet.html` di `web/qr-codes/`
+   2. **QR fisik:** dua cara. (a) Skrip `npm run qr:generate` (default `--base https://omahpala.com`) membuat 5 PNG + `sheet.html` di `web/qr-codes/`
       (di-gitignore) dan `apply-token-hashes.sql`; pasang hash dengan `npm run db:sql -- qr-codes/apply-token-hashes.sql`.
       (b) Panel admin → *Buat token & tampilkan QR* (tampil sekali, tidak disimpan di browser). Keduanya mengganti token lama.
    3. Periksa halaman tujuan tiap QR (default: halaman produk/program yang ada). Mengubahnya lewat SQL Editor:
       `update public.game_qrs set destination_path = '/program' where label = 7 and event_id = (select id from public.game_events where slug = 'find-my-polo');`
       (hanya path `/produk`, `/produk/<slug>`, `/program`, `/program/<slug>` yang diterima database).
-   4. Ubah status event ke **Aktif** (server menolak bila QR aktif ≠ 10).
+   4. Ubah status event ke **Aktif** (server menolak bila QR aktif ≠ 5).
 
 ## Keputusan yang masih terbuka
 
@@ -72,7 +72,7 @@ Semuanya ada di `game_events.config` (JSON) sehingga bisa diubah tanpa deploy. N
 | Hadiah kecil dan stiker fisik boleh diklaim bersamaan? | **Tidak** (`rewards_combinable: false`) | `update game_events set config = jsonb_set(config,'{rewards_combinable}','true')` |
 | Stok tiap hadiah | **Belum ada** (hadiah tak bisa diklaim) | Panel admin → Stok hadiah |
 | Tanggal mulai/selesai | Kosong | SQL langkah 7 |
-| Ambang stamp (2 / 3 / 4) | 2 hadiah kecil, 3 stiker (`rewards.*.min_stamps`, `sticker_unlock_at`) | `config` |
+| Ambang stamp (dari 3 stempel) | 2 hadiah kecil, 3 stiker (`rewards.*.min_stamps`, `sticker_unlock_at`) | `config` |
 | Tantangan scroll | 4 dtk, 200 px, 3 gerakan, kedaluwarsa 15 mnt | `config.challenge` |
 | Batas scan | 20 per 60 dtk per akun | `config.scan_rate_limit` |
 | Artwork stiker/stamp | **Dummy** (`public/find-my-polo/*.svg`) | Ganti file atau path di `src/features/find-my-polo/config.ts` |
@@ -103,9 +103,9 @@ integrasi Auth (email verifikasi, redirect URL), PostgREST, dan hak akses role a
 ## QA manual (staging)
 
 1. Daftar dengan email asli → buka tautan verifikasi → kembali ke `/find-my-polo`. Sebelum verifikasi, tombol Start Hunting tidak muncul.
-2. Start Hunting → "0 dari 4". Refresh, logout/login, buka di perangkat lain: progres sama.
-3. Ambil 4 QR hasil cetak. Pindai satu per satu (kamera atau kamera bawaan ponsel → tautan terbuka). Dua dari empat tidak akan memberi stamp.
-   Untuk melihat QR mana yang aktif bagi akun uji: SQL Editor → `select q.label from player_qr_assignments a join player_games g on g.id=a.player_game_id join game_qrs q on q.id=a.qr_id join auth.users u on u.id=g.user_id where u.email='...';`
+2. Start Hunting → "0 dari 3". Refresh, logout/login, buka di perangkat lain: progres sama.
+3. Pindai QR cetakan satu per satu (kamera atau kamera bawaan ponsel → tautan terbuka). QR 1–3 memberi stempel; QR 4–5 tidak.
+   **Menandai QR cetakan:** `/admin/find-my-polo` → tab **Cek QR** → arahkan kamera ke QR; nomor dan jenisnya (stempel / bukan) tampil. Tidak membuat stamp atau tantangan, jadi aman diulang.
 4. **QR aktif:** stamp bertambah + animasi + suara (tombol "Suara aktif" mematikan). Pindai lagi: "Sudah ditemukan", jumlah tetap.
 5. **QR tidak aktif:** langsung pindah ke halaman produk/program; bar di bawah menunjukkan Waktu & Gulir. Diam 5 detik tanpa gulir: tidak selesai.
    Gulir ≥ 200 px sambil halaman terlihat ≥ 4 dtk: "Tantangan selesai". Refresh di tengah: bar pulih dan hitungan mulai ulang.
@@ -148,8 +148,9 @@ supabase/
 prisma/migrations/
   …_find_my_polo/migration.sql              skema, RLS, fungsi
   …_find_my_polo_seed_event/                event + 10 slot QR (draft)
+  …_five_qr_fixed_stamps/                   5 QR dipakai, QR 1–3 stempel tetap, cek QR panitia
   …_lock_prisma_table/                      kunci tabel _prisma_migrations dari API publik
-scripts/generate-qr-codes.mjs               pembuat 10 QR + SQL hash
+scripts/generate-qr-codes.mjs               pembuat 5 QR + SQL hash
 src/features/find-my-polo/
   services/   klien Supabase + pembungkus RPC     utils/   parser QR, pelacak scroll, store challenge
   hooks/      auth, status game, suara            components/  StampBoard, RewardPanel, scanner, bar challenge…

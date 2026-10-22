@@ -348,9 +348,9 @@
     "step1Title": "Sign up and verify your email",
     "step1Body": "Create an account with an email and password, then open the verification link we send you.",
     "step2Title": "Press Start Hunting",
-    "step2Body": "Each account gets 4 target QR codes out of the 10 at the booth. Your targets don’t change during the event.",
+    "step2Body": "There are 5 QR codes at the booth, numbered 1 to 5. Three of them (QR 1, 2 and 3) give a stamp, the same for every player.",
     "step3Title": "Scan QR codes at the booth",
-    "step3Body": "A target QR gives one stamp. Any other QR gives no stamp, but opens a product or program page you’ll need to browse for a moment.",
+    "step3Body": "Scan QR 1, 2 and 3 to collect stamps, in any order. QR 4 and 5 give no stamp, but open a product page you’ll need to browse for a moment.",
     "step4Title": "Redeem a reward",
     "step4Body": "Two stamps qualify for a small gift. Three stamps unlock a digital sticker. Rewards are redeemed at the booth with a claim code.",
     "auth": {
@@ -383,7 +383,7 @@
     },
     "start": "Start Hunting",
     "starting": "Getting ready…",
-    "startHint": "Your 4 target QR codes are decided once, then saved to your account.",
+    "startHint": "Collect 3 stamps from QR 1, 2 and 3. Your progress is saved to your account.",
     "progress": {
       "title": "Stamp collection",
       "count": "{{count}} of {{total}} stamps",
@@ -446,7 +446,7 @@
       "checking": "Checking the QR…",
       "again": "Scan again",
       "back": "Back to collection",
-      "needGame": "Press Start Hunting first so your target QR codes can be set.",
+      "needGame": "Press Start Hunting first so your progress can be saved.",
       "needLogin": "Sign in or sign up first to scan QR codes."
     },
     "result": {
@@ -459,8 +459,8 @@
         "body": "QR {{n}} is already in your collection. No extra stamp."
       },
       "inactive_for_player": {
-        "title": "Not your target",
-        "body": "This QR gives no stamp for your account. We’re opening an Omah Pala page; browse it for a moment to scan again."
+        "title": "This QR has no stamp",
+        "body": "QR {{n}} gives no stamp. We’re opening an Omah Pala page; browse it for a moment to scan again."
       },
       "challenge_required": {
         "title": "Finish the challenge first",
@@ -529,8 +529,17 @@
       "role": "Role: {{role}}",
       "signOut": "Sign out of organizer account",
       "tabRedeem": "Redeem",
+      "tabCheck": "Check QR",
       "tabStats": "Stats",
       "tabSetup": "QR & stock",
+      "checkTitle": "Check a QR number",
+      "checkHelp": "Point the camera at a printed QR to see its number, then mark it on the paper. Scanning here gives no stamp and changes nothing.",
+      "checkWaiting": "Waiting for a QR…",
+      "checkUnknown": "QR not recognized. It isn’t a Find My Polo QR, or its token was replaced.",
+      "checkStamp": "Gives a stamp",
+      "checkNoStamp": "No stamp (opens a product page)",
+      "checkInactive": "QR status: {{status}} (can’t be used).",
+      "checkedTitle": "Checked",
       "codeLabel": "Claim code",
       "codeHelp": "8 characters. Case and hyphens are ignored.",
       "lookup": "Check code",
@@ -584,7 +593,7 @@
       "qrRevoke": "Revoke",
       "saved": "Saved.",
       "tokensTitle": "Print QR codes",
-      "tokensBody": "Creates new tokens for all 10 QR codes. Tokens are shown once on this page and aren’t kept in the browser. Previously printed QR codes stop working.",
+      "tokensBody": "Creates new tokens for QR 1–5. Tokens are shown once on this page and aren’t kept in the browser. Previously printed QR codes stop working.",
       "tokensConfirm": "I understand: old QR codes will stop working.",
       "tokensGenerate": "Create tokens & show QR codes",
       "tokensPrint": "Print",
@@ -601,8 +610,8 @@
       "alt": "Not found (placeholder image)",
       "cta": "Explore the page",
       "inactive_for_player": {
-        "title": "Too bad, not this one",
-        "body": "This QR isn’t your target, so no stamp this time. Explore this page to keep scanning QR codes."
+        "title": "No stamp on this one",
+        "body": "QR {{n}} gives no stamp. Explore this page to keep scanning QR codes."
       },
       "challenge_required": {
         "title": "Finish the challenge first",

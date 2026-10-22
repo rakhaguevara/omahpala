@@ -348,9 +348,9 @@
     "step1Title": "Daftar dan verifikasi email",
     "step1Body": "Buat akun dengan email dan kata sandi, lalu buka tautan verifikasi yang dikirim ke email Anda.",
     "step2Title": "Tekan Start Hunting",
-    "step2Body": "Setiap akun mendapat 4 QR target dari 10 QR di booth. Target Anda tidak berubah selama event.",
+    "step2Body": "Ada 5 QR di booth, bernomor 1 sampai 5. Tiga di antaranya (QR 1, 2, dan 3) memberi stempel, sama untuk semua pemain.",
     "step3Title": "Pindai QR di booth",
-    "step3Body": "QR target memberi satu stamp. QR lain tidak memberi stamp, tetapi membuka halaman produk atau program yang perlu Anda jelajahi sebentar.",
+    "step3Body": "Pindai QR 1, 2, dan 3 untuk mendapat stempel, urutannya bebas. QR 4 dan 5 tidak memberi stempel, tetapi membuka halaman produk yang perlu Anda jelajahi sebentar.",
     "step4Title": "Tukar hadiah",
     "step4Body": "Dua stamp memenuhi syarat hadiah kecil. Tiga stamp membuka stiker digital. Hadiah ditukar di booth dengan kode klaim.",
     "auth": {
@@ -383,7 +383,7 @@
     },
     "start": "Start Hunting",
     "starting": "Menyiapkan…",
-    "startHint": "Target 4 QR Anda ditentukan sekali, lalu tersimpan di akun Anda.",
+    "startHint": "Kumpulkan 3 stempel dari QR 1, 2, dan 3. Progres tersimpan di akun Anda.",
     "progress": {
       "title": "Koleksi stamp",
       "count": "{{count}} dari {{total}} stamp",
@@ -446,7 +446,7 @@
       "checking": "Memeriksa QR…",
       "again": "Pindai lagi",
       "back": "Kembali ke koleksi",
-      "needGame": "Tekan Start Hunting dulu agar target QR Anda ditentukan.",
+      "needGame": "Tekan Start Hunting dulu agar progres Anda tersimpan.",
       "needLogin": "Masuk atau daftar dulu untuk memindai QR."
     },
     "result": {
@@ -459,8 +459,8 @@
         "body": "QR {{n}} sudah ada di koleksi Anda. Tidak ada stamp tambahan."
       },
       "inactive_for_player": {
-        "title": "Bukan target Anda",
-        "body": "QR ini tidak memberi stamp untuk akun Anda. Kami buka halaman Omah Pala; jelajahi sebentar untuk bisa memindai lagi."
+        "title": "QR ini tanpa stempel",
+        "body": "QR {{n}} tidak memberi stempel. Kami buka halaman Omah Pala; jelajahi sebentar untuk bisa memindai lagi."
       },
       "challenge_required": {
         "title": "Selesaikan tantangan dulu",
@@ -529,8 +529,17 @@
       "role": "Peran: {{role}}",
       "signOut": "Keluar dari akun panitia",
       "tabRedeem": "Tukar hadiah",
+      "tabCheck": "Cek QR",
       "tabStats": "Statistik",
       "tabSetup": "QR & stok",
+      "checkTitle": "Cek nomor QR",
+      "checkHelp": "Arahkan kamera ke QR cetakan untuk melihat nomornya, lalu tandai di kertasnya. Pemindaian di sini tidak memberi stempel dan tidak mengubah apa pun.",
+      "checkWaiting": "Menunggu QR dipindai…",
+      "checkUnknown": "QR tidak dikenali. Bukan QR Find My Polo, atau tokennya sudah diganti.",
+      "checkStamp": "Memberi stempel",
+      "checkNoStamp": "Tanpa stempel (membuka halaman produk)",
+      "checkInactive": "Status QR: {{status}} (tidak bisa dipakai).",
+      "checkedTitle": "Sudah dicek",
       "codeLabel": "Kode klaim",
       "codeHelp": "8 karakter. Huruf besar/kecil dan tanda hubung diabaikan.",
       "lookup": "Cek kode",
@@ -584,7 +593,7 @@
       "qrRevoke": "Cabut",
       "saved": "Tersimpan.",
       "tokensTitle": "Cetak QR",
-      "tokensBody": "Membuat token baru untuk ke-10 QR. Token hanya tampil sekali di halaman ini dan tidak disimpan di browser. QR yang sudah dicetak sebelumnya menjadi tidak berlaku.",
+      "tokensBody": "Membuat token baru untuk QR 1–5. Token hanya tampil sekali di halaman ini dan tidak disimpan di browser. QR yang sudah dicetak sebelumnya menjadi tidak berlaku.",
       "tokensConfirm": "Saya paham: QR lama akan tidak berlaku.",
       "tokensGenerate": "Buat token & tampilkan QR",
       "tokensPrint": "Cetak",
@@ -601,8 +610,8 @@
       "alt": "Belum ketemu (gambar sementara)",
       "cta": "Jelajahi halaman",
       "inactive_for_player": {
-        "title": "Sayang sekali, belum ketemu",
-        "body": "QR ini bukan targetmu, jadi tidak ada stamp kali ini. Jelajahi halaman ini untuk melanjutkan memindai QR."
+        "title": "Yang ini tanpa stempel",
+        "body": "QR {{n}} tidak memberi stempel. Jelajahi halaman ini untuk melanjutkan memindai QR."
       },
       "challenge_required": {
         "title": "Selesaikan tantangan dulu",

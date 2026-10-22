@@ -8,6 +8,8 @@
 begin;
 
 drop function if exists
+  public.fmp_admin_identify_qr(text, text),
+  public.fmp_stamp_count(uuid),
   public.fmp_admin_rotate_tokens(text, boolean),
   public.fmp_admin_set_inventory(text, text, integer),
   public.fmp_admin_set_destination(text, integer, text),
