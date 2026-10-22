@@ -20,14 +20,18 @@ nama file di sini, supaya ganti gambar cukup di folder ini, bukan berburu di ban
 
 ## Status saat ini
 
-Semua 81 file di sini adalah **foto Unsplash** (lisensi bebas pakai komersial, tanpa atribusi
-wajib) yang dipilih relevan secara tema (pala, jahe, kunyit, sereh, madu, sabun herbal, sawah,
-petani, hutan, dll) — **bukan foto asli produk/petani/lahan Omah Pala**. Ini placeholder yang jauh
-lebih baik daripada kotak abu-abu, tapi tetap **WAJIB diganti foto asli sebelum situs live untuk
-jualan sungguhan** (lihat catatan `// Data contoh` di `src/data/*.ts`).
+**Foto dokumentasi asli program TOGA BERDAYA** (diambil dari Google Drive dokumentasi PPK Ormawa HIMFA UII, minggu ke-1 sampai ke-4 bulan ke-1 s.d. ke-4) sudah menggantikan foto Unsplash di:
+`home/` (hero, cta-forest, why-farmer, intro-2, intro-3, ecosystem-kwt/spi/toga-corner), `program/` (screening, cultivation, production,
+economy, monitoring, gallery-1..6), `articles/` (3 foto), `contact/hero`, `kebun/plot-p-01..05`, `shared/footer-bg`, `shared/og-default`.
+Semuanya dipotong dan dikonversi ke `.webp` (kualitas ~82).
 
-Format: semua `.webp` (dikonversi dari JPG, quality ~82) untuk ukuran file lebih kecil dan performa
-loading lebih baik — total ~9MB untuk 81 foto, turun dari ~17MB versi JPG.
+**Masih foto contoh / belum diganti** (tidak ada padanannya di dokumentasi, atau butuh keputusan pemilik):
+- `products/*` — foto produk (kecuali yang sudah berupa `.png` buatan sendiri) masih Unsplash; butuh foto kemasan produk asli.
+- `kebun/farmer-*` — foto petani: data petani masih nama contoh (`src/data/farmers.ts`), jadi foto orang sungguhan tidak dipasang.
+- `home/intro-1.webp` — foto buatan sendiri (file asli sangat besar, lihat catatan ukuran di bawah).
+
+Catatan: foto asli di Drive berukuran ~10 MB per file (kamera Sony); yang dipasang di sini sudah diperkecil. Foto wajah warga/peserta
+dipakai dari dokumentasi kegiatan — pastikan izin publikasinya sebelum situs dirilis.
 
 ## Cara mengganti gambar
 

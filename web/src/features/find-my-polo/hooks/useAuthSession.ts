@@ -7,7 +7,7 @@ interface AuthState {
   loading: boolean
 }
 
-/** Sesi Supabase Auth. `verified` dibaca dari email_confirmed_at; server memeriksa ulang di setiap RPC. */
+/** Sesi Supabase Auth. Tidak ada verifikasi email: akun langsung aktif begitu berhasil mendaftar. */
 export function useAuthSession() {
   const [state, setState] = useState<AuthState>({ session: null, loading: Boolean(supabase) })
 
@@ -31,7 +31,6 @@ export function useAuthSession() {
     session: state.session,
     user,
     loading: state.loading,
-    verified: Boolean(user?.email_confirmed_at),
   }
 }
 

@@ -19,13 +19,12 @@ Browser tidak dipercaya. Semua keputusan diambil oleh fungsi `SECURITY DEFINER` 
 ## Setup (urut)
 
 1. **Buat project Supabase.** Catat Project URL dan `anon` key (Project Settings → API).
-2. **Auth → Providers → Email:** aktifkan *Confirm email*. **Wajib.** Jika dimatikan, Supabase menandai email
-   terverifikasi saat daftar dan syarat verifikasi hilang. (Server juga memeriksa `email_confirmed_at`, tapi
-   itu tidak berarti apa-apa bila Supabase sendiri yang mengisinya.)
+2. **Auth → Providers → Email:** matikan *Confirm email*. Find My Polo **tidak memakai verifikasi email**: akun langsung aktif
+   setelah daftar. Bila *Confirm email* masih menyala, Supabase menahan sesi sampai email dikonfirmasi (dan pengiriman email bawaan
+   Supabase sangat dibatasi), sehingga pendaftaran tampak gagal. Satu email hanya bisa mendaftar sekali (ditegakkan Supabase Auth).
+   Konsekuensi yang disadari: tidak ada bukti pemilik email; kerugian dibatasi stok hadiah dan pemeriksaan kode oleh petugas.
 3. **Auth → URL Configuration:** Site URL = domain produksi. Redirect URLs tambahkan
    `https://DOMAIN/find-my-polo` dan `https://DOMAIN/admin/find-my-polo` (plus varian `http://localhost:5173/...` untuk dev).
-   **Jika tautan verifikasi email membuka `localhost:3000`:** artinya Site URL masih bawaan Supabase, atau alamat situs belum ada di Redirect URLs
-   (Supabase lalu mengabaikan `emailRedirectTo` dan memakai Site URL). Perbaiki di sini, lalu daftar ulang dengan email baru (tautan lama tetap salah arah).
    Gunakan pola `https://DOMAIN/**` agar semua halaman game ikut diizinkan.
 4. **Terapkan migration lewat Prisma** (hanya sebagai penjalan migration; app tidak memakai Prisma Client):
    1. Dashboard → Connect → *Direct connection* (port 5432). Salin ke `web/.env.server` sebagai `DIRECT_URL` (contoh di `.env.example`).
@@ -102,7 +101,7 @@ integrasi Auth (email verifikasi, redirect URL), PostgREST, dan hak akses role a
 
 ## QA manual (staging)
 
-1. Daftar dengan email asli → buka tautan verifikasi → kembali ke `/find-my-polo`. Sebelum verifikasi, tombol Start Hunting tidak muncul.
+1. Daftar dengan email apa pun → langsung masuk dan tombol Start Hunting muncul. Daftar lagi dengan email yang sama → ditolak ("sudah terdaftar"), ada tombol untuk masuk.
 2. Start Hunting → "0 dari 3". Refresh, logout/login, buka di perangkat lain: progres sama.
 3. Pindai QR cetakan satu per satu (kamera atau kamera bawaan ponsel → tautan terbuka). QR 1–3 memberi stempel; QR 4–5 tidak.
    **Menandai QR cetakan:** `/admin/find-my-polo` → tab **Cek QR** → arahkan kamera ke QR; nomor dan jenisnya (stempel / bukan) tampil. Tidak membuat stamp atau tantangan, jadi aman diulang.

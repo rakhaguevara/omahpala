@@ -34,9 +34,10 @@ export function useGame() {
     }
   }, [])
 
+  const signedIn = Boolean(auth.user)
   useEffect(() => {
     if (auth.loading) return
-    if (!auth.verified) {
+    if (!signedIn) {
       seq.current++
       setProgress(null)
       setError(null)
@@ -44,7 +45,7 @@ export function useGame() {
       return
     }
     void refresh()
-  }, [auth.loading, auth.verified, auth.user?.id, refresh])
+  }, [auth.loading, signedIn, auth.user?.id, refresh])
 
   const start = useCallback(async () => {
     setStarting(true)
@@ -73,7 +74,7 @@ export function useGame() {
     auth,
     progress,
     started: progress?.started === true ? progress : null,
-    loading: auth.loading || (auth.verified && phase === 'loading' && progress === null),
+    loading: auth.loading || (signedIn && phase === 'loading' && progress === null),
     error,
     starting,
     refresh,

@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/Button'
 import { AuthPanel } from './AuthPanel'
 import { getPublicEvent } from '../services/gameApi'
-import { initialAuthRedirect, isGameConfigured, requireClient } from '../services/supabase'
-import { signOut } from '../hooks/useAuthSession'
+import { isGameConfigured } from '../services/supabase'
 import { playSound } from '../hooks/useSound'
 import type { useGame } from '../hooks/useGame'
 import type { StartedProgress } from '../types'
@@ -44,7 +43,6 @@ function GameGateInner({ game, loginNote, startNote, children }: GameGateProps) 
   const { t } = useTranslation()
   const { auth } = game
   const [publicOpen, setPublicOpen] = useState<boolean | null>(null)
-  const [resent, setResent] = useState(false)
 
   // Pengunjung yang belum login: cek apakah event memang terbuka sebelum mengajak mendaftar.
   const needsPublicCheck = isGameConfigured && !auth.loading && !auth.user
@@ -96,42 +94,6 @@ function GameGateInner({ game, loginNote, startNote, children }: GameGateProps) 
     )
   }
 
-  if (!auth.verified) {
-    const email = auth.user.email ?? ''
-    return (
-      <Card>
-        <h2 className="text-title">{t('polo.auth.verifyTitle')}</h2>
-        <p className="mt-2 text-body text-muted">{t('polo.auth.verifyBody', { email })}</p>
-        <div className="mt-5 flex flex-wrap gap-3">
-          <Button
-            variant="dark"
-            size="sm"
-            onClick={async () => {
-              // Ambil token baru: email_confirmed_at baru terlihat setelah sesi diperbarui.
-              await requireClient().auth.refreshSession()
-            }}
-          >
-            {t('polo.auth.reload')}
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={async () => {
-              const { error } = await requireClient().auth.resend({ type: 'signup', email })
-              setResent(!error)
-            }}
-          >
-            {t('polo.auth.resend')}
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => void signOut()}>
-            {t('polo.auth.signOut')}
-          </Button>
-        </div>
-        {resent && <p className="mt-3 text-meta text-accent-ink">{t('polo.auth.resent')}</p>}
-      </Card>
-    )
-  }
-
   if (game.error === 'event_not_found') {
     return <Notice title={t('polo.notOpenTitle')} body={t('polo.notOpenBody')} />
   }
@@ -178,27 +140,6 @@ function GameGateInner({ game, loginNote, startNote, children }: GameGateProps) 
   return <>{children(game.started)}</>
 }
 
-/** Menambahkan banner hasil klik tautan verifikasi email di atas semua keadaan gerbang. */
 export function GameGate(props: GameGateProps) {
-  const { t } = useTranslation()
-  const { auth } = props.game
-  const banner =
-    initialAuthRedirect === 'expired' && !auth.user
-      ? { tone: 'warn', text: t('polo.auth.expiredBanner') }
-      : initialAuthRedirect === 'verified' && auth.verified
-        ? { tone: 'ok', text: t('polo.auth.verifiedBanner') }
-        : null
-  return (
-    <>
-      {banner && (
-        <p
-          role="status"
-          className={`mx-auto mb-6 w-full max-w-md rounded-md p-4 text-body ${banner.tone === 'ok' ? 'bg-accent-soft text-accent-ink' : 'bg-[#FFF6E0] text-[#7A5A00]'}`}
-        >
-          {banner.text}
-        </p>
-      )}
-      <GameGateInner {...props} />
-    </>
-  )
+  return <GameGateInner {...props} />
 }

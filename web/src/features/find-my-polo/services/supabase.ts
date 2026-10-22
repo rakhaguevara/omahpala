@@ -8,23 +8,9 @@ const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 /** false bila env belum diisi: UI menampilkan "belum tersedia" alih-alih error. */
 export const isGameConfigured = Boolean(url && anonKey)
 
-/**
- * Hasil tautan verifikasi email yang baru dibuka. WAJIB dibaca sebelum createClient: supabase-js
- * langsung memproses lalu menghapus token dari URL. null = halaman dibuka biasa.
- */
-export type AuthRedirectResult = 'verified' | 'expired' | null
-function readAuthRedirect(): AuthRedirectResult {
-  if (typeof window === 'undefined') return null
-  const raw = `${window.location.hash}&${window.location.search}`
-  if (/error_code=otp_expired|error=access_denied|error_description=/.test(raw)) return 'expired'
-  if (/(^|[#&?])(type=(signup|email|magiclink)|access_token=|code=)/.test(raw)) return 'verified'
-  return null
-}
-export const initialAuthRedirect: AuthRedirectResult = readAuthRedirect()
-
 export const supabase: SupabaseClient | null = isGameConfigured
   ? createClient(url!, anonKey!, {
-      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+      auth: { persistSession: true, autoRefreshToken: true },
     })
   : null
 

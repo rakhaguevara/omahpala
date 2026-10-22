@@ -32,8 +32,9 @@ export default function PoloAdmin() {
   const [role, setRole] = useState<StaffRole | null | undefined>(undefined)
   const [error, setError] = useState<string | null>(null)
 
+  const signedIn = Boolean(auth.user)
   useEffect(() => {
-    if (!auth.verified) {
+    if (!signedIn) {
       setRole(undefined)
       return
     }
@@ -49,7 +50,7 @@ export default function PoloAdmin() {
     return () => {
       active = false
     }
-  }, [auth.verified, auth.user?.id, t])
+  }, [signedIn, auth.user?.id, t])
 
   let body: ReactNode
   if (!isGameConfigured) {
@@ -61,11 +62,9 @@ export default function PoloAdmin() {
       <div className={cn(card, 'max-w-md')}>
         <h2 className="text-title">{t('polo.admin.signInTitle')}</h2>
         <p className="mb-5 mt-2 text-body text-muted">{t('polo.admin.signInHint')}</p>
-        <AuthPanel allowSignUp={false} redirectPath={ROUTES.admin} />
+        <AuthPanel allowSignUp={false} />
       </div>
     )
-  } else if (!auth.verified) {
-    body = <p className={cn(card, 'text-body text-muted')}>{t('polo.errors.email_not_verified')}</p>
   } else if (role === undefined) {
     body = <p className="text-body text-muted">{t('polo.loading')}</p>
   } else if (role === null) {

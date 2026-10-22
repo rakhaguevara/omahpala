@@ -52,10 +52,12 @@ describe('start-game & assignment', () => {
     expect(await assignedLabels(f.db, p.id)).toEqual(p.active)
   })
 
-  it('menolak: belum login, email belum terverifikasi', async () => {
+  it('menolak yang belum login; akun tanpa verifikasi email boleh bermain (verifikasi dihapus)', async () => {
     expect(await rpcError(f.db, null, 'fmp_start_game', SLUG)).toMatch(/permission denied|authentication_required/)
     const unverified = await createUser(f.db, { verified: false })
-    expect(await rpcError(f.db, unverified, 'fmp_start_game', SLUG)).toBe('email_not_verified')
+    const progress = await rpc(f.db, unverified, 'fmp_start_game', SLUG)
+    expect(progress).toMatchObject({ started: true, stamp_count: 0, total_active: 3 })
+    expect((await rpc(f.db, unverified, 'fmp_scan_qr', SLUG, f.tokens[1])).result).toBe('stamp_awarded')
   })
 
   it('menolak: event draft/ended/belum dimulai/sudah berakhir, dan event tak dikenal', async () => {
